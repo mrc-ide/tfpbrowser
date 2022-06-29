@@ -5,7 +5,7 @@ server = function(input, output) {
     shiny::div(
       style = "width:100%; align:center",
       id = "treeview",
-      tags$iframe(src = "data/wcdemo/treeview/tree-logistic_growth_rate-2021-11-27.html",
+      tags$iframe(src = "data/wcdemo/treeview/tree-logistic_growth_rate-2021-11-27.html", # nolint
                   width = 750,
                   height = 600)
     )
@@ -19,7 +19,7 @@ server = function(input, output) {
       )
     )
     all_files = all_files %>%
-      mutate(filetype = sub(".*\\.", "", value))
+      mutate(filetype = sub(".*\\.", "", .data$value))
     return(all_files)
   })
 
@@ -29,8 +29,8 @@ server = function(input, output) {
   # drop down for tables
   output$choose_table = shiny::renderUI({
     all_tables = all_files() %>%
-      filter(filetype %in% c("csv", "CSV")) %>%
-      pull(value)
+      filter(.data$filetype %in% c("csv", "CSV")) %>%
+      pull(.data$value)
     shiny::selectInput("table_type",
                        label = "Select table type:",
                        choices = all_tables)
@@ -38,7 +38,7 @@ server = function(input, output) {
 
   # display table
   table_file = shiny::reactive({
-    table_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$table_type}")
+    table_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
     return(table_file)
   })
 
@@ -67,8 +67,8 @@ server = function(input, output) {
   # drop down for plots
   output$choose_plot = shiny::renderUI({
     all_images = all_files() %>%
-      filter(filetype %in% c("png", "PNG")) %>%
-      pull(value)
+      filter(.data$filetype %in% c("png", "PNG")) %>%
+      pull(.data$value)
     shiny::selectInput("plot_type",
                        label = "Select plot type:",
                        choices = all_images)
@@ -76,7 +76,7 @@ server = function(input, output) {
 
   # display plot
   plot_file = shiny::reactive({
-    plot_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$plot_type}")
+    plot_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
     return(plot_file)
   })
 

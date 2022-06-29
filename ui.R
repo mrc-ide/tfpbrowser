@@ -11,18 +11,21 @@ all_clusters = tibble::as_tibble(
 # define function to tidy up table output
 reformat_table = function(table_to_display) {
   if (nrow(table_to_display) == 1) {
-    output = table_to_display[,-1] %>%
-      pull(x)
+    output = table_to_display[, -1] %>%
+      pull(.data$x)
     if (!is.na(output)) {
       output = output %>%
         stringr::str_split(pattern = "\n") %>%
         unlist() %>%
         stringr::str_trim() %>%
         tibble::as_tibble() %>%
-        tidyr::separate(value, into = c("x", "y"), sep = "  ", extra = "merge") %>%
-        mutate(x = stringr::str_trim(x),
-               y = stringr::str_trim(y)) %>%
-        `colnames<-`(.[1, ]) %>%
+        tidyr::separate(.data$value,
+                        into = c("x", "y"),
+                        sep = "  ",
+                        extra = "merge") %>%
+        mutate(x = stringr::str_trim(.data$x),
+               y = stringr::str_trim(.data$y)) %>%
+        `colnames<-`(.[1, ]) %>% # nolint
         slice(-1)
     } else {
       output = tibble::tibble(x = "Nothing to display")
@@ -70,8 +73,7 @@ ui = shiny::navbarPage(
                               multiple = FALSE)
       ),
 
-
-      # Right hand side - show outputs ------------------------------------------
+      # Right hand side - outputs ------------------------------------------
       shiny::column(6,
         # choose cluster id
         shiny::selectInput(inputId = "cluster_id",

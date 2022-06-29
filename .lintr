@@ -1,12 +1,10 @@
 linters: linters_with_defaults(
     assignment_linter = NULL,
-    object_name_linter = NULL,
-    line_length_linter = line_length_linter(120),
+    commented_code_linter = NULL,
     undesirable_operator_linter = undesirable_operator_linter(
-        linters_with_defaults(
-                default_undesirable_operators,
-                "<-" = "Use =, not <-, for assignment."
-        )
+      op = modify_defaults(
+        default_undesirable_operators,
+        "<-" = "Please use '=' for assignment"
+      )
     )
   )
-exclusions: list("renv/")
