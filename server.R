@@ -1,6 +1,5 @@
 server = function(input, output) {
 
-
   # load static html for treeview
   output$treeview = shiny::renderUI({
     shiny::div(
@@ -44,8 +43,13 @@ server = function(input, output) {
   })
 
   output$display_table = shiny::renderUI({
-    table_to_display= suppressMessages(readr::read_csv(table_file()))
-    reactable::reactable(table_to_display)
+    table_to_display = suppressMessages(readr::read_csv(table_file()))
+    table_to_display = reformat_table(table_to_display)
+    reactable::reactable(table_to_display,
+                         striped = TRUE,
+                         defaultPageSize = 8,
+                         wrap = FALSE,
+                         height = 400)
   })
 
   # download table button

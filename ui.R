@@ -1,10 +1,38 @@
 library(dplyr)
+
+# get list of clusters from folder
 all_clusters = tibble::as_tibble(
   list.files(
     glue::glue("www/data/wcdemo/scanner_output")
   )) %>%
   filter(stringr::str_detect(value, pattern = "\\.", negate = TRUE)) %>%
   pull(value)
+
+# define function to tidy up table output
+reformat_table = function(table_to_display) {
+  if (nrow(table_to_display) == 1) {
+    output = table_to_display[,-1] %>%
+      pull(x)
+    if (!is.na(output)) {
+      output = output %>%
+        stringr::str_split(pattern = "\n") %>%
+        unlist() %>%
+        stringr::str_trim() %>%
+        tibble::as_tibble() %>%
+        tidyr::separate(value, into = c("x", "y"), sep = "  ", extra = "merge") %>%
+        mutate(x = stringr::str_trim(x),
+               y = stringr::str_trim(y)) %>%
+        `colnames<-`(.[1, ]) %>%
+        slice(-1)
+    } else {
+      output = tibble::tibble(x = "Nothing to display")
+    }
+  } else {
+    output = janitor::clean_names(table_to_display,
+                                  case = "title")
+  }
+  return(output)
+}
 
 ui = shiny::navbarPage(
   # title
