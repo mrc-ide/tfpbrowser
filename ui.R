@@ -8,35 +8,6 @@ all_clusters = tibble::as_tibble(
   filter(stringr::str_detect(value, pattern = "\\.", negate = TRUE)) %>%
   pull(value)
 
-# define function to tidy up table output
-reformat_table = function(table_to_display) {
-  if (nrow(table_to_display) == 1) {
-    output = table_to_display[, -1] %>%
-      pull(.data$x)
-    if (!is.na(output)) {
-      output = output %>%
-        stringr::str_split(pattern = "\n") %>%
-        unlist() %>%
-        stringr::str_trim() %>%
-        tibble::as_tibble() %>%
-        tidyr::separate(.data$value,
-                        into = c("x", "y"),
-                        sep = "  ",
-                        extra = "merge") %>%
-        mutate(x = stringr::str_trim(.data$x),
-               y = stringr::str_trim(.data$y)) %>%
-        `colnames<-`(.[1, ]) %>% # nolint
-        slice(-1)
-    } else {
-      output = tibble::tibble(x = "Nothing to display")
-    }
-  } else {
-    output = janitor::clean_names(table_to_display,
-                                  case = "title")
-  }
-  return(output)
-}
-
 ui = shiny::navbarPage(
   # title
   title = "tfpbrowser",
@@ -60,7 +31,7 @@ ui = shiny::navbarPage(
           shiny::fluidRow(shiny::column(
             6,
             align = "center",
-            #shiny::htmlOutput("treeview"),
+            shiny::htmlOutput("treeview"),
             style = "height:600px;"
           ))
         ),
