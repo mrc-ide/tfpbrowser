@@ -20,6 +20,8 @@ ui = shiny::navbarPage(
                           primary = "#003E74",
                           secondary = "#9D9D9D"),
 
+  shinyjs::useShinyjs(),
+
   # Input widgets
   shiny::tabPanel(
     title = "Data",

@@ -112,8 +112,15 @@ server = function(input, output) {
 
   output$display_plot = shiny::renderUI({
     src = substring(plot_file(), 5)
-    shiny::img(src = src,
-               width = "400px")
+    if (length(src) != 0) {
+      if (!grepl(".png", src)) {
+        shiny::p("No plots available.", style = "color: red; text-align: left")
+      }
+      else {
+        shiny::img(src = src,
+                   width = "400px")
+      }
+    }
   })
 
   # download plot button
@@ -125,5 +132,13 @@ server = function(input, output) {
       file.copy(plot_file(), file)
     }
   )
+
+  shiny::observeEvent(input$plot_type, {
+    shinyjs::toggleState("plot_type", condition = input$plot_type != "")
+  })
+
+  shiny::observeEvent(input$table_type, {
+    shinyjs::toggleState("table_type", condition = input$table_type != "")
+  })
 
 }
