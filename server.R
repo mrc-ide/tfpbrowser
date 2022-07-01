@@ -73,13 +73,17 @@ server = function(input, output) {
 
   output$display_table = shiny::renderUI({
     shiny::req(table_file())
-    table_to_display = suppressMessages(readr::read_csv(table_file()))
-    table_to_display_nice = reformat_table(table_to_display)
-    reactable::reactable(table_to_display_nice,
-                         striped = TRUE,
-                         defaultPageSize = 8,
-                         wrap = FALSE,
-                         height = 400)
+    if (!grepl(".csv", tolower(table_file()))) {
+      shiny::p("No tables available.", style = "color: red; text-align: left")
+    } else {
+      table_to_display = suppressMessages(readr::read_csv(table_file()))
+      table_to_display_nice = reformat_table(table_to_display)
+      reactable::reactable(table_to_display_nice,
+                           striped = TRUE,
+                           defaultPageSize = 8,
+                           wrap = FALSE,
+                           height = 400)
+    }
   })
 
   # download table button
@@ -113,7 +117,7 @@ server = function(input, output) {
   output$display_plot = shiny::renderUI({
     src = substring(plot_file(), 5)
     if (length(src) != 0) {
-      if (!grepl(".png", src)) {
+      if (!grepl(".png", tolower(src))) {
         shiny::p("No plots available.", style = "color: red; text-align: left")
       }
       else {
