@@ -1,0 +1,10 @@
+linters: linters_with_defaults(
+    assignment_linter = NULL,
+    commented_code_linter = NULL,
+    undesirable_operator_linter = undesirable_operator_linter(
+      op = modify_defaults(
+        default_undesirable_operators,
+        "<-" = "Please use '=' for assignment"
+      )
+    )
+  )
