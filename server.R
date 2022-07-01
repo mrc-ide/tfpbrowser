@@ -6,7 +6,8 @@ server = function(input, output) {
       style = "width:100%; align:center",
       id = "treeview",
       tags$iframe(src = "data/wcdemo/treeview/tree-logistic_growth_rate-2021-11-27.html", # nolint
-                  width="100%")
+                  width="100%",
+                  height = 600)
     )
   })
 
