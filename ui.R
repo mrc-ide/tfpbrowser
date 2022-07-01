@@ -30,12 +30,7 @@ ui = shiny::navbarPage(
       shiny::column(6,
         # show treeview widget
         shiny::wellPanel(
-          shiny::fluidRow(shiny::column(
-            6,
-            align = "center",
             shiny::htmlOutput("treeview"),
-            style = "height:600px;"
-          ))
         ),
         # search bar for mutations (example only)
         shiny::br(),

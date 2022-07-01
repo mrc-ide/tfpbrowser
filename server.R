@@ -6,8 +6,7 @@ server = function(input, output) {
       style = "width:100%; align:center",
       id = "treeview",
       tags$iframe(src = "data/wcdemo/treeview/tree-logistic_growth_rate-2021-11-27.html", # nolint
-                  width = 750,
-                  height = 600)
+                  width="100%")
     )
   })
 
@@ -144,5 +143,4 @@ server = function(input, output) {
   shiny::observeEvent(input$table_type, {
     shinyjs::toggleState("table_type", condition = input$table_type != "")
   })
-
 }
