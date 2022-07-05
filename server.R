@@ -1,11 +1,22 @@
+get_filename = function(type) {
+  filename = switch(type,
+                    "Logistic growth rate" = "tree-logistic_growth_rate-2021-11-27.html",
+                    "Simple logistic growth rate" = "tree-simple_logistic_growth_rate-2021-11-27.html",
+                    "Simple trait log odds" = "tree-sim_trait_logodds-2021-11-27.html"
+  )
+  filename = file.path("data", "wcdemo", "treeview", filename)
+  return(filename)
+}
+
 server = function(input, output) {
 
   # load static html for treeview
   output$treeview = shiny::renderUI({
+    filename = get_filename(input$widgetChoice)
     shiny::div(
       style = "width:100%; align:center",
       id = "treeview",
-      tags$iframe(src = "data/wcdemo/treeview/tree-logistic_growth_rate-2021-11-27.html", # nolint
+      tags$iframe(src = filename, # nolint
                   width="100%",
                   height = 600)
     )

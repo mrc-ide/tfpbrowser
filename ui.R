@@ -40,7 +40,14 @@ ui = shiny::tagList(
                                 label = "Search for mutation",
                                 choices = c("Mutation 1", "Mutation 2"),
                                 selected = NULL,
-                                multiple = FALSE)
+                                multiple = FALSE),
+          shiny::radioButtons(inputId = "widgetChoice",
+                              label = "Select widget",
+                              choices = c(
+                                "Logistic growth rate",
+                                "Simple logistic growth rate",
+                                "Simple trait log odds"),
+                              inline = TRUE)
         ),
 
         # Right hand side - outputs ------------------------------------------
