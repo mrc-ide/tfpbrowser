@@ -1,5 +1,3 @@
-library(dplyr)
-
 # get list of clusters from folder
 all_clusters = tibble::as_tibble(
   list.files(
@@ -34,12 +32,12 @@ ui = shiny::tagList(
           shiny::wellPanel(
             shiny::htmlOutput("treeview"),
           ),
-          # search bar for mutations (example only)
+          # search bar for mutations
           shiny::br(),
-          shiny::selectizeInput(inputId = "mutation",
+          # Options are stored server-side. See server.R
+          shiny::selectizeInput(inputId = "mutations",
                                 label = "Search for mutation",
-                                choices = c("Mutation 1", "Mutation 2"),
-                                selected = NULL,
+                                choices = NULL,
                                 multiple = FALSE),
           shiny::radioButtons(inputId = "widgetChoice",
                               label = "Select widget",
