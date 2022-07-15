@@ -35,8 +35,7 @@ get_all_clusters = function(filename = "www/data/wcdemo/scanner_output") {
 # define function to tidy up table output - go in R/ folder
 reformat_table = function(table_to_display) {
   if (nrow(table_to_display) == 1) {
-    output = table_to_display[, -1] %>%
-      pull(.data$x)
+    output = table_to_display[, -1]$x
     if (!is.na(output)) {
       output = output %>%
         stringr::str_split(pattern = "\n") %>%
