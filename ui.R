@@ -1,10 +1,5 @@
 # get list of clusters from folder
-all_clusters = tibble::as_tibble(
-  list.files(
-    glue::glue("www/data/wcdemo/scanner_output")
-  )) %>%
-  filter(stringr::str_detect(value, pattern = "\\.", negate = TRUE)) %>%
-  pull(value)
+all_clusters = get_all_clusters()
 
 ui = shiny::tagList(
 
@@ -58,7 +53,7 @@ ui = shiny::tagList(
           shiny::tabsetPanel(id = "plot_tabs",
             # Tables tab
             shiny::tabPanel("Tables",
-                            # drop down menu to select plot
+                            # drop down menu to select table
                             shiny::br(),
                             shiny::uiOutput("choose_table"),
                             # display table
@@ -73,9 +68,10 @@ ui = shiny::tagList(
                             # download button to download current table
                             shiny::br(),
                             shiny::fluidRow(
-                              shiny::column(12, align = "center",
-                                            shiny::downloadButton("download_table",
-                                            label = "Download"))
+                            shiny::column(12,
+                                          align = "center",
+                                          shiny::uiOutput("download_table_button") # nolint
+                                          )
                             )
             ),
             # Plots tab
@@ -94,9 +90,10 @@ ui = shiny::tagList(
                             # download button to download current plot
                             shiny::br(),
                             shiny::fluidRow(
-                              shiny::column(12, align = "center",
-                                      shiny::downloadButton("download_plot",
-                                                            label = "Download"))
+                            shiny::column(12,
+                                          align = "center",
+                                          shiny::uiOutput("download_plot_button") #nolint
+                                          )
                             )
             )
           )

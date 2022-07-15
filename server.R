@@ -1,10 +1,12 @@
 server = function(input, output, session) {
 
-  # Load mutation selectize options on server-side (quicker loading on slower browsers)
-  # This is because there is a lot of options - client-side processing is slow
+  # Load mutation selectize options on server-side
+  # (quicker loading on slower browsers)
+  # This is because there is a lot of options
+  # client-side processing is slow
   updateSelectizeInput(session,
                        "mutations",
-                       choices = get_unique_mutations("www/data/wcdemo/sarscov2-audacity-westerncape2021.csv"),
+                       choices = get_unique_mutations("www/data/wcdemo/sarscov2-audacity-westerncape2021.csv"), # nolint
                        server = TRUE)
 
   # load static html for treeview
@@ -14,7 +16,7 @@ server = function(input, output, session) {
       style = "width:100%; align:center",
       id = "treeview",
       tags$iframe(src = filename, # nolint
-                  width="100%",
+                  width = "100%",
                   height = 600)
     )
   })
@@ -44,46 +46,27 @@ server = function(input, output, session) {
                        choices = all_tables)
   })
 
-  # display table
+  # get table file path
   table_file = shiny::reactive({
+    shiny::req(input$cluster_id)
     table_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
     return(table_file)
   })
 
-  # define function to tidy up table output - go in R/ folder
-  reformat_table = function(table_to_display) {
-    if (nrow(table_to_display) == 1) {
-      output = table_to_display[, -1] %>%
-        pull(.data$x)
-      if (!is.na(output)) {
-        output = output %>%
-          stringr::str_split(pattern = "\n") %>%
-          unlist() %>%
-          stringr::str_trim() %>%
-          tibble::as_tibble() %>%
-          tidyr::separate(.data$value,
-                          into = c("x", "y"),
-                          sep = "  ",
-                          extra = "merge") %>%
-          mutate(x = stringr::str_trim(.data$x),
-                 y = stringr::str_trim(.data$y)) %>%
-          `colnames<-`(.[1, ]) %>% # nolint
-          slice(-1)
-      } else {
-        output = tibble::tibble(x = "Nothing to display")
-      }
+  # check if table available
+  table_avail = shiny::reactive({
+    src = table_file()
+    if (length(src) != 0) {
+      return(grepl(".csv", tolower(src)))
     } else {
-      output = janitor::clean_names(table_to_display,
-                                    case = "title")
+      return(FALSE)
     }
-    return(output)
-  }
+  })
 
+  # display table if available
   output$display_table = shiny::renderUI({
     shiny::req(table_file())
-    if (!grepl(".csv", tolower(table_file()))) {
-      shiny::p("No tables available.", style = "color: red; text-align: left")
-    } else {
+    if (table_avail()) {
       table_to_display = suppressMessages(readr::read_csv(table_file()))
       table_to_display_nice = reformat_table(table_to_display)
       reactable::reactable(table_to_display_nice,
@@ -91,10 +74,27 @@ server = function(input, output, session) {
                            defaultPageSize = 8,
                            wrap = FALSE,
                            height = 400)
+    } else {
+      shiny::p("No tables available.", style = "color: red; text-align: left")
+    }
+  })
+
+  # disable download button if no tables available
+  shiny::observe({
+    if (table_avail() == TRUE) {
+      shinyjs::enable("download_table_button")
+    } else {
+      shinyjs::disable("download_table_button")
     }
   })
 
   # download table button
+  output$download_table_button = shiny::renderUI({
+    shiny::downloadButton("download_table",
+                          label = "Download")
+  })
+
+  # download table
   output$download_table = shiny::downloadHandler(
     filename = function() {
       glue::glue("{input$cluster_id}_{input$table_type}")
@@ -116,26 +116,49 @@ server = function(input, output, session) {
                        choices = all_images)
   })
 
-  # display plot
+  # get plot file
   plot_file = shiny::reactive({
+    shiny::req(input$cluster_id)
     plot_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
     return(plot_file)
   })
 
-  output$display_plot = shiny::renderUI({
+  # check if plots available
+  plot_avail = shiny::reactive({
     src = substring(plot_file(), 5)
     if (length(src) != 0) {
-      if (!grepl(".png", tolower(src))) {
-        shiny::p("No plots available.", style = "color: red; text-align: left")
-      }
-      else {
-        shiny::img(src = src,
-                   width = "400px")
-      }
+      return(grepl(".png", tolower(src)))
+    } else {
+      return(FALSE)
+    }
+  })
+
+  # display plot if available
+  output$display_plot = shiny::renderUI({
+    if (plot_avail()) {
+      shiny::img(src = substring(plot_file(), 5),
+                 width = "400px")
+    } else {
+      shiny::p("No plots available.", style = "color: red; text-align: left")
+    }
+  })
+
+  # disable download button if no plots available
+  shiny::observe({
+    if (plot_avail() == TRUE) {
+      shinyjs::enable("download_plot_button")
+    } else {
+      shinyjs::disable("download_plot_button")
     }
   })
 
   # download plot button
+  output$download_plot_button = shiny::renderUI({
+    shiny::downloadButton("download_plot",
+                          label = "Download")
+  })
+
+  # download plot
   output$download_plot = shiny::downloadHandler(
     filename = function() {
       glue::glue("{input$cluster_id}_{input$plot_type}")
