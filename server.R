@@ -41,6 +41,10 @@ server = function(input, output, session) {
     all_tables = all_files() %>%
       filter(.data$filetype %in% c("csv", "CSV")) %>%
       pull(.data$value)
+    tables_names = stringr::str_to_title(
+      stringr::str_replace_all(
+        gsub("\\..*", "", all_tables), "_", " "))
+    names(all_tables) = tables_names
     shiny::selectInput("table_type",
                        label = "Select table type:",
                        choices = all_tables)
@@ -111,6 +115,10 @@ server = function(input, output, session) {
     all_images = all_files() %>%
       filter(.data$filetype %in% c("png", "PNG")) %>%
       pull(.data$value)
+    images_names = stringr::str_to_title(
+      stringr::str_replace_all(
+        gsub("\\..*", "", all_images), "_", " "))
+    names(all_images) = images_names
     shiny::selectInput("plot_type",
                        label = "Select plot type:",
                        choices = all_images)

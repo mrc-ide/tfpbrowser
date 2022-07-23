@@ -23,6 +23,14 @@ ui = shiny::tagList(
       shiny::fluidRow(
         # left hand side - show tree (static html output from tfpscanner)
         shiny::column(6,
+        # choose type of treeviw
+          shiny::radioButtons(inputId = "widgetChoice",
+                              label = "Select widget",
+                              choices = c(
+                                "Logistic growth rate",
+                                "Simple logistic growth rate",
+                                "Simple trait log odds"),
+                              inline = TRUE),
           # show treeview widget
           shiny::wellPanel(
             shiny::htmlOutput("treeview"),
@@ -33,14 +41,7 @@ ui = shiny::tagList(
           shiny::selectizeInput(inputId = "mutations",
                                 label = "Search for mutation",
                                 choices = NULL,
-                                multiple = FALSE),
-          shiny::radioButtons(inputId = "widgetChoice",
-                              label = "Select widget",
-                              choices = c(
-                                "Logistic growth rate",
-                                "Simple logistic growth rate",
-                                "Simple trait log odds"),
-                              inline = TRUE)
+                                multiple = FALSE)
         ),
 
         # Right hand side - outputs ------------------------------------------
