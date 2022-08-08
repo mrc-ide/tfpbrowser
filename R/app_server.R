@@ -6,7 +6,7 @@ app_server = function(input, output, session) {
   # (quicker loading on slower browsers)
   # This is because there is a lot of options
   # client-side processing is slow
-  updateSelectizeInput(session,
+  shiny::updateSelectizeInput(session,
                        "mutations",
                        choices = get_unique_mutations(
                          system.file("app", "www", "data", "wcdemo",
@@ -21,7 +21,7 @@ app_server = function(input, output, session) {
     shiny::div(
       style = "width:100%; align:center",
       id = "treeview",
-      htmltools::tags$iframe(src = filename, # nolint
+      htmltools::tags$iframe(src = filename,
                              width = "100%",
                              height = 600)
     )
@@ -31,7 +31,7 @@ app_server = function(input, output, session) {
   all_files = shiny::reactive({
     all_files = tibble::as_tibble(
       list.files(
-        glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}")
+        glue::glue("inst/app/www/data/wcdemo/scanner_output/{input$cluster_id}")
       )
     )
     all_files = all_files %>%
@@ -59,7 +59,7 @@ app_server = function(input, output, session) {
   # get table file path
   table_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    table_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
+    table_file = glue::glue("inst/app/www/data/wcdemo/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
     return(table_file)
   })
 
@@ -133,13 +133,13 @@ app_server = function(input, output, session) {
   # get plot file
   plot_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    plot_file = glue::glue("www/data/wcdemo/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
+    plot_file = glue::glue("inst/app/www/data/wcdemo/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
     return(plot_file)
   })
 
   # check if plots available
   plot_avail = shiny::reactive({
-    src = substring(plot_file(), 5)
+    src = substring(plot_file(), 10)
     if (length(src) != 0) {
       return(grepl(".png", tolower(src)))
     } else {
@@ -150,7 +150,7 @@ app_server = function(input, output, session) {
   # display plot if available
   output$display_plot = shiny::renderUI({
     if (plot_avail()) {
-      shiny::img(src = substring(plot_file(), 5),
+      shiny::img(src = substring(plot_file(), 10),
                  width = "400px")
     } else {
       shiny::p("No plots available.", style = "color: red; text-align: left")

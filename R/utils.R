@@ -6,7 +6,7 @@ get_filename = function(type) {
                     "Simple logistic growth rate" = "tree-simple_logistic_growth_rate-2021-11-27.html", # nolint
                     "Simple trait log odds" = "tree-sim_trait_logodds-2021-11-27.html" # nolint
   )
-  filename = file.path("data", "wcdemo", "treeview", filename)
+  filename = file.path("www", "data", "wcdemo", "treeview", filename)
   return(filename)
 }
 

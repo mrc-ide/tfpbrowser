@@ -11,6 +11,7 @@ app_ui = function(request) {
       # title
       title = "tfpbrowser",
 
+      header = add_ext_resources(),
       # theme
       theme = bslib::bs_theme(version = 4,
                               bootswatch = "minty",
@@ -36,6 +37,7 @@ app_ui = function(request) {
                         # show treeview widget
                         shiny::wellPanel(
                           shiny::htmlOutput("treeview"),
+                          style = "background: white",
                         ),
                         # search bar for mutations
                         shiny::br(),
@@ -51,7 +53,7 @@ app_ui = function(request) {
                         # choose cluster id
                         shiny::selectInput(inputId = "cluster_id",
                                            label = "Choose a cluster id:",
-                                           choices = all_clusters),
+                                           choices = tfpbrowser::all_clusters),
                         # output options
                         shiny::tabsetPanel(id = "plot_tabs",
                                            # Tables tab
@@ -66,7 +68,8 @@ app_ui = function(request) {
                                                                shiny::uiOutput("display_table"),
                                                                align = "center",
                                                                style = "height:400px;"
-                                                             ))
+                                                             )),
+                                                             style = "background: white"
                                                            ),
                                                            # download button to download current table
                                                            shiny::br(),
@@ -88,7 +91,8 @@ app_ui = function(request) {
                                                                12,
                                                                align = "center",
                                                                shiny::uiOutput("display_plot"),
-                                                               style = "height:400px;"))
+                                                               style = "height:400px;")),
+                                                             style = "background: white"
                                                            ),
                                                            # download button to download current plot
                                                            shiny::br(),
@@ -106,7 +110,11 @@ app_ui = function(request) {
 
       # about page
       shiny::tabPanel(
-        title = "About")
+        title = "About",
+        shiny::includeMarkdown(system.file("app", "www", "content", "about.md",
+                                           package = "tfpbrowser",
+                                           mustWork = TRUE))
+        )
 
     ) # end navbar page
   ) # end tag list

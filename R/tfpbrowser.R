@@ -7,3 +7,5 @@
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data
 NULL
+
+utils::globalVariables(".")
