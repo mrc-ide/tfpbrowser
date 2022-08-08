@@ -1,6 +1,6 @@
 # {tfpbrowser}
 
-An R package to build a Shiny application to explore {tfpscanner} outputs. The outputs from {tfpscanner} should be stored in the `inst/www/data/` folder.
+An R package to build a Shiny application to explore {tfpscanner} outputs. The outputs from {tfpscanner} should be stored in the `inst/app/www/data/` folder.
 
 ## Installation
 
@@ -16,7 +16,7 @@ tfpbrowser::run_app()
 
 ## Updating with new data
 
-* Add the new data to `inst/www/data/`
+* Add the new data to `inst/app/www/data/`
 * Run the code in `data-raw/all_clusters.R` to generate a new .rda file
 * Re-install {tfpbrowser}
 
