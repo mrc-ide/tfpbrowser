@@ -23,14 +23,17 @@ get_unique_mutations = function(filename) {
 }
 
 #' function to return list of all clusters from folder name
-#' @param filename Character string for
-#' filename of folder containing all outputs
-get_all_clusters = function(filename = "www/data/wcdemo/scanner_output") {
-  all_clusters = tibble::as_tibble(list.files(filename)) %>%
-    dplyr::filter(stringr::str_detect(.data$value,
-                                      pattern = "\\.",
-                                      negate = TRUE)) %>%
-    dplyr::pull(value)
+#' @param filename Character string for filename of folder containing all outputs
+#' @export
+get_all_clusters = function(filename) {
+  all_files = list.files(filename)
+  has_no_dot = stringr::str_detect(all_files,
+                                   pattern = "\\.",
+                                   negate = TRUE)
+  all_clusters = tibble::tibble(all_files = all_files,
+                                has_no_dot = has_no_dot) %>%
+    dplyr::filter(.data$has_no_dot) %>%
+    dplyr::pull(all_files)
   return(all_clusters)
 }
 

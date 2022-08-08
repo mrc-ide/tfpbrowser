@@ -4,7 +4,7 @@
 #' resources inside the Shiny application.
 add_ext_resources = function() {
   shiny::addResourcePath(
-    "www", app_sys("app/www")
+    "www", system.file("app/www", package = "tfpbrowser")
   )
   shiny::tags$head(
     shinyjs::useShinyjs()

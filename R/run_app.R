@@ -6,4 +6,3 @@ run_app = function() {
     server = app_server,
   )
 }
-

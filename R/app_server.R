@@ -8,7 +8,11 @@ app_server = function(input, output, session) {
   # client-side processing is slow
   updateSelectizeInput(session,
                        "mutations",
-                       choices = get_unique_mutations("www/data/wcdemo/sarscov2-audacity-westerncape2021.csv"), # nolint
+                       choices = get_unique_mutations(
+                         system.file("app", "www", "data", "wcdemo",
+                                     "sarscov2-audacity-westerncape2021.csv",
+                                     package = "tfpbrowser",
+                                     mustWork = TRUE)),
                        server = TRUE)
 
   # load static html for treeview
