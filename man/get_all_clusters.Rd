@@ -4,7 +4,7 @@
 \alias{get_all_clusters}
 \title{function to return list of all clusters from folder name}
 \usage{
-get_all_clusters(filename = "inst/www/data/wcdemo/scanner_output")
+get_all_clusters(filename = "www/data/wcdemo/scanner_output")
 }
 \arguments{
 \item{filename}{Character string for
