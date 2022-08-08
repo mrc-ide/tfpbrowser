@@ -1,5 +1,7 @@
-server = function(input, output, session) {
-
+#' Shiny application server
+#' @param input,output,session Internal parameters for `{shiny}`.
+#' @noRd
+app_server = function(input, output, session) {
   # Load mutation selectize options on server-side
   # (quicker loading on slower browsers)
   # This is because there is a lot of options
@@ -15,9 +17,9 @@ server = function(input, output, session) {
     shiny::div(
       style = "width:100%; align:center",
       id = "treeview",
-      tags$iframe(src = filename, # nolint
-                  width = "100%",
-                  height = 600)
+      htmltools::tags$iframe(src = filename, # nolint
+                             width = "100%",
+                             height = 600)
     )
   })
 
@@ -29,18 +31,18 @@ server = function(input, output, session) {
       )
     )
     all_files = all_files %>%
-      mutate(filetype = sub(".*\\.", "", .data$value))
+      dplyr::mutate(filetype = sub(".*\\.", "", .data$value))
     return(all_files)
   })
 
 
-# Tables Tab --------------------------------------------------------------
+  # Tables Tab --------------------------------------------------------------
 
   # drop down for tables
   output$choose_table = shiny::renderUI({
     all_tables = all_files() %>%
-      filter(.data$filetype %in% c("csv", "CSV")) %>%
-      pull(.data$value)
+      dplyr::filter(.data$filetype %in% c("csv", "CSV")) %>%
+      dplyr::pull(.data$value)
     tables_names = stringr::str_to_title(
       stringr::str_replace_all(
         gsub("\\..*", "", all_tables), "_", " "))
@@ -108,13 +110,13 @@ server = function(input, output, session) {
     }
   )
 
-# Plots Tab ---------------------------------------------------------------
+  # Plots Tab ---------------------------------------------------------------
 
   # drop down for plots
   output$choose_plot = shiny::renderUI({
     all_images = all_files() %>%
-      filter(.data$filetype %in% c("png", "PNG")) %>%
-      pull(.data$value)
+      dplyr::filter(.data$filetype %in% c("png", "PNG")) %>%
+      dplyr::pull(.data$value)
     images_names = stringr::str_to_title(
       stringr::str_replace_all(
         gsub("\\..*", "", all_images), "_", " "))
@@ -183,4 +185,5 @@ server = function(input, output, session) {
   shiny::observeEvent(input$table_type, {
     shinyjs::toggleState("table_type", condition = input$table_type != "")
   })
-}
+
+} # end server function
