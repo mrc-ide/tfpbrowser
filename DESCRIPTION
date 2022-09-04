@@ -5,7 +5,7 @@ Authors@R:
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: An R package to contain the code for the Shiny app to explore the 
   outputs from the 'tfpscanner' package.
-License: file LICENSE
+License: MIT + file LICENSE
 Depends: 
     R (>= 4.0.0)
 Imports:
