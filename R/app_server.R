@@ -9,7 +9,7 @@ app_server = function(input, output, session) {
   shiny::updateSelectizeInput(session,
                        "mutations",
                        choices = get_unique_mutations(
-                         system.file("app", "www", "data", "wcdemo",
+                         system.file("app", "www", "data",
                                      "sarscov2-audacity-westerncape2021.csv",
                                      package = "tfpbrowser",
                                      mustWork = TRUE)),
@@ -31,7 +31,7 @@ app_server = function(input, output, session) {
   all_files = shiny::reactive({
     all_files = tibble::as_tibble(
       list.files(
-        glue::glue("inst/app/www/data/wcdemo/scanner_output/{input$cluster_id}")
+        glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}")
       )
     )
     all_files = all_files %>%
@@ -59,7 +59,7 @@ app_server = function(input, output, session) {
   # get table file path
   table_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    table_file = glue::glue("inst/app/www/data/wcdemo/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
+    table_file = glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
     return(table_file)
   })
 
@@ -74,7 +74,7 @@ app_server = function(input, output, session) {
   })
 
   # display table if available
-  output$display_table = shiny::renderUI({
+  output$display_table = reactable::renderReactable({
     shiny::req(table_file())
     if (table_avail()) {
       table_to_display = suppressMessages(readr::read_csv(table_file()))
@@ -133,7 +133,7 @@ app_server = function(input, output, session) {
   # get plot file
   plot_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    plot_file = glue::glue("inst/app/www/data/wcdemo/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
+    plot_file = glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
     return(plot_file)
   })
 

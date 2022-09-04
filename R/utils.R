@@ -6,7 +6,7 @@ get_filename = function(type) {
                     "Simple logistic growth rate" = "tree-simple_logistic_growth_rate-2021-11-27.html", # nolint
                     "Simple trait log odds" = "tree-sim_trait_logodds-2021-11-27.html" # nolint
   )
-  filename = file.path("www", "data", "wcdemo", "treeview", filename)
+  filename = file.path("www", "data", "treeview", filename)
   return(filename)
 }
 
@@ -24,7 +24,6 @@ get_unique_mutations = function(filename) {
 
 #' function to return list of all clusters from folder name
 #' @param filename Character string for filename of folder containing all outputs
-#' @export
 get_all_clusters = function(filename) {
   all_files = list.files(filename)
   has_no_dot = stringr::str_detect(all_files,
