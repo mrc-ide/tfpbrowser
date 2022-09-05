@@ -1,0 +1,70 @@
+{
+  "input": {
+    "cluster_id": "1601",
+    "mutations": "",
+    "plot_tabs": "Tables",
+    "widgetChoice": "Logistic growth rate"
+  },
+  "output": {
+    "choose_table": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"table_type-label\" for=\"table_type\">Select table type:<\/label>\n  <div>\n    <select id=\"table_type\"><\/select>\n    <script type=\"application/json\" data-for=\"table_type\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.12.4",
+          "src": {
+            "href": "selectize-0.12.4"
+          },
+          "meta": null,
+          "script": [
+            "selectize.min.js",
+            "selectize-plugin-a11y.min.js"
+          ],
+          "stylesheet": "selectize.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "display_table": {
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
+    },
+    "download_table_button": {
+      "html": "<a id=\"download_table\" class=\"btn btn-default shiny-download-link \" href=\"\" target=\"_blank\" download>\n  <i class=\"fa fa-download\" role=\"presentation\" aria-label=\"download icon\"><\/i>\n  Download\n<\/a>",
+      "deps": [
+        {
+          "name": "font-awesome",
+          "version": "6.1.1",
+          "src": {
+            "href": "font-awesome-6.1.1"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": [
+            "css/all.min.css",
+            "css/v4-shims.min.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "treeview": {
+      "html": "<div style=\"width:100%; align:center\" id=\"treeview\">\n  <iframe src=\"www/data/treeview/tree-logistic_growth_rate-2021-11-27.html\" width=\"100%\" height=\"600\"><\/iframe>\n<\/div>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

@@ -1,6 +1,6 @@
 Package: tfpbrowser
 Title: Builds Shiny application for 'tfpscanner' outputs
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: An R package to contain the code for the Shiny app to explore the 
@@ -23,6 +23,7 @@ Imports:
     tibble,
     tidyr
 Suggests:
+    shinytest2,
     usethis
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
