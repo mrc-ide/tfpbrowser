@@ -1,3 +1,7 @@
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/jumpingrivers/tfpbrowser/workflows/R-CMD-check/badge.svg)](https://github.com/jumpingrivers/tfpbrowser/actions)
+<!-- badges: end -->
+
 # {tfpbrowser}
 
 An R package to build a Shiny application to explore {tfpscanner} outputs. The outputs from {tfpscanner} should be stored in the `inst/app/www/data/` folder.
