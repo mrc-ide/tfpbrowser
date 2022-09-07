@@ -53,7 +53,10 @@ app_ui = function(request) {
             # choose cluster id
             shiny::selectInput(inputId = "cluster_id",
                                label = "Choose a cluster id:",
-                               choices = tfpbrowser::all_clusters),
+                               choices = get_all_clusters(filename = system.file("app", "www", "data",
+                                                                                 "scanner_output",
+                                                                                 package = "tfpbrowser",
+                                                                                 mustWork = TRUE))),
             # output options
             shiny::tabsetPanel(id = "plot_tabs",
              # Tables tab

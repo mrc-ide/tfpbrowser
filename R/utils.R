@@ -29,10 +29,7 @@ get_all_clusters = function(filename) {
   has_no_dot = stringr::str_detect(all_files,
                                    pattern = "\\.",
                                    negate = TRUE)
-  all_clusters = tibble::tibble(all_files = all_files,
-                                has_no_dot = has_no_dot) %>%
-    dplyr::filter(.data$has_no_dot) %>%
-    dplyr::pull(all_files)
+  all_clusters = all_files[which(has_no_dot)]
   return(all_clusters)
 }
 

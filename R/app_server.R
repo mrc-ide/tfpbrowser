@@ -2,6 +2,7 @@
 #' @param input,output,session Internal parameters for `{shiny}`.
 #' @noRd
 app_server = function(input, output, session) {
+
   # Load mutation selectize options on server-side
   # (quicker loading on slower browsers)
   # This is because there is a lot of options
@@ -31,7 +32,9 @@ app_server = function(input, output, session) {
   all_files = shiny::reactive({
     all_files = tibble::as_tibble(
       list.files(
-        glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}")
+        system.file("app", "www", "data", "scanner_output",
+                    input$cluster_id,
+                    package = "tfpbrowser")
       )
     )
     all_files = all_files %>%
@@ -59,7 +62,9 @@ app_server = function(input, output, session) {
   # get table file path
   table_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    table_file = glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}/{input$table_type}") # nolint
+    table_file = system.file("app", "www", "data", "scanner_output",
+                            input$cluster_id, input$table_type,
+                            package = "tfpbrowser")
     return(table_file)
   })
 
@@ -133,13 +138,15 @@ app_server = function(input, output, session) {
   # get plot file
   plot_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    plot_file = glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}/{input$plot_type}") # nolint
+    plot_file = system.file("app", "www", "data", "scanner_output",
+                             input$cluster_id, input$plot_type,
+                             package = "tfpbrowser")
     return(plot_file)
   })
 
   # check if plots available
   plot_avail = shiny::reactive({
-    src = substring(plot_file(), 10)
+    src = fs::path_rel(plot_file(), system.file("app", package = "tfpbrowser"))
     if (length(src) != 0) {
       return(grepl(".png", tolower(src)))
     } else {
@@ -147,10 +154,12 @@ app_server = function(input, output, session) {
     }
   })
 
+
   # display plot if available
   output$display_plot = shiny::renderUI({
     if (plot_avail()) {
-      shiny::img(src = substring(plot_file(), 10),
+      shiny::img(src = fs::path_rel(plot_file(),
+                                    system.file("app", package = "tfpbrowser")),
                  width = "400px")
     } else {
       shiny::p("No plots available.", style = "color: red; text-align: left")

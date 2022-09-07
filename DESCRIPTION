@@ -11,9 +11,11 @@ Depends:
 Imports:
     bslib,
     dplyr,
+    fs,
     glue,
     htmltools,
     janitor,
+    magrittr,
     reactable,
     readr,
     rlang,

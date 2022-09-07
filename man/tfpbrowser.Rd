@@ -3,7 +3,13 @@
 \docType{package}
 \name{tfpbrowser}
 \alias{tfpbrowser}
+\alias{tfpbrowser-package}
 \title{\code{{tfpbrowser}} package}
 \description{
 An R package to build a Shiny application to explore {tfpscanner} outputs.
 }
+\author{
+\strong{Maintainer}: Jumping Rivers \email{info@jumpingrivers.com}
+
+}
+\keyword{internal}
