@@ -15,6 +15,7 @@ Imports:
     glue,
     htmltools,
     janitor,
+    magrittr,
     reactable,
     readr,
     rlang,
