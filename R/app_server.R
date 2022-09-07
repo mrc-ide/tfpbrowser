@@ -32,7 +32,9 @@ app_server = function(input, output, session) {
   all_files = shiny::reactive({
     all_files = tibble::as_tibble(
       list.files(
-        glue::glue("inst/app/www/data/scanner_output/{input$cluster_id}")
+        system.file("app", "www", "data", "scanner_output",
+                    input$cluster_id,
+                    package = "tfpbrowser")
       )
     )
     all_files = all_files %>%
