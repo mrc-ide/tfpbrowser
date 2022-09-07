@@ -3,9 +3,6 @@
 #' @noRd
 app_server = function(input, output, session) {
 
-  # set data directory
-  dirs$data = system.file("app", "www", "data", package = "tfpbrowser")
-
   # Load mutation selectize options on server-side
   # (quicker loading on slower browsers)
   # This is because there is a lot of options
@@ -63,7 +60,9 @@ app_server = function(input, output, session) {
   # get table file path
   table_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    plot_file = file.path(dirs$data, "scanner_output", input$cluster_id, input$table_type)
+    table_file = system.file("app", "www", "data", "scanner_output",
+                            input$cluster_id, input$table_type,
+                            package = "tfpbrowser")
     return(table_file)
   })
 
@@ -137,7 +136,9 @@ app_server = function(input, output, session) {
   # get plot file
   plot_file = shiny::reactive({
     shiny::req(input$cluster_id)
-    plot_file = file.path(dirs$data, "scanner_output", input$cluster_id, input$plot_type)
+    plot_file = system.file("app", "www", "data", "scanner_output",
+                             input$cluster_id, input$plot_type,
+                             package = "tfpbrowser")
     return(plot_file)
   })
 
@@ -151,10 +152,12 @@ app_server = function(input, output, session) {
     }
   })
 
+
   # display plot if available
   output$display_plot = shiny::renderUI({
     if (plot_avail()) {
-      shiny::img(src = substring(plot_file(), 10),
+      shiny::img(src = fs::path_rel(plot_file(),
+                                    system.file("app", package = "tfpbrowser")),
                  width = "400px")
     } else {
       shiny::p("No plots available.", style = "color: red; text-align: left")
