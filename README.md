@@ -17,6 +17,5 @@ tfpbrowser::run_app()
 ## Updating with new data
 
 * Add the new data to `inst/app/www/data/`
-* Run the code in `data-raw/all_clusters.R` to generate a new .rda file
 * Re-install {tfpbrowser}
 
