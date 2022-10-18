@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.3 _2022-09-24_
+
+- Split into modules
+
 # tfpbrowser 0.0.2 _2022-09-06_
 
 - add {shinytest2} tests
