@@ -1,3 +1,8 @@
+# tfpbrowser 0.0.5 _2022-10-24_
+
+- Switch to using rds inputs instead of html inputs
+- REMEMBER TO DELETE RANDOM DATA IF MERGING INTO MAIN
+
 # tfpbrowser 0.0.4 _2022-10-19_
 
 - Add module to download RDS files

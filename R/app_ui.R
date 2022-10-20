@@ -39,7 +39,7 @@ app_ui = function(request) {
 
             # show treeview widget
             shiny::wellPanel(
-              shiny::htmlOutput("treeview"),
+              plotly::plotlyOutput("treeview"),
               style = "background: white",
             ),
 
@@ -55,6 +55,9 @@ app_ui = function(request) {
 
           # Right hand side - outputs ------------------------------------------
           shiny::column(6,
+
+            # show output of clicking node (for testing only)
+            shiny::textOutput("select_text"),
 
             # choose cluster id
             cluster_idUI("choice1"),

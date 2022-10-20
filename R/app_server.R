@@ -16,17 +16,33 @@ app_server = function(input, output, session) {
                                      mustWork = TRUE)),
                        server = TRUE)
 
-  # load static html for treeview
-  output$treeview = shiny::renderUI({
+
+
+  # Load treeview -----------------------------------------------------------
+
+  # create plotly output from saved ggplot2 outputs
+  output$treeview = plotly::renderPlotly({
     filename = get_filename(input$widgetChoice)
-    shiny::div(
-      style = "width:100%; align:center",
-      id = "treeview",
-      htmltools::tags$iframe(src = filename,
-                             width = "100%",
-                             height = 600)
-    )
+    g = readRDS(filename)
+    plotly::ggplotly(g)
   })
+
+  # record click
+  click_output = shiny::reactive({
+    click_data = plotly::event_data("plotly_click")
+    if (is.null(click_data)) {
+      return("Click a point")
+    }
+    output = click_data$key
+    return(output)
+  })
+
+  # output result of click
+  output$select_text <- shiny::renderText({
+    paste("You have selected cluster ID:", click_output())
+  })
+
+  ##### need to link click to drop down!!!!!!!!!!!!
 
   # Choose Cluster ID -------------------------------------------------------
   number_from_cluster_mod = cluster_idServer("choice1")
