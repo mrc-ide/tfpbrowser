@@ -66,7 +66,10 @@ app_ui = function(request) {
              tablesUI("table1"),
 
              # Plots tab
-             plotsUI("plot1")
+             plotsUI("plot1"),
+
+             # RDS tab
+             rdsUI("rds1")
 
            )
           ) # end right column
