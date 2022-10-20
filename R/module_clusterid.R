@@ -1,8 +1,11 @@
-# Module 1, which will allow to select a cluster ID
-clusterid_ui = function(id) {
+#' Cluster ID choice UI
+#' Module to create a drop-down to select the cluster ID
+#' Server returns a character relating to a data folder name
+#' @param id ID for shiny module namespacing
+#' @noRd
+cluster_idUI = function(id) {
   ns = shiny::NS(id)
   shiny::tagList(
-    # Add a slider to select a number
     shiny::selectInput(inputId = ns("cluster_id"),
                        label = "Choose a cluster id:",
                        choices = get_all_clusters(
@@ -13,10 +16,11 @@ clusterid_ui = function(id) {
   )
 }
 
-clusterid_server = function(id) {
+#' Cluster ID choice server
+#' @param id ID for shiny module namespacing
+#' @noRd
+cluster_idServer = function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    # We return a reactive function from this server,
-    # that can be passed along to other modules
     return(
       shiny::reactive({
         input$cluster_id

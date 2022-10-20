@@ -1,3 +1,8 @@
+#' Plots tab UI
+#' Module to create a tabset panel to display png files as image
+#' and allow the download of the png file
+#' @param id ID for shiny module namespacing
+#' @noRd
 plotsUI = function(id) {
   ns = shiny::NS(id)
   # Plots tab panel
@@ -25,23 +30,17 @@ plotsUI = function(id) {
   )
 }
 
+#' Plots tab Server
+#' @param id ID for shiny module namespacing
+#' @param cluster_choice which cluster to display the data for
+#' @noRd
 plotsServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns
-    # Plots Tab ---------------------------------------------------------------
 
     # all available plots
     all_files = shiny::reactive({
-      all_files = tibble::as_tibble(
-        list.files(
-          system.file("app", "www", "data", "scanner_output",
-                      cluster_choice(),
-                      package = "tfpbrowser")
-        )
-      )
-      all_files = all_files %>%
-        dplyr::mutate(filetype = sub(".*\\.", "", .data$value))
-      return(all_files)
+      return(get_all_files(cluster_choice()))
     })
 
     # drop down for plots

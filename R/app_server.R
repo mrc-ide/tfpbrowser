@@ -28,15 +28,10 @@ app_server = function(input, output, session) {
     )
   })
 
-  # list of all files
-  r = shiny::reactiveValues()
-  shiny::observe({
-    r$cluster_id = input$cluster_id
-  })
-  number_from_cluster_mod = clusterid_server("choice1")
+  # Choose Cluster ID -------------------------------------------------------
+  number_from_cluster_mod = cluster_idServer("choice1")
 
   # Tables Tab --------------------------------------------------------------
-
   tablesServer(
     "table1",
     cluster_choice = number_from_cluster_mod

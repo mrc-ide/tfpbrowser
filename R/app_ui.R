@@ -24,8 +24,10 @@ app_ui = function(request) {
       shiny::tabPanel(
         title = "Data",
         shiny::fluidRow(
+
           # left hand side - show tree (static html output from tfpscanner)
           shiny::column(6,
+
             # choose type of treeviw
             shiny::radioButtons(inputId = "widgetChoice",
                                 label = "Select widget",
@@ -34,13 +36,16 @@ app_ui = function(request) {
                                   "Simple logistic growth rate",
                                   "Simple trait log odds"),
                                 inline = TRUE),
+
             # show treeview widget
             shiny::wellPanel(
               shiny::htmlOutput("treeview"),
               style = "background: white",
             ),
+
             # search bar for mutations
             shiny::br(),
+
             # Options are stored server-side. See server.R
             shiny::selectizeInput(inputId = "mutations",
                                   label = "Search for mutation",
@@ -50,13 +55,16 @@ app_ui = function(request) {
 
           # Right hand side - outputs ------------------------------------------
           shiny::column(6,
+
             # choose cluster id
-            clusterid_ui("choice1"),
+            cluster_idUI("choice1"),
 
             # output options
             shiny::tabsetPanel(id = "plot_tabs",
+
              # Tables tab
              tablesUI("table1"),
+
              # Plots tab
              plotsUI("plot1")
 

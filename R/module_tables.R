@@ -1,10 +1,17 @@
+#' Tables tab UI
+#' Module to create a tabset panel to display csv files in a tables
+#' and allow the download of the csv file
+#' @param id ID for shiny module namespacing
+#' @noRd
 tablesUI = function(id) {
   ns = shiny::NS(id)
   # Plots tab panel
   shiny::tabPanel("Tables",
+
                   # drop down menu to select table
                   shiny::br(),
                   shiny::uiOutput(ns("choose_table")),
+
                   # display table
                   shiny::wellPanel(
                     shiny::fluidRow(shiny::column(
@@ -15,6 +22,7 @@ tablesUI = function(id) {
                     )),
                     style = "background: white"
                   ),
+
                   # download button to download current table
                   shiny::br(),
                   shiny::fluidRow(
@@ -26,22 +34,16 @@ tablesUI = function(id) {
   )
 }
 
+#' Tables tab Server
+#' @param id ID for shiny module namespacing
+#' @param cluster_choice which cluster to display the data for
+#' @noRd
 tablesServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns
-
-    # all available plots
+    # all available tables
     all_files = shiny::reactive({
-      all_files = tibble::as_tibble(
-        list.files(
-          system.file("app", "www", "data", "scanner_output",
-                      cluster_choice(),
-                      package = "tfpbrowser")
-        )
-      )
-      all_files = all_files %>%
-        dplyr::mutate(filetype = sub(".*\\.", "", .data$value))
-      return(all_files)
+      return(get_all_files(cluster_choice()))
     })
 
     # drop down for tables
