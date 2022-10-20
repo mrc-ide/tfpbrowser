@@ -98,7 +98,7 @@ plotsServer = function(id, cluster_choice) {
 
     # download plot button
     output$download_plot_button = shiny::renderUI({
-      shiny::downloadButton("download_plot",
+      shiny::downloadButton(ns("download_plot"),
                             label = "Download")
     })
 

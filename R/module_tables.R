@@ -106,7 +106,7 @@ tablesServer = function(id, cluster_choice) {
 
     # download table button
     output$download_table_button = shiny::renderUI({
-      shiny::downloadButton("download_table",
+      shiny::downloadButton(ns("download_table"),
                             label = "Download")
     })
 
