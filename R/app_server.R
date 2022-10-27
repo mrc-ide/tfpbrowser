@@ -24,7 +24,8 @@ app_server = function(input, output, session) {
   output$treeview = plotly::renderPlotly({
     filename = get_filename(input$widgetChoice)
     g = readRDS(filename)
-    plotly::ggplotly(g)
+    plotly::ggplotly(p = g,
+                     tooltip = c("key"))
   })
 
   # record click
