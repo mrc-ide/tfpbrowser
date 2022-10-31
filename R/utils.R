@@ -92,3 +92,19 @@ display_panel = function(to_display) {
     style = "background: white"
   )
 }
+
+#' function to filter files in each data folder based on file extension
+#' @param filenames Vector of all file names in the folder
+#' @param filetypes Vector of which filetypes to filter by
+filter_by_filetype = function(filenames, filetypes) {
+  matching_files = filenames %>%
+    dplyr::filter(.data$filetype %in% .env[["filetypes"]]) %>%
+    dplyr::pull(.data$value)
+
+  file_names = stringr::str_to_title(
+    stringr::str_replace_all(
+      gsub("\\..*", "", matching_files), "_", " "))
+
+  names(matching_files) = file_names
+  return(matching_files)
+}

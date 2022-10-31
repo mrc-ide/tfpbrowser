@@ -40,13 +40,8 @@ tablesServer = function(id, cluster_choice) {
 
     # drop down for tables
     output$choose_table = shiny::renderUI({
-      all_tables = all_files() %>%
-        dplyr::filter(.data$filetype %in% c("csv", "CSV")) %>%
-        dplyr::pull(.data$value)
-      tables_names = stringr::str_to_title(
-        stringr::str_replace_all(
-          gsub("\\..*", "", all_tables), "_", " "))
-      names(all_tables) = tables_names
+      all_tables = filter_by_filetype(filenames = all_files(),
+                                      filetypes = c("csv", "CSV"))
       shiny::selectInput(ns("table_type"),
                          label = "Select table type:",
                          choices = all_tables)

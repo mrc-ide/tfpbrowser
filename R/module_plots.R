@@ -40,13 +40,8 @@ plotsServer = function(id, cluster_choice) {
 
     # drop down for plots
     output$choose_plot = shiny::renderUI({
-      all_images = all_files() %>%
-        dplyr::filter(.data$filetype %in% c("png", "PNG")) %>%
-        dplyr::pull(.data$value)
-      images_names = stringr::str_to_title(
-        stringr::str_replace_all(
-          gsub("\\..*", "", all_images), "_", " "))
-      names(all_images) = images_names
+      all_images = filter_by_filetype(filenames = all_files(),
+                         filetypes = c("png", "PNG"))
       shiny::selectInput(ns("plot_type"),
                          label = "Select plot type:",
                          choices = all_images)
