@@ -13,15 +13,7 @@ tablesUI = function(id) {
                   shiny::uiOutput(ns("choose_table")),
 
                   # display table
-                  shiny::wellPanel(
-                    shiny::fluidRow(shiny::column(
-                      12,
-                      reactable::reactableOutput(ns("display_table")),
-                      align = "center",
-                      style = "height:400px;"
-                    )),
-                    style = "background: white"
-                  ),
+                  display_panel(reactable::reactableOutput(ns("display_table"))),
 
                   # download button to download current table
                   shiny::br(),

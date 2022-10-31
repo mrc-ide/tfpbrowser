@@ -9,16 +9,11 @@ rdsUI = function(id) {
                   # drop down menu to select plot
                   shiny::br(),
                   shiny::uiOutput(ns("choose_rds")),
-                  # display plot
-                  shiny::wellPanel(
-                    shiny::fluidRow(shiny::column(
-                      12,
-                      align = "center",
-                      shiny::uiOutput(ns("display_rds")),
-                      style = "height:400px;")),
-                    style = "background: white"
-                  ),
-                  # download button to download current plot
+
+                  # display message for RDS
+                  display_panel(shiny::uiOutput(ns("display_rds"))),
+
+                  # download button to download current rds file
                   shiny::br(),
                   shiny::fluidRow(
                     shiny::column(12,

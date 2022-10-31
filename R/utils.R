@@ -33,6 +33,21 @@ get_all_clusters = function(filename) {
   return(all_clusters)
 }
 
+#' Get all file names in a folder of the data relating to a single cluster
+#' @param cluster_choice character relating to a folder name in inst/data
+get_all_files = function(cluster_choice) {
+  all_files = tibble::as_tibble(
+    list.files(
+      system.file("app", "www", "data", "scanner_output",
+                  cluster_choice,
+                  package = "tfpbrowser")
+    )
+  )
+  all_files = all_files %>%
+    dplyr::mutate(filetype = sub(".*\\.", "", .data$value))
+  return(all_files)
+}
+
 #' function to tidy up table output
 #' @param table_to_display Data frame or tibble containing messy outputs
 reformat_table = function(table_to_display) {
@@ -60,4 +75,20 @@ reformat_table = function(table_to_display) {
                                   case = "title")
   }
   return(output)
+}
+
+#' function to create UI for the Well panel in the tabs
+#' @param to_display UI element to be displayed in the well panel
+display_panel = function(to_display) {
+  shiny::wellPanel(
+    shiny::fluidRow(
+      shiny::column(
+        12,
+        align = "center",
+        to_display,
+        style = "height:400px;"
+      )
+    ),
+    style = "background: white"
+  )
 }

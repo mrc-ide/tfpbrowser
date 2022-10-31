@@ -10,15 +10,10 @@ plotsUI = function(id) {
                   # drop down menu to select plot
                   shiny::br(),
                   shiny::uiOutput(ns("choose_plot")),
+
                   # display plot
-                  shiny::wellPanel(
-                    shiny::fluidRow(shiny::column(
-                      12,
-                      align = "center",
-                      shiny::uiOutput(ns("display_plot")),
-                      style = "height:400px;")),
-                    style = "background: white"
-                  ),
+                  display_panel(shiny::uiOutput(ns("display_plot"))),
+
                   # download button to download current plot
                   shiny::br(),
                   shiny::fluidRow(
