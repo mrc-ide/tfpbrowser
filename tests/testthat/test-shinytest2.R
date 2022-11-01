@@ -5,7 +5,7 @@ test_that("tfpbrowser app initial values are consistent", {
                                      name = "tfpbrowser")
     navbar_tab_items = app$get_text(".nav-item")
     observed_navbar_tab_items = stringr::str_squish(navbar_tab_items)
-    expected_navbar_tab_items = c("Data", "About", "Tables", "Plots")
+    expected_navbar_tab_items = c("Data", "About", "Tables", "Plots", "RDS Files")
     testthat::expect_equal(observed_navbar_tab_items, expected_navbar_tab_items)
   }
 })

@@ -13,15 +13,7 @@ tablesUI = function(id) {
                   shiny::uiOutput(ns("choose_table")),
 
                   # display table
-                  shiny::wellPanel(
-                    shiny::fluidRow(shiny::column(
-                      12,
-                      reactable::reactableOutput(ns("display_table")),
-                      align = "center",
-                      style = "height:400px;"
-                    )),
-                    style = "background: white"
-                  ),
+                  display_panel(reactable::reactableOutput(ns("display_table"))),
 
                   # download button to download current table
                   shiny::br(),
@@ -48,13 +40,8 @@ tablesServer = function(id, cluster_choice) {
 
     # drop down for tables
     output$choose_table = shiny::renderUI({
-      all_tables = all_files() %>%
-        dplyr::filter(.data$filetype %in% c("csv", "CSV")) %>%
-        dplyr::pull(.data$value)
-      tables_names = stringr::str_to_title(
-        stringr::str_replace_all(
-          gsub("\\..*", "", all_tables), "_", " "))
-      names(all_tables) = tables_names
+      all_tables = filter_by_filetype(filenames = all_files(),
+                                      filetypes = c("csv", "CSV"))
       shiny::selectInput(ns("table_type"),
                          label = "Select table type:",
                          choices = all_tables)
@@ -106,7 +93,7 @@ tablesServer = function(id, cluster_choice) {
 
     # download table button
     output$download_table_button = shiny::renderUI({
-      shiny::downloadButton("download_table",
+      shiny::downloadButton(ns("download_table"),
                             label = "Download")
     })
 

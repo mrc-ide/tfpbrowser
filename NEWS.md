@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.4 _2022-10-19_
+
+- Add module to download RDS files
+
 # tfpbrowser 0.0.3 _2022-09-24_
 
 - Split into modules
