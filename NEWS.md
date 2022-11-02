@@ -1,3 +1,8 @@
+# tfpbrowser 0.0.5 _2022-11-02_
+
+- Move panels from RHS to underneath
+- Remove mutation drop down for now
+
 # tfpbrowser 0.0.4 _2022-10-19_
 
 - Add module to download RDS files
