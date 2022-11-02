@@ -43,14 +43,7 @@ app_ui = function(request) {
               style = "background: white",
             ),
 
-            # search bar for mutations
-            shiny::br(),
-
-            # Options are stored server-side. See server.R
-            shiny::selectizeInput(inputId = "mutations",
-                                  label = "Search for mutation",
-                                  choices = NULL,
-                                  multiple = FALSE)
+            shiny::br()
           ),
 
           # Right hand side - outputs ------------------------------------------
