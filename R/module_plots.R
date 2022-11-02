@@ -10,15 +10,10 @@ plotsUI = function(id) {
                   # drop down menu to select plot
                   shiny::br(),
                   shiny::uiOutput(ns("choose_plot")),
+
                   # display plot
-                  shiny::wellPanel(
-                    shiny::fluidRow(shiny::column(
-                      12,
-                      align = "center",
-                      shiny::uiOutput(ns("display_plot")),
-                      style = "height:400px;")),
-                    style = "background: white"
-                  ),
+                  display_panel(shiny::uiOutput(ns("display_plot"))),
+
                   # download button to download current plot
                   shiny::br(),
                   shiny::fluidRow(
@@ -45,13 +40,8 @@ plotsServer = function(id, cluster_choice) {
 
     # drop down for plots
     output$choose_plot = shiny::renderUI({
-      all_images = all_files() %>%
-        dplyr::filter(.data$filetype %in% c("png", "PNG")) %>%
-        dplyr::pull(.data$value)
-      images_names = stringr::str_to_title(
-        stringr::str_replace_all(
-          gsub("\\..*", "", all_images), "_", " "))
-      names(all_images) = images_names
+      all_images = filter_by_filetype(filenames = all_files(),
+                         filetypes = c("png", "PNG"))
       shiny::selectInput(ns("plot_type"),
                          label = "Select plot type:",
                          choices = all_images)

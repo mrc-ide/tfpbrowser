@@ -9,16 +9,11 @@ rdsUI = function(id) {
                   # drop down menu to select plot
                   shiny::br(),
                   shiny::uiOutput(ns("choose_rds")),
-                  # display plot
-                  shiny::wellPanel(
-                    shiny::fluidRow(shiny::column(
-                      12,
-                      align = "center",
-                      shiny::uiOutput(ns("display_rds")),
-                      style = "height:400px;")),
-                    style = "background: white"
-                  ),
-                  # download button to download current plot
+
+                  # display message for RDS
+                  display_panel(shiny::uiOutput(ns("display_rds"))),
+
+                  # download button to download current rds file
                   shiny::br(),
                   shiny::fluidRow(
                     shiny::column(12,
@@ -44,13 +39,8 @@ rdsServer = function(id, cluster_choice) {
 
     # drop down for plots
     output$choose_rds = shiny::renderUI({
-      all_rds = all_files() %>%
-        dplyr::filter(.data$filetype %in% c("rds", "RDS")) %>%
-        dplyr::pull(.data$value)
-      rds_names = stringr::str_to_title(
-        stringr::str_replace_all(
-          gsub("\\..*", "", all_rds), "_", " "))
-      names(all_rds) = rds_names
+      all_rds = filter_by_filetype(filenames = all_files(),
+                                   filetypes = c("rds", "RDS"))
       shiny::selectInput(ns("rds_type"),
                          label = "Select RDS file:",
                          choices = all_rds)

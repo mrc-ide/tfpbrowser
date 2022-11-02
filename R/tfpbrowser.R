@@ -5,7 +5,7 @@
 #' @name tfpbrowser
 #' @keywords internal
 "_PACKAGE"
-#' @importFrom rlang .data
+#' @importFrom rlang .data .env
 NULL
 
 #' Pipe operator
