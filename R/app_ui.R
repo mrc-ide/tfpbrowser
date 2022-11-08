@@ -33,7 +33,7 @@ app_ui = function(request) {
                           cluster_idUI("choice1"),
 
                           # text to print choice
-                          textOutput("select_text"),
+                          shiny::textOutput("select_text"),
 
                           # output options
                           shiny::tabsetPanel(id = "plot_tabs",

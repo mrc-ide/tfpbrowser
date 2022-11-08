@@ -17,7 +17,6 @@ Imports:
     htmltools,
     janitor,
     magrittr,
-    plotly,
     reactable,
     readr,
     rlang,

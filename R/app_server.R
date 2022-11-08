@@ -25,11 +25,11 @@ app_server = function(input, output, session) {
     filename = get_filename(input$widgetChoice)
     g = readRDS(filename)
     ggiraph::girafe(ggobj = g,
-                    options = list(opts_selection(type = "single")))
+                    options = list(ggiraph::opts_selection(type = "single")))
   })
 
   # output result of click
-  output$select_text <- shiny::renderText({
+  output$select_text = shiny::renderText({
     paste("You have selected cluster ID:", input$treeview_selected)
   })
 
