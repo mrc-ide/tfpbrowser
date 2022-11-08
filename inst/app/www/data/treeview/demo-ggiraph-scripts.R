@@ -17,8 +17,11 @@ create_treeview = function(n_samples, n_grp) {
     ggiraph::geom_point_interactive(data = metat,
                aes(x = .data$x,
                    y = .data$y,
+                   tooltip = glue::glue("Cluster ID: {.data$node}"),
                    colour = .data$grp,
-                   data_id = .data$node)) +
+                   data_id = .data$node ##### This line is essential!
+                   )
+               ) +
     ggplot2::theme(legend.position = "none")
   return(p)
 }

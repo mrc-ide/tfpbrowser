@@ -24,8 +24,24 @@ app_server = function(input, output, session) {
   output$treeview = ggiraph::renderGirafe({
     filename = get_filename(input$widgetChoice)
     g = readRDS(filename)
+    tooltip_css <- paste0(
+      "background-color:black;",
+      "color:grey;",
+      "padding:14px;",
+      "border-radius:8px;",
+      "font-family:\"Courier New\",monospace;"
+    )
     ggiraph::girafe(ggobj = g,
-                    options = list(ggiraph::opts_selection(type = "single")))
+                    options = list(
+                      ggiraph::opts_selection(
+                        type = "single"),
+                      ggiraph::opts_sizing(
+                        width = 0.8),
+                      ggiraph::opts_tooltip(
+                        css = tooltip_css,
+                        use_fill = FALSE)
+                      )
+                    )
   })
 
   # output result of click
