@@ -7,6 +7,7 @@ add_ext_resources = function() {
     "www", system.file("app/www", package = "tfpbrowser", mustWork = TRUE)
   )
   shiny::tags$head(
-    shinyjs::useShinyjs()
+    shinyjs::useShinyjs(),
+    shiny::tags$link(rel = "stylesheet", type = "text/css", href = "www/tfpbrowser-style.css")
   )
 }

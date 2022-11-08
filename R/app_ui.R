@@ -23,14 +23,40 @@ app_ui = function(request) {
       # Input widgets
       shiny::tabPanel(
         title = "Data",
+
+        shiny::fluidRow(
+          shiny::column(12,
+                        htmltools::tags$details(
+                          htmltools::tags$summary("Download Files (click to expand)"),
+
+                          # choose cluster id
+                          cluster_idUI("choice1"),
+
+                          # output options
+                          shiny::tabsetPanel(id = "plot_tabs",
+
+                                             # Tables tab
+                                             tablesUI("table1"),
+
+                                             # Plots tab
+                                             plotsUI("plot1"),
+
+                                             # RDS tab
+                                             rdsUI("rds1")
+
+                          )
+                        )
+                        )
+          ), # end fluid row
+
+        # Bottom row - show tree (static html output from tfpscanner)
         shiny::fluidRow(
 
-          # left hand side - show tree (static html output from tfpscanner)
-          shiny::column(6,
+          shiny::column(12,
 
             # choose type of treeviw
             shiny::radioButtons(inputId = "widgetChoice",
-                                label = "Select widget",
+                                label = "Select treeview",
                                 choices = c(
                                   "Logistic growth rate",
                                   "Simple logistic growth rate",
@@ -42,40 +68,8 @@ app_ui = function(request) {
               plotly::plotlyOutput("treeview"),
               style = "background: white",
             ),
-
-            # search bar for mutations
-            shiny::br(),
-
-            # Options are stored server-side. See server.R
-            shiny::selectizeInput(inputId = "mutations",
-                                  label = "Search for mutation",
-                                  choices = NULL,
-                                  multiple = FALSE)
-          ),
-
-          # Right hand side - outputs ------------------------------------------
-          shiny::column(6,
-
-            # show output of clicking node (for testing only)
-            shiny::textOutput("select_text"),
-
-            # choose cluster id
-            cluster_idUI("choice1"),
-
-            # output options
-            shiny::tabsetPanel(id = "plot_tabs",
-
-             # Tables tab
-             tablesUI("table1"),
-
-             # Plots tab
-             plotsUI("plot1"),
-
-             # RDS tab
-             rdsUI("rds1")
-
-           )
-          ) # end right column
+            shiny::br()
+          )
         ) # end fluid row
       ), # end "data" page
 

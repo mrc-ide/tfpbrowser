@@ -1,7 +1,14 @@
-# tfpbrowser 0.0.5 _2022-10-24_
+# tfpbrowser 0.0.6 _2022-11-08_
 
 - Switch to using rds inputs instead of html inputs
 - REMEMBER TO DELETE RANDOM DATA IF MERGING INTO MAIN
+
+# tfpbrowser 0.0.5 _2022-11-02_
+
+- Move panels from RHS to collapsible above
+- Rearrange content of collapsible panel
+- Add CSS file to style collapsible
+- Remove mutation drop down for now
 
 # tfpbrowser 0.0.4 _2022-10-19_
 
