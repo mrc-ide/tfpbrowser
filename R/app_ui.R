@@ -23,14 +23,40 @@ app_ui = function(request) {
       # Input widgets
       shiny::tabPanel(
         title = "Data",
+
+        shiny::fluidRow(
+          shiny::column(12,
+                        htmltools::tags$details(
+                          htmltools::tags$summary("Download Files (click to expand)"),
+
+                          # choose cluster id
+                          cluster_idUI("choice1"),
+
+                          # output options
+                          shiny::tabsetPanel(id = "plot_tabs",
+
+                                             # Tables tab
+                                             tablesUI("table1"),
+
+                                             # Plots tab
+                                             plotsUI("plot1"),
+
+                                             # RDS tab
+                                             rdsUI("rds1")
+
+                          )
+                        )
+                        )
+          ), # end fluid row
+
+        # Bottom row - show tree (static html output from tfpscanner)
         shiny::fluidRow(
 
-          # left hand side - show tree (static html output from tfpscanner)
-          shiny::column(6,
+          shiny::column(12,
 
             # choose type of treeviw
             shiny::radioButtons(inputId = "widgetChoice",
-                                label = "Select widget",
+                                label = "Select treeview",
                                 choices = c(
                                   "Logistic growth rate",
                                   "Simple logistic growth rate",
@@ -44,28 +70,7 @@ app_ui = function(request) {
             ),
 
             shiny::br()
-          ),
-
-          # Right hand side - outputs ------------------------------------------
-          shiny::column(6,
-
-            # choose cluster id
-            cluster_idUI("choice1"),
-
-            # output options
-            shiny::tabsetPanel(id = "plot_tabs",
-
-             # Tables tab
-             tablesUI("table1"),
-
-             # Plots tab
-             plotsUI("plot1"),
-
-             # RDS tab
-             rdsUI("rds1")
-
-           )
-          ) # end right column
+          )
         ) # end fluid row
       ), # end "data" page
 

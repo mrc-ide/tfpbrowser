@@ -8,21 +8,22 @@ tablesUI = function(id) {
   # Plots tab panel
   shiny::tabPanel("Tables",
 
-                  # drop down menu to select table
-                  shiny::br(),
-                  shiny::uiOutput(ns("choose_table")),
-
-                  # display table
-                  display_panel(reactable::reactableOutput(ns("display_table"))),
-
-                  # download button to download current table
                   shiny::br(),
                   shiny::fluidRow(
-                    shiny::column(12,
+                    # drop down menu to select table
+                    shiny::column(3,
                                   align = "center",
-                                  shiny::uiOutput(ns("download_table_button")) # nolint
+                                  shiny::uiOutput(ns("choose_table")),
+                                  shiny::br(),
+                                  shiny::uiOutput(ns("download_table_button"))
+                    ),
+                    # display plot
+                    shiny::column(9,
+                                  align = "center",
+                                  display_panel(reactable::reactableOutput(ns("display_table")))
                     )
                   )
+
   )
 }
 

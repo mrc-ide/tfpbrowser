@@ -7,21 +7,23 @@ plotsUI = function(id) {
   ns = shiny::NS(id)
   # Plots tab panel
   shiny::tabPanel("Plots",
-                  # drop down menu to select plot
-                  shiny::br(),
-                  shiny::uiOutput(ns("choose_plot")),
 
-                  # display plot
-                  display_panel(shiny::uiOutput(ns("display_plot"))),
-
-                  # download button to download current plot
                   shiny::br(),
                   shiny::fluidRow(
-                    shiny::column(12,
+                    # drop down menu to select plot
+                    shiny::column(3,
                                   align = "center",
-                                  shiny::uiOutput(ns("download_plot_button")) #nolint
+                                  shiny::uiOutput(ns("choose_plot")),
+                                  shiny::br(),
+                                  shiny::uiOutput(ns("download_plot_button"))
+                    ),
+                    # display plot
+                    shiny::column(9,
+                                  align = "center",
+                                  display_panel(shiny::uiOutput(ns("display_plot")))
                     )
                   )
+
   )
 }
 
