@@ -14,11 +14,11 @@ create_treeview = function(n_samples, n_grp) {
   metat = p$data %>%
     dplyr::inner_join(dat, c('label' = 'id'))
   p = p +
-    geom_point(data = metat,
+    ggiraph::geom_point_interactive(data = metat,
                aes(x = x,
                    y = y,
                    colour = grp,
-                   key = node)) +
+                   data_id = node)) +
     ggplot2::theme(legend.position = "none")
   return(p)
 }

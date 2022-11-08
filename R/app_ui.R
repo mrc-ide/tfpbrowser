@@ -68,7 +68,7 @@ app_ui = function(request) {
 
             # show treeview widget
             shiny::wellPanel(
-              plotly::plotlyOutput("treeview"),
+              ggiraph::girafeOutput("treeview"),
               style = "background: white",
             ),
             shiny::br()

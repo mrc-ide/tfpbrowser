@@ -21,26 +21,16 @@ app_server = function(input, output, session) {
   # Load treeview -----------------------------------------------------------
 
   # create plotly output from saved ggplot2 outputs
-  output$treeview = plotly::renderPlotly({
+  output$treeview = ggiraph::renderGirafe({
     filename = get_filename(input$widgetChoice)
     g = readRDS(filename)
-    plotly::ggplotly(p = g,
-                     tooltip = c("key"))
-  })
-
-  # record click
-  click_output = shiny::reactive({
-    click_data = plotly::event_data("plotly_click")
-    if (is.null(click_data)) {
-      return("Click a point")
-    }
-    output = click_data$key
-    return(output)
+    ggiraph::girafe(ggobj = g,
+                    options = list(opts_selection(type = "single")))
   })
 
   # output result of click
   output$select_text <- shiny::renderText({
-    paste("You have selected cluster ID:", click_output())
+    paste("You have selected cluster ID:", input$treeview_selected)
   })
 
   ##### need to link click to drop down!!!!!!!!!!!!
