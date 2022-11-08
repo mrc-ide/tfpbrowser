@@ -24,7 +24,7 @@ app_server = function(input, output, session) {
   output$treeview = ggiraph::renderGirafe({
     filename = get_filename(input$widgetChoice)
     g = readRDS(filename)
-    tooltip_css <- paste0(
+    tooltip_css = paste0(
       "background-color:black;",
       "color:grey;",
       "padding:14px;",
