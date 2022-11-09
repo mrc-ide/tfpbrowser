@@ -108,3 +108,29 @@ filter_by_filetype = function(filenames, filetypes) {
   names(matching_files) = file_names
   return(matching_files)
 }
+
+#' function to create display panel inside tabset panel witin module
+#' @param title Scalar string defining title of tab panel
+#' @param chooser_id Scalar string of ID of the dropdown menu to display to choose files
+#' @param download_button_id Scalar string of ID of the download button to download files
+#' @param panel UI element to display on the right hand side of the panel
+downloader_tab_panel = function(title,
+                                chooser_id,
+                                download_button_id,
+                                panel) {
+  shiny::tabPanel(
+    title,
+    shiny::br(),
+    shiny::fluidRow(
+      # drop down menu to select dataset
+      shiny::column(3,
+                    align = "center",
+                    shiny::uiOutput(chooser_id),
+                    shiny::br(),
+                    shiny::uiOutput(download_button_id)
+      ),
+      # display data
+      shiny::column(9, align = "center", panel)
+    )
+  )
+}
