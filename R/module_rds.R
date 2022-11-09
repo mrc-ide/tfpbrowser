@@ -4,24 +4,11 @@
 #' @noRd
 rdsUI = function(id) {
   ns = shiny::NS(id)
-  # Plots tab panel
-  shiny::tabPanel("RDS Files",
-                  # drop down menu to select plot
-                  shiny::br(),
-                  shiny::uiOutput(ns("choose_rds")),
-
-                  # display message for RDS
-                  display_panel(shiny::uiOutput(ns("display_rds"))),
-
-                  # download button to download current rds file
-                  shiny::br(),
-                  shiny::fluidRow(
-                    shiny::column(12,
-                                  align = "center",
-                                  shiny::uiOutput(ns("download_rds_button")) #nolint
-                    )
-                  )
-  )
+  # RDS files tab panel
+  downloader_tab_panel(title = "RDS Files",
+                       chooser_id = ns("choose_rds"),
+                       download_button_id = ns("download_rds_button"),
+                       panel = display_panel(shiny::uiOutput(ns("display_rds"))))
 }
 
 #' rds tab Server

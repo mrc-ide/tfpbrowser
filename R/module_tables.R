@@ -5,25 +5,11 @@
 #' @noRd
 tablesUI = function(id) {
   ns = shiny::NS(id)
-  # Plots tab panel
-  shiny::tabPanel("Tables",
-
-                  # drop down menu to select table
-                  shiny::br(),
-                  shiny::uiOutput(ns("choose_table")),
-
-                  # display table
-                  display_panel(reactable::reactableOutput(ns("display_table"))),
-
-                  # download button to download current table
-                  shiny::br(),
-                  shiny::fluidRow(
-                    shiny::column(12,
-                                  align = "center",
-                                  shiny::uiOutput(ns("download_table_button")) # nolint
-                    )
-                  )
-  )
+  # Tables tab panel
+  downloader_tab_panel(title = "Tables",
+                       chooser_id = ns("choose_table"),
+                       download_button_id = ns("download_table_button"),
+                       panel = display_panel(reactable::reactableOutput(ns("display_table"))))
 }
 
 #' Tables tab Server
