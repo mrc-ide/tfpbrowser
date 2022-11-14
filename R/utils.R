@@ -111,3 +111,12 @@ filter_by_filetype = function(filenames, filetypes) {
   names(matching_files) = file_names
   return(matching_files)
 }
+
+#' (hacky workaround) function to get node id from data_id column of ggplot
+#' @param tooltip_input Character vector of tooltip content
+get_cluster_ID = function(tooltip_input) {
+  locs = stringr::str_locate(tooltip_input, "Cluster.ID          #")
+  stringr::str_sub(tooltip_input, locs[, "end"] + 1, locs[, "end"] + 7) %>%
+    stringr::str_trim() %>%
+    as.numeric()
+}

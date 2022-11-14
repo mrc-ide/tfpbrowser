@@ -31,7 +31,7 @@ app_server = function(input, output, session) {
       "border-radius:8px;",
       "font-family:\"Courier New\",monospace;"
     )
-    ggiraph::girafe(ggobj = g,
+    suppressWarnings(ggiraph::girafe(ggobj = g,
                     options = list(
                       ggiraph::opts_selection(
                         type = "single"),
@@ -41,35 +41,47 @@ app_server = function(input, output, session) {
                         css = tooltip_css,
                         use_fill = FALSE)
                       )
-                    )
+                    ))
+  })
+
+  # get look up table for data_id vs cluster id
+  # I know this code isn't great, and should probably be in a module
+  # but I'm hoping that this code doesn't stay in the app
+  # after this week
+  selected_cluster_id = shiny::reactive({
+    filename = get_filename(input$widgetChoice)
+    g = readRDS(filename)
+    built = suppressWarnings(ggplot2::ggplot_build(g))
+    n_layers = length(built$data)
+    ids = built$data[n_layers][[1]]["data_id"]
+    tooltip_ids = get_cluster_ID(built$data[n_layers][[1]]$tooltip)
+    ids = ids %>%
+      dplyr::mutate(cluster_ids = tooltip_ids)
+    selected_cluster = as.numeric(ids[which(ids$data_id == input$treeview_selected), 2])
+    return(selected_cluster)
   })
 
   # output result of click
   output$select_text = shiny::renderText({
-    paste("You have selected cluster ID:", input$treeview_selected)
+    paste("You have selected cluster ID:", selected_cluster_id())
   })
-
-  ##### need to link click to drop down!!!!!!!!!!!!
-
-  # Choose Cluster ID -------------------------------------------------------
-  number_from_cluster_mod = cluster_idServer("choice1")
 
   # Tables Tab --------------------------------------------------------------
   tablesServer(
     "table1",
-    cluster_choice = number_from_cluster_mod
+    cluster_choice = selected_cluster_id
   )
 
   # Plots Tab ----------------------------------------------------------
   plotsServer(
     "plot1",
-    cluster_choice = number_from_cluster_mod
+    cluster_choice = selected_cluster_id
   )
 
   # RDS Tab ----------------------------------------------------------
   rdsServer(
     "rds1",
-    cluster_choice = number_from_cluster_mod
+    cluster_choice = selected_cluster_id
   )
 
 } # end server function

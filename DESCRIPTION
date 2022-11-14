@@ -12,6 +12,7 @@ Imports:
     bslib,
     dplyr,
     fs,
+    ggplot2,
     ggiraph,
     glue,
     htmltools,
