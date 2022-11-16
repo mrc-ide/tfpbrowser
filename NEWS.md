@@ -1,8 +1,9 @@
 # tfpbrowser 0.0.6 _2022-11-08_
 
 - Switch to using rds inputs instead of html inputs
-- Testing ggiraph outputs
-- REMEMBER TO DELETE RANDOM DATA IF MERGING INTO MAIN
+- Use {ggiraph} widget as input to folder selection
+- Add functions to parse tooltip and extract cluster id
+- Remove unnecessary html files
 
 # tfpbrowser 0.0.5 _2022-11-02_
 

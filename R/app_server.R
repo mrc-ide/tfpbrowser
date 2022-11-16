@@ -44,21 +44,10 @@ app_server = function(input, output, session) {
                     ))
   })
 
-  # get look up table for data_id vs cluster id
-  # I know this code isn't great, and should probably be in a module
-  # but I'm hoping that this code doesn't stay in the app
-  # after this week
+  # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
-    filename = get_filename(input$widgetChoice)
-    g = readRDS(filename)
-    built = suppressWarnings(ggplot2::ggplot_build(g))
-    n_layers = length(built$data)
-    ids = built$data[n_layers][[1]]["data_id"]
-    tooltip_ids = get_cluster_ID(built$data[n_layers][[1]]$tooltip)
-    ids = ids %>%
-      dplyr::mutate(cluster_ids = tooltip_ids)
-    selected_cluster = as.numeric(ids[which(ids$data_id == input$treeview_selected), 2])
-    return(selected_cluster)
+    get_selected_cluster_id(widgetChoice = input$widgetChoice,
+                            treeviewSelected = input$treeview_selected)
   })
 
   # output result of click

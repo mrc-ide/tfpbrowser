@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{get_cluster_ID}
 \alias{get_cluster_ID}
-\title{(hacky workaround) function to get node id from data_id column of ggplot}
+\title{function to get node id from data_id column of ggplot}
 \usage{
 get_cluster_ID(tooltip_input)
 }
@@ -10,5 +10,5 @@ get_cluster_ID(tooltip_input)
 \item{tooltip_input}{Character vector of tooltip content}
 }
 \description{
-(hacky workaround) function to get node id from data_id column of ggplot
+function to get node id from data_id column of ggplot
 }

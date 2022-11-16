@@ -112,11 +112,44 @@ filter_by_filetype = function(filenames, filetypes) {
   return(matching_files)
 }
 
-#' (hacky workaround) function to get node id from data_id column of ggplot
+#' function to get node id from data_id column of ggplot
 #' @param tooltip_input Character vector of tooltip content
 get_cluster_ID = function(tooltip_input) {
-  locs = stringr::str_locate(tooltip_input, "Cluster.ID          #")
-  stringr::str_sub(tooltip_input, locs[, "end"] + 1, locs[, "end"] + 7) %>%
-    stringr::str_trim() %>%
-    as.numeric()
+  # start searching the string after the "Cluster.ID" text
+  loc_cluster_id = stringr::str_locate(tooltip_input, "Cluster.ID")
+  start_str = loc_cluster_id[, "end"] + 1
+  starts_to_join = tibble::tibble(variable = as.character(seq_along(start_str)),
+                                  start_str = start_str)
+  # the end of the string to search for the cluster id is where
+  # the next newline (\n) after the start search location
+  end_str = stringr::str_locate_all(tooltip_input, "\n") %>%
+    purrr::map(.x = ., .f = ~as_tibble(.x)) %>%
+    stats::setNames(seq_len(length(.))) %>%
+    dplyr::bind_rows(.id = "variable") %>%
+    dplyr::left_join(starts_to_join, by = "variable") %>%
+    dplyr::group_by(.data$variable) %>%
+    dplyr::filter(.data$end > .data$start_str) %>%
+    dplyr::slice_min(.data$end, n = 1) %>%
+    dplyr::mutate(variable = as.numeric(.data$variable)) %>%
+    dplyr::arrange(.data$variable) %>%
+    dplyr::pull(.data$end)
+  output = stringr::str_sub(tooltip_input, start_str, end_str) %>%
+    readr::parse_number()
+  output
+}
+
+#' function to get node id from data_id column of ggplot
+#' @param widgetChoice From click of radio button to select widget to display
+#' @param treeviewSelected Output from clicking on treeview plot
+get_selected_cluster_id = function(widgetChoice,
+                                   treeviewSelected) {
+  filename = get_filename(widgetChoice)
+  g = readRDS(filename)
+  built = suppressWarnings(ggplot2::ggplot_build(g))
+  n_layers = length(built$data)
+  ids = built$data[n_layers][[1]]["data_id"]
+  tooltip_ids = get_cluster_ID(built$data[n_layers][[1]]$tooltip)
+  ids$cluster_ids = tooltip_ids
+  selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
+  return(selected_cluster)
 }
