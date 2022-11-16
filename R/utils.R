@@ -149,7 +149,7 @@ get_cluster_ID = function(tooltip_input) {
   # the end of the string to search for the cluster id is where
   # the next newline (\n) after the start search location
   end_str = stringr::str_locate_all(tooltip_input, "\n") %>%
-    purrr::map(.x = ., .f = ~as_tibble(.x)) %>%
+    purrr::map(.x = ., .f = ~tibble::as_tibble(.x)) %>%
     stats::setNames(seq_len(length(.))) %>%
     dplyr::bind_rows(.id = "variable") %>%
     dplyr::left_join(starts_to_join, by = "variable") %>%
