@@ -26,7 +26,9 @@ app_ui = function(request) {
 
         shiny::fluidRow(
           shiny::column(12,
+                        # use details and summary to create expandable section
                         htmltools::tags$details(
+                          # preview of expandable section
                           htmltools::tags$summary("Download Files (click to expand)"),
 
                           shiny::br(),
