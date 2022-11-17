@@ -143,8 +143,8 @@ downloader_tab_panel = function(title,
 get_cluster_ID = function(tooltip_input) {
   # start searching the string after the "Cluster.ID" text
   # until the next new line
-  match_matrix <- stringr::str_match(tooltip_input, r"(Cluster.ID\s+#(\d+))")
-  cluster_ids <- as.numeric(match_matrix[, 2])
+  match_matrix = stringr::str_match(tooltip_input, r"(Cluster.ID\s+#(\d+))")
+  cluster_ids = as.numeric(match_matrix[, 2])
   return(cluster_ids)
 }
 
