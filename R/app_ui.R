@@ -31,8 +31,11 @@ app_ui = function(request) {
                           # preview of expandable section
                           htmltools::tags$summary("Download Files (click to expand)"),
 
-                          # choose cluster id
-                          cluster_idUI("choice1"),
+                          shiny::br(),
+
+                          # text to print choice
+                          shiny::textOutput("select_text"),
+                          shiny::br(),
 
                           # output options
                           shiny::tabsetPanel(id = "plot_tabs",
@@ -67,10 +70,9 @@ app_ui = function(request) {
 
             # show treeview widget
             shiny::wellPanel(
-              shiny::htmlOutput("treeview"),
+              ggiraph::girafeOutput("treeview"),
               style = "background: white",
             ),
-
             shiny::br()
           )
         ) # end fluid row

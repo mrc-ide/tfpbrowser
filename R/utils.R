@@ -2,11 +2,14 @@
 #' @param type Character string detailing type of widget to show
 get_filename = function(type) {
   filename = switch(type,
-                    "Logistic growth rate" = "tree-logistic_growth_rate-2021-11-27.html", # nolint
-                    "Simple logistic growth rate" = "tree-simple_logistic_growth_rate-2021-11-27.html", # nolint
-                    "Simple trait log odds" = "tree-sim_trait_logodds-2021-11-27.html" # nolint
+                    "Logistic growth rate" = "tree-logistic_growth_rate.rds", # nolint
+                    "Simple logistic growth rate" = "tree-simple_logistic_growth_rate.rds", # nolint
+                    "Simple trait log odds" = "tree-sim_trait_logodds.rds" # nolint
   )
-  filename = file.path("www", "data", "treeview", filename)
+  filename = system.file("app", "www", "data", "treeview",
+                         filename,
+                         package = "tfpbrowser",
+                         mustWork = TRUE)
   return(filename)
 }
 
@@ -133,4 +136,32 @@ downloader_tab_panel = function(title,
       shiny::column(9, align = "center", panel)
     )
   )
+}
+
+#' function to get node id from data_id column of ggplot
+#' @param tooltip_input Character vector of tooltip content
+get_cluster_ID = function(tooltip_input) {
+  # start searching the string after the "Cluster.ID" text
+  # until the next new line
+  match_matrix = stringr::str_match(tooltip_input, r"(Cluster.ID\s+#(\d+))")
+  cluster_ids = as.numeric(match_matrix[, 2])
+  return(cluster_ids)
+}
+
+#' function to get node id from data_id column of ggplot
+#' @param widgetChoice From click of radio button to select widget to display
+#' @param treeviewSelected Output from clicking on treeview plot
+get_selected_cluster_id = function(widgetChoice,
+                                   treeviewSelected) {
+  filename = get_filename(widgetChoice)
+  g = readRDS(filename)
+  built = suppressWarnings(ggplot2::ggplot_build(g))
+  n_layers = length(built$data)
+  ids = built$data[n_layers][[1]]["data_id"]
+  tooltips = built$data[n_layers][[1]]$tooltip
+
+  tooltip_ids = get_cluster_ID(tooltips)
+  ids$cluster_ids = tooltip_ids
+  selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
+  return(selected_cluster)
 }
