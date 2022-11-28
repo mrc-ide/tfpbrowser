@@ -1,0 +1,36 @@
+Package: tfpbrowser
+Title: Builds Shiny application for 'tfpscanner' outputs
+Version: 0.0.6
+Authors@R: 
+    person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
+Description: An R package to contain the code for the Shiny app to explore the 
+  outputs from the 'tfpscanner' package.
+License: MIT + file LICENSE
+Depends: 
+    R (>= 4.0.0)
+Imports:
+    bslib,
+    dplyr,
+    fs,
+    ggplot2,
+    ggiraph,
+    glue,
+    htmltools,
+    janitor,
+    magrittr,
+    reactable,
+    readr,
+    rlang,
+    shiny,
+    shinyjs,
+    stringr,
+    tibble,
+    tidyr
+Suggests:
+    shinytest2,
+    testthat,
+    usethis
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
+LazyData: true

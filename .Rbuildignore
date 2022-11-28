@@ -1,0 +1,7 @@
+^tfpbrowser\.Rproj$
+^\.Rproj\.user$
+.lintr
+^data-raw$
+^\.github$
+^LICENSE\.md$
+_\.new\.png$
