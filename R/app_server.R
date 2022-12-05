@@ -31,8 +31,8 @@ app_server = function(input, output, session) {
       "border-radius:8px;",
       "font-family:\"Courier New\",monospace;"
     )
-    w <- shinybrowser::get_width() / 72
-    h <- (1800 - 40) / 72
+    w = shinybrowser::get_width() / 72
+    h = (1800 - 40) / 72
     suppressWarnings(ggiraph::girafe(ggobj = g,
                                      width_svg = w,
                                      height_svg = h,
