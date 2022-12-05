@@ -21,7 +21,6 @@ app_server = function(input, output, session) {
   # Load treeview -----------------------------------------------------------
 
   # create plotly output from saved ggplot2 outputs
-
   output$treeview = ggiraph::renderGirafe({
     filename = get_filename(input$widgetChoice)
     g = readRDS(filename)
@@ -30,7 +29,7 @@ app_server = function(input, output, session) {
       "color:grey;",
       "padding:14px;",
       "border-radius:8px;",
-      "font-family:\"Courier New\", monospace;"
+      "font-family:\"Courier New\",monospace;"
     )
     w <- shinybrowser::get_width() / 72
     h <- (1800 - 40) / 72
