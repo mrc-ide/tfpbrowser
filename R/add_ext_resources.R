@@ -6,9 +6,9 @@ add_ext_resources = function() {
   shiny::addResourcePath(
     "www", system.file("app/www", package = "tfpbrowser", mustWork = TRUE)
   )
+
   shiny::tags$head(
     shinyjs::useShinyjs(),
-    shiny::tags$link(rel = "stylesheet", type = "text/css", href = "www/tfpbrowser-style.css"),
-    shiny::tags$link(type = "text/javascript", href = "www/treeview-resizing.js")
+    shiny::tags$link(rel = "stylesheet", type = "text/css", href = "www/tfpbrowser-style.css")
   )
 }
