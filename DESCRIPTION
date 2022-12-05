@@ -1,6 +1,6 @@
 Package: tfpbrowser
 Title: Builds Shiny application for 'tfpscanner' outputs
-Version: 0.0.7
+Version: 0.0.8
 Authors@R: 
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: An R package to contain the code for the Shiny app to explore the 
