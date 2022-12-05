@@ -32,11 +32,14 @@ app_server = function(input, output, session) {
       "font-family:\"Courier New\",monospace;"
     )
     suppressWarnings(ggiraph::girafe(ggobj = g,
+                                     width_svg = 36,
+                                     height_svg = 18,
                     options = list(
                       ggiraph::opts_selection(
                         type = "single"),
                       ggiraph::opts_sizing(
                         width = 0.8),
+                      ggiraph::opts_zoom(max = 5),
                       ggiraph::opts_tooltip(
                         css = tooltip_css,
                         use_fill = FALSE)

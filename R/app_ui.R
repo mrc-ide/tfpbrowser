@@ -71,7 +71,7 @@ app_ui = function(request) {
             # show treeview widget
             shiny::wellPanel(
               ggiraph::girafeOutput("treeview"),
-              style = "background: white",
+              style = "background: white; height: 900px;",
             ),
             shiny::br()
           )
