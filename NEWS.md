@@ -1,7 +1,8 @@
 # tfpbrowser 0.0.8 _2022-12-05_
 
 - Add bigger data set
-- Make radio button choices depend on files available
+- Fix: ggiraph treeview was not correctly resizing
+- Fix: Make radio button choices depend on files available
 
 # tfpbrowser 0.0.7 _2022-12-01_
 

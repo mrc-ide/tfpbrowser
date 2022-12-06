@@ -6,6 +6,7 @@ app_ui = function(request) {
   shiny::tagList(
 
     shinyjs::useShinyjs(),
+    shinybrowser::detect(),
 
     shiny::navbarPage(
       # title
@@ -68,7 +69,7 @@ app_ui = function(request) {
             # show treeview widget
             shiny::wellPanel(
               ggiraph::girafeOutput("treeview"),
-              style = "background: white",
+              style = "background: white; height: 1800px;",
             ),
             shiny::br()
           )
