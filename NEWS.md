@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.7 _2022-12-01_
+
+- Fix: Remove ::: from unit tests
+
 # tfpbrowser 0.0.6 _2022-11-08_
 
 - Switch to using rds inputs instead of html inputs
