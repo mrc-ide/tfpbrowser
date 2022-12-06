@@ -1,6 +1,7 @@
 # tfpbrowser 0.0.8 _2022-12-05_
 
 - Add bigger data set
+- Fix: ggiraph treeview was not correctly resizing
 
 # tfpbrowser 0.0.7 _2022-12-01_
 
