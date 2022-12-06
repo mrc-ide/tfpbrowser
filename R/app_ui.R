@@ -63,10 +63,7 @@ app_ui = function(request) {
             # choose type of treeviw
             shiny::radioButtons(inputId = "widgetChoice",
                                 label = "Select treeview",
-                                choices = c(
-                                  "Logistic growth rate",
-                                  "Simple logistic growth rate",
-                                  "Simple trait log odds"),
+                                choices = available_treeview(),
                                 inline = TRUE),
 
             # show treeview widget

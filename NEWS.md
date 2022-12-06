@@ -2,6 +2,7 @@
 
 - Add bigger data set
 - Fix: ggiraph treeview was not correctly resizing
+- Fix: Make radio button choices depend on files available
 
 # tfpbrowser 0.0.7 _2022-12-01_
 
