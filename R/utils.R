@@ -1,13 +1,19 @@
+#' function to return treeview options
+available_treeview = function() {
+  all_trees = list.files(system.file("app", "www", "data", "treeview",
+                                     package = "tfpbrowser"), pattern = "\\.rds$")
+  names(all_trees) = all_trees %>%
+    stringr::str_replace_all("_|-|\\.rds", " ") %>%
+    stringr::str_trim() %>%
+    stringr::str_to_title()
+  return(all_trees)
+  }
+
 #' function to return folder name
-#' @param type Character string detailing type of widget to show
+#' @param type Choice of treeview widget to show
 get_filename = function(type) {
-  filename = switch(type,
-                    "Logistic growth rate" = "tree-logistic_growth_rate.rds", # nolint
-                    "Simple logistic growth rate" = "tree-simple_logistic_growth_rate.rds", # nolint
-                    "Simple trait log odds" = "tree-sim_trait_logodds.rds" # nolint
-  )
   filename = system.file("app", "www", "data", "treeview",
-                         filename,
+                         type,
                          package = "tfpbrowser",
                          mustWork = TRUE)
   return(filename)
