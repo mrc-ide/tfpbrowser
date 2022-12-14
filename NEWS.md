@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.8 _2022-12-14_
+
+- Add function to create empty treeview
+
 # tfpbrowser 0.0.7 _2022-12-01_
 
 - Fix: Remove ::: from unit tests
