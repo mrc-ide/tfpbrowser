@@ -4,7 +4,8 @@ get_filename = function(type) {
   filename = switch(type,
                     "Logistic growth rate" = "tree-logistic_growth_rate.rds", # nolint
                     "Simple logistic growth rate" = "tree-simple_logistic_growth_rate.rds", # nolint
-                    "Simple trait log odds" = "tree-sim_trait_logodds.rds" # nolint
+                    "Simple trait log odds" = "tree-sim_trait_logodds.rds", # nolint
+                    "Mutations" = "tree-mutations.rds"
   )
   filename = system.file("app", "www", "data", "treeview",
                          filename,

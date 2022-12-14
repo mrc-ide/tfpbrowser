@@ -65,7 +65,8 @@ app_ui = function(request) {
                                 choices = c(
                                   "Logistic growth rate",
                                   "Simple logistic growth rate",
-                                  "Simple trait log odds"),
+                                  "Simple trait log odds",
+                                  "Mutations"),
                                 inline = TRUE),
 
             # show treeview widget
