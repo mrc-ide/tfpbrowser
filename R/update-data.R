@@ -8,7 +8,6 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds") {
                          mustWork = TRUE)
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
-  n_layers = length(built$data)
   plot_data = built$data[3][[1]]
 
   # get tooltips here as well to add back in
@@ -18,10 +17,10 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds") {
     ggnewscale::new_scale("size") +
     ggnewscale::new_scale("shape") +
     ggplot2::geom_point(data = plot_data, # make this interactive?
-                        mapping = ggplot2::aes(x = x,
-                                               y = y,
-                                               size = size,
-                                               shape = shape),
+                        mapping = ggplot2::aes(x = .data$x,
+                                               y = .data$y,
+                                               size = .data$size,
+                                               shape = .data$shape),
                         colour = "grey") +
     ggplot2::scale_size_identity(guide = "none") +
     ggplot2::scale_shape_identity(guide = "none")
