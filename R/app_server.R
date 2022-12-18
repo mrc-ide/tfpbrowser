@@ -52,12 +52,14 @@ app_server = function(input, output, session) {
   selected_cluster_id = shiny::reactive({
     get_selected_cluster_id(widgetChoice = input$widgetChoice,
                             treeviewSelected = input$treeview_selected)
-  })
+  }) %>%
+    shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
   # output result of click
   output$select_text = shiny::renderText({
     paste("You have selected cluster ID:", selected_cluster_id())
-  })
+  }) %>%
+    shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
   # Tables Tab --------------------------------------------------------------
   tablesServer(
