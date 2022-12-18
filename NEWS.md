@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.9 _2022-12-18_
+
+- Add sina plots to app
+
 # tfpbrowser 0.0.8 _2022-12-05_
 
 - Add bigger data set
