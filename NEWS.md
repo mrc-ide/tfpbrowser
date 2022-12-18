@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.10 _2022-12-18_
+
+- Fix: speed of app
+
 # tfpbrowser 0.0.9 _2022-12-18_
 
 - Add new tooltips with reduced info
