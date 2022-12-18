@@ -136,7 +136,7 @@ get_selected_cluster_id = function(widgetChoice,
   n_layers = length(built$data)
   ids = built$data[n_layers][[1]]["data_id"]
   tooltips = built$data[n_layers][[1]]$tooltip
-  tooltip_ids = readr::parse_number(tooltips)
+  tooltip_ids = suppressWarnings(readr::parse_number(tooltips))
   ids$cluster_ids = tooltip_ids
   selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
   return(selected_cluster)
