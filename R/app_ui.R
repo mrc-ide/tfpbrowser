@@ -7,6 +7,7 @@ app_ui = function(request) {
 
     shinyjs::useShinyjs(),
     shinybrowser::detect(),
+    waiter::autoWaiter(id = "treeview", color = "#EBEEEE"),
 
     shiny::navbarPage(
       # title

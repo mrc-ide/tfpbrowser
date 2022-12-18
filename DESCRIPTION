@@ -25,7 +25,8 @@ Imports:
     shinybrowser,
     shinyjs,
     stringr,
-    tibble
+    tibble,
+    waiter
 Suggests:
     shinytest2,
     testthat,
