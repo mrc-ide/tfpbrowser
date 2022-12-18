@@ -60,7 +60,7 @@ get_all_files = function(cluster_choice) {
 #' function to tidy up table output
 #' @param table_to_display Data frame or tibble containing messy outputs
 reformat_table = function(table_to_display) {
-  if (all(unlist(table_to_display[,1]) == seq_len(nrow(table_to_display)))) {
+  if (all(table_to_display[[1]] == seq_len(nrow(table_to_display)))) {
     table_to_display = table_to_display[, -1]
   }
   output = janitor::clean_names(table_to_display, case = "title")
