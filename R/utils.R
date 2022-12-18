@@ -60,29 +60,10 @@ get_all_files = function(cluster_choice) {
 #' function to tidy up table output
 #' @param table_to_display Data frame or tibble containing messy outputs
 reformat_table = function(table_to_display) {
-  if (nrow(table_to_display) == 1) {
-    output = table_to_display[, -1]$x
-    if (!is.na(output)) {
-      output = output %>%
-        stringr::str_split(pattern = "\n") %>%
-        unlist() %>%
-        stringr::str_trim() %>%
-        tibble::as_tibble() %>%
-        tidyr::separate(.data$value,
-                        into = c("x", "y"),
-                        sep = "  ",
-                        extra = "merge") %>%
-        dplyr::mutate(x = stringr::str_trim(.data$x),
-                      y = stringr::str_trim(.data$y)) %>%
-        `colnames<-`(.[1, ]) %>% # nolint
-        dplyr::slice(-1)
-    } else {
-      output = tibble::tibble(x = "Nothing to display")
-    }
-  } else {
-    output = janitor::clean_names(table_to_display,
-                                  case = "title")
+  if (all(table_to_display[[1]] == seq_len(nrow(table_to_display)))) {
+    table_to_display = table_to_display[, -1]
   }
+  output = janitor::clean_names(table_to_display, case = "title")
   return(output)
 }
 
