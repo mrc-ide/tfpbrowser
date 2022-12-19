@@ -1,3 +1,10 @@
+# tfpbrowser 0.0.8 _2022-12-05_
+
+- Add bigger data set
+- Fix: ggiraph treeview was not correctly resizing
+- Fix: Make radio button choices depend on files available
+- Fix: Formatting of tables in dropdown
+
 # tfpbrowser 0.0.7 _2022-12-01_
 
 - Fix: Remove ::: from unit tests

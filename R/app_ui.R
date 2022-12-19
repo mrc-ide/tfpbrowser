@@ -6,6 +6,7 @@ app_ui = function(request) {
   shiny::tagList(
 
     shinyjs::useShinyjs(),
+    shinybrowser::detect(),
 
     shiny::navbarPage(
       # title
@@ -62,16 +63,13 @@ app_ui = function(request) {
             # choose type of treeviw
             shiny::radioButtons(inputId = "widgetChoice",
                                 label = "Select treeview",
-                                choices = c(
-                                  "Logistic growth rate",
-                                  "Simple logistic growth rate",
-                                  "Simple trait log odds"),
+                                choices = available_treeview(),
                                 inline = TRUE),
 
             # show treeview widget
             shiny::wellPanel(
               ggiraph::girafeOutput("treeview"),
-              style = "background: white",
+              style = "background: white; height: 1800px;",
             ),
             shiny::br()
           )

@@ -7,7 +7,7 @@
 get_filename(type)
 }
 \arguments{
-\item{type}{Character string detailing type of widget to show}
+\item{type}{Choice of treeview widget to show}
 }
 \description{
 function to return folder name
