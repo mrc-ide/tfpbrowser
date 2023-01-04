@@ -3,21 +3,6 @@
 #' @noRd
 app_server = function(input, output, session) {
 
-  # Load mutation selectize options on server-side
-  # (quicker loading on slower browsers)
-  # This is because there is a lot of options
-  # client-side processing is slow
-  shiny::updateSelectizeInput(session,
-                       "mutations",
-                       choices = get_unique_mutations(
-                         system.file("app", "www", "data",
-                                     "sarscov2-audacity-westerncape2021.csv",
-                                     package = "tfpbrowser",
-                                     mustWork = TRUE)),
-                       server = TRUE)
-
-
-
   # Load treeview -----------------------------------------------------------
 
   # create plotly output from saved ggplot2 outputs
