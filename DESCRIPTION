@@ -12,7 +12,6 @@ Imports:
     bslib,
     dplyr,
     fs,
-    ggnewscale,
     ggplot2,
     ggiraph,
     glue,
