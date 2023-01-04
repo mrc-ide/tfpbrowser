@@ -7,7 +7,19 @@ available_treeview = function() {
     stringr::str_trim() %>%
     stringr::str_to_title()
   return(all_trees)
-  }
+}
+
+#' function to return mutation options
+available_mutations = function() {
+  all_muts = readr::read_csv(system.file("app", "www", "data",
+                                         "mutations", "defining_mutations.csv",
+                              package = "tfpbrowser"),
+                             col_types = readr::cols())
+  all_muts = all_muts %>%
+    dplyr::pull(.data$mutation) %>%
+    unique()
+  return(all_muts)
+}
 
 #' function to return folder name
 #' @param type Choice of treeview widget to show

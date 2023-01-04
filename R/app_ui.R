@@ -66,6 +66,11 @@ app_ui = function(request) {
                                 choices = available_treeview(),
                                 inline = TRUE),
 
+            # choose type of mutation
+            shiny::selectizeInput(inputId = "mutationChoice",
+                                  label = "Select mutation",
+                                  choices = available_mutations()),
+
             # show treeview widget
             shiny::wellPanel(
               ggiraph::girafeOutput("treeview"),
