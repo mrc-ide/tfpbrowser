@@ -126,17 +126,6 @@ downloader_tab_panel = function(title,
 }
 
 #' function to get node id from data_id column of ggplot
-#' @param tooltip_input Character vector of tooltip content
-#' @export
-get_cluster_ID = function(tooltip_input) {
-  # start searching the string after the "Cluster.ID" text
-  # until the next new line
-  match_matrix = stringr::str_match(tooltip_input, pattern = r"(Cluster.ID\s+#(\d+))")
-  cluster_ids = as.numeric(match_matrix[, 2])
-  return(cluster_ids)
-}
-
-#' function to get node id from data_id column of ggplot
 #' @param widgetChoice From click of radio button to select widget to display
 #' @param treeviewSelected Output from clicking on treeview plot
 get_selected_cluster_id = function(widgetChoice,
@@ -146,7 +135,8 @@ get_selected_cluster_id = function(widgetChoice,
   built = suppressWarnings(ggplot2::ggplot_build(g))
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
-  if (widgetChoice %in% c("sina-logistic_growth_rate.rds", "sina-simple_logistic_growth_rate.rds")) {
+  if (widgetChoice %in% c("sina-logistic_growth_rate.rds",
+                          "sina-simple_logistic_growth_rate.rds")) {
     ids = built$data[1][[1]]["data_id"]
     tooltips = built$data[1][[1]]$tooltip
   } else {
@@ -154,7 +144,7 @@ get_selected_cluster_id = function(widgetChoice,
     ids = built$data[n_layers][[1]]["data_id"]
     tooltips = built$data[n_layers][[1]]$tooltip
   }
-  tooltip_ids = get_cluster_ID(tooltips)
+  tooltip_ids = suppressWarnings(readr::parse_number(tooltips))
   ids$cluster_ids = tooltip_ids
   selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
   return(selected_cluster)
