@@ -48,6 +48,13 @@ app_server = function(input, output, session) {
                     ))
   })
 
+  # disable dropdown unless mutation treeview
+  shiny::observe({
+    shiny::req(input$widgetChoice)
+    shinyjs::toggleState(id = "mutationChoice",
+                         condition = input$widgetChoice == "tree-mutations.rds")
+  })
+
   # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
     get_selected_cluster_id(widgetChoice = input$widgetChoice,
