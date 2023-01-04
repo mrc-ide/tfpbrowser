@@ -13,7 +13,7 @@ Imports:
     dplyr,
     fs,
     ggplot2,
-    ggiraph,
+    ggiraph (>= 0.8.4),
     glue,
     htmltools,
     janitor,
