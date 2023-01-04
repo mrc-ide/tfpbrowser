@@ -1,4 +1,4 @@
-# tfpbrowser 0.0.9 _2022-12-18_
+# tfpbrowser 0.0.10 _2022-12-18_
 
 - Add search by mutation functionality
 - Allow colour by mutation

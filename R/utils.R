@@ -22,6 +22,7 @@ available_mutations = function() {
 }
 
 #' Which nodes have a given mutation
+#' @param chosen_mutation String for the user selected mutation
 selected_mut_nodes = function(chosen_mutation) {
   all_muts = readr::read_csv(system.file("app", "www", "data",
                                          "mutations", "defining_mutations.csv",
@@ -29,7 +30,7 @@ selected_mut_nodes = function(chosen_mutation) {
                              col_types = readr::cols())
   selected_nodes = all_muts %>%
     dplyr::filter(.data$mutation == chosen_mutation) %>%
-    dplyr::pull(cluster_id)
+    dplyr::pull(.data$cluster_id)
   return(selected_nodes)
 }
 

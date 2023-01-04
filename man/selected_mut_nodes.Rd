@@ -6,6 +6,9 @@
 \usage{
 selected_mut_nodes(chosen_mutation)
 }
+\arguments{
+\item{chosen_mutation}{String for the user selected mutation}
+}
 \description{
 Which nodes have a given mutation
 }
