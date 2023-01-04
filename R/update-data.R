@@ -8,6 +8,7 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds") {
                          mustWork = TRUE)
   g = readRDS(filename)
   new_g = g +
+    ggplot2::scale_colour_gradient(low = "grey", high = "grey") +
     ggplot2::guides(colour = "none",
                     fill = "none",
                     shape = "none") +
