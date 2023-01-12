@@ -22,7 +22,8 @@ tablesServer = function(id, cluster_choice) {
     # all available tables
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
     # drop down for tables
     output$choose_table = shiny::renderUI({
@@ -31,7 +32,8 @@ tablesServer = function(id, cluster_choice) {
       shiny::selectInput(ns("table_type"),
                          label = "Select table type:",
                          choices = all_tables)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
     # get table file path
     table_file = shiny::reactive({
@@ -40,7 +42,8 @@ tablesServer = function(id, cluster_choice) {
                                cluster_choice(), input$table_type,
                                package = "tfpbrowser")
       return(table_file)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice(), input$table_type)
 
     # check if table available
     table_avail = shiny::reactive({

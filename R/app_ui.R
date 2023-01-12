@@ -60,10 +60,10 @@ app_ui = function(request) {
 
           shiny::column(12,
 
-                        # choose type of treeviw
+                        # choose type of treeview
                         shiny::radioButtons(inputId = "widgetChoice",
                                             label = "Select treeview",
-                                            choices = available_treeview(),
+                                            choices = c(c("None" = ""), available_treeview()),
                                             inline = TRUE),
 
                         # choose type of mutation

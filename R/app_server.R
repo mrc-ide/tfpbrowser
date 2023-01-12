@@ -4,7 +4,6 @@
 app_server = function(input, output, session) {
 
   # Load treeview -----------------------------------------------------------
-
   imported_ggtree = shiny::reactive({
     filename = get_filename(input$widgetChoice)
     readRDS(filename)
@@ -44,7 +43,8 @@ app_server = function(input, output, session) {
         options = girafe_options
       )
     )
-  })
+  }) %>%
+    shiny::bindCache(input$widgetChoice)
 
   # disable dropdown unless mutation treeview
   shiny::observe({
@@ -75,14 +75,18 @@ app_server = function(input, output, session) {
 
   # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
+    shiny::req(input$widgetChoice)
+    shiny::req(input$treeview_selected)
     get_selected_cluster_id(widgetChoice = input$widgetChoice,
                             treeviewSelected = input$treeview_selected)
-  })
+  }) %>%
+    shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
   # output result of click
   output$select_text = shiny::renderText({
     paste("You have selected cluster ID:", selected_cluster_id())
-  })
+  }) %>%
+    shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
   # Tables Tab --------------------------------------------------------------
   tablesServer(
