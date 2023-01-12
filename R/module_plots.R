@@ -24,7 +24,8 @@ plotsServer = function(id, cluster_choice) {
     # all available plots
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
     # drop down for plots
     output$choose_plot = shiny::renderUI({
@@ -33,7 +34,8 @@ plotsServer = function(id, cluster_choice) {
       shiny::selectInput(ns("plot_type"),
                          label = "Select plot type:",
                          choices = all_images)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
     # get plot file
     plot_file = shiny::reactive({
@@ -42,7 +44,8 @@ plotsServer = function(id, cluster_choice) {
                               cluster_choice(), input$plot_type,
                               package = "tfpbrowser")
       return(plot_file)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice(), input$plot_type)
 
     # check if plots available
     plot_avail = shiny::reactive({
