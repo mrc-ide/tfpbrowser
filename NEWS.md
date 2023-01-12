@@ -11,7 +11,6 @@
 # tfpbrowser 0.0.10 _2022-12-18_
 
 - Fix: speed of app
->>>>>>> search-mutation
 
 # tfpbrowser 0.0.9 _2022-12-18_
 
