@@ -22,9 +22,8 @@ app_server = function(input, output, session) {
     )
     # set options
     girafe_options = list(
-      ggiraph::opts_selection(type = "single"),
+      ggiraph::opts_selection(type = "single", css = "fill:red;"),
       ggiraph::opts_selection_inv(css = "fill:grey;"),
-      ggiraph::opts_selection(css = "fill:red;"),
       ggiraph::opts_sizing(rescale = FALSE),
       ggiraph::opts_zoom(max = 5),
       ggiraph::opts_tooltip(
