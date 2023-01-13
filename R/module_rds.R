@@ -22,25 +22,28 @@ rdsServer = function(id, cluster_choice) {
     # all available rds
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
-    # drop down for plots
+    # drop down for rds
     output$choose_rds = shiny::renderUI({
       all_rds = filter_by_filetype(filenames = all_files(),
                                    filetypes = c("rds", "RDS"))
       shiny::selectInput(ns("rds_type"),
                          label = "Select RDS file:",
                          choices = all_rds)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
-    # get plot file
+    # get rds file
     rds_file = shiny::reactive({
       shiny::req(cluster_choice())
       rds_file = system.file("app", "www", "data", "scanner_output",
                               cluster_choice(), input$rds_type,
                               package = "tfpbrowser")
       return(rds_file)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice(), input$rds_type)
 
     # check if plots available
     rds_avail = shiny::reactive({
