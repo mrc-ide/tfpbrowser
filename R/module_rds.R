@@ -6,7 +6,7 @@ rdsUI = function(id) {
   ns = shiny::NS(id)
   # RDS files tab panel
   downloader_tab_panel(title = "RDS Files",
-                       chooser_id = ns("choose_rds"),
+                       chooser_id = ns("rds_type"),
                        download_button_id = ns("download_rds_button"),
                        panel = display_panel(shiny::uiOutput(ns("display_rds"))))
 }
@@ -26,14 +26,14 @@ rdsServer = function(id, cluster_choice) {
       shiny::bindCache(cluster_choice())
 
     # drop down for rds
-    output$choose_rds = shiny::renderUI({
+    shiny::observeEvent(all_files(), {
       all_rds = filter_by_filetype(filenames = all_files(),
                                    filetypes = c("rds", "RDS"))
-      shiny::selectInput(ns("rds_type"),
-                         label = "Select RDS file:",
-                         choices = all_rds)
-    }) %>%
-      shiny::bindCache(cluster_choice())
+      shiny::updateSelectInput(session,
+                               "rds_type",
+                               label = "Select RDS file:",
+                               choices = all_rds)
+    })
 
     # get rds file
     rds_file = shiny::reactive({

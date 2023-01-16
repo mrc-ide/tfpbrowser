@@ -7,7 +7,7 @@ tablesUI = function(id) {
   ns = shiny::NS(id)
   # Tables tab panel
   downloader_tab_panel(title = "Tables",
-                       chooser_id = ns("choose_table"),
+                       chooser_id = ns("table_type"),
                        download_button_id = ns("download_table_button"),
                        panel = display_panel(reactable::reactableOutput(ns("display_table"))))
 }
@@ -19,6 +19,7 @@ tablesUI = function(id) {
 tablesServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns
+
     # all available tables
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
@@ -26,14 +27,14 @@ tablesServer = function(id, cluster_choice) {
       shiny::bindCache(cluster_choice())
 
     # drop down for tables
-    output$choose_table = shiny::renderUI({
+    shiny::observeEvent(all_files(), {
       all_tables = filter_by_filetype(filenames = all_files(),
                                       filetypes = c("csv", "CSV"))
-      shiny::selectInput(ns("table_type"),
-                         label = "Select table type:",
-                         choices = all_tables)
-    }) %>%
-      shiny::bindCache(cluster_choice())
+      shiny::updateSelectInput(session,
+                               "table_type",
+                               label = "Select table type:",
+                               choices = all_tables)
+    })
 
     # get table file path
     table_file = shiny::reactive({

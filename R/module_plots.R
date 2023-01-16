@@ -7,7 +7,7 @@ plotsUI = function(id) {
   ns = shiny::NS(id)
   # Plots tab panel
   downloader_tab_panel(title = "Plots",
-                       chooser_id = ns("choose_plot"),
+                       chooser_id = ns("plot_type"),
                        download_button_id = ns("download_plot_button"),
                        panel = display_panel(shiny::uiOutput(ns("display_plot"))))
 
@@ -28,14 +28,14 @@ plotsServer = function(id, cluster_choice) {
       shiny::bindCache(cluster_choice())
 
     # drop down for plots
-    output$choose_plot = shiny::renderUI({
+    shiny::observeEvent(all_files(), {
       all_images = filter_by_filetype(filenames = all_files(),
-                         filetypes = c("png", "PNG"))
-      shiny::selectInput(ns("plot_type"),
-                         label = "Select plot type:",
-                         choices = all_images)
-    }) %>%
-      shiny::bindCache(cluster_choice())
+                                      filetypes = c("png", "PNG"))
+      shiny::updateSelectInput(session,
+                               "plot_type",
+                               label = "Select plot type:",
+                               choices = all_images)
+    })
 
     # get plot file
     plot_file = shiny::reactive({
