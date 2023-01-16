@@ -12,6 +12,7 @@ app_server = function(input, output, session) {
 
   # create ggiraph output from saved ggplot2 outputs
   output$treeview = ggiraph::renderGirafe({
+    shiny::req(input$widgetChoice)
     # define tooltip
     tooltip_css = paste0(
       "background-color:black;",
@@ -21,17 +22,28 @@ app_server = function(input, output, session) {
       "font-family:\"Courier New\",monospace;"
     )
     # set options
-    girafe_options = list(
-      ggiraph::opts_selection(type = "single"),
-      ggiraph::opts_selection_inv(css = "fill:grey;"),
-      ggiraph::opts_selection(css = "fill:red;"),
-      ggiraph::opts_sizing(rescale = FALSE),
-      ggiraph::opts_zoom(max = 5),
-      ggiraph::opts_tooltip(
-        css = tooltip_css,
-        use_fill = FALSE
+    if (input$widgetChoice == "tree-mutations.rds") {
+      girafe_options = list(
+        ggiraph::opts_selection(type = "single", css = "fill:red;"),
+        ggiraph::opts_selection_inv(css = "fill:grey;"),
+        ggiraph::opts_sizing(rescale = FALSE),
+        ggiraph::opts_zoom(max = 5),
+        ggiraph::opts_tooltip(
+          css = tooltip_css,
+          use_fill = FALSE
+        )
       )
-    )
+    } else {
+      girafe_options = list(
+        ggiraph::opts_selection(type = "single"),
+        ggiraph::opts_sizing(rescale = FALSE),
+        ggiraph::opts_zoom(max = 5),
+        ggiraph::opts_tooltip(
+          css = tooltip_css,
+          use_fill = FALSE
+        )
+      )
+    }
     # set size
     w = shinybrowser::get_width() / 72
     h = (1800 - 40) / 72
