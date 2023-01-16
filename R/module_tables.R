@@ -20,6 +20,11 @@ tablesServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns
 
+    # disable dropdown initially
+    shiny::observe({
+      shinyjs::disable("table_type")
+    })
+
     # all available tables
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
@@ -30,6 +35,9 @@ tablesServer = function(id, cluster_choice) {
     shiny::observeEvent(all_files(), {
       all_tables = filter_by_filetype(filenames = all_files(),
                                       filetypes = c("csv", "CSV"))
+      if (length(all_tables) != 0) {
+        shinyjs::enable("table_type")
+      }
       shiny::updateSelectInput(session,
                                "table_type",
                                label = "Select table type:",
@@ -73,12 +81,12 @@ tablesServer = function(id, cluster_choice) {
     })
 
     # disable download button if no tables available
-    shiny::observe({
-      if (table_avail() == TRUE) {
-        shinyjs::enable("download_table")
-      } else {
-        shinyjs::disable("download_table")
-      }
+    shiny::observeEvent(table_avail(), {
+      shinyjs::toggleState("download_table", condition = table_avail())
+    })
+
+    shiny::observeEvent(input$table_type, {
+      shinyjs::toggleState("download_table", condition = input$table_type != "")
     })
 
     # download table
@@ -90,10 +98,6 @@ tablesServer = function(id, cluster_choice) {
         file.copy(table_file(), file)
       }
     )
-
-    shiny::observeEvent(input$table_type, {
-      shinyjs::toggleState("table_type", condition = input$table_type != "")
-    })
 
   })
 }

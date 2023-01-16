@@ -21,6 +21,11 @@ plotsServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns
 
+    # disable dropdown initially
+    shiny::observe({
+      shinyjs::disable("plot_type")
+    })
+
     # all available plots
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
@@ -31,6 +36,9 @@ plotsServer = function(id, cluster_choice) {
     shiny::observeEvent(all_files(), {
       all_images = filter_by_filetype(filenames = all_files(),
                                       filetypes = c("png", "PNG"))
+      if (length(all_images) != 0) {
+        shinyjs::enable("plot_type")
+      }
       shiny::updateSelectInput(session,
                                "plot_type",
                                label = "Select plot type:",
@@ -69,12 +77,12 @@ plotsServer = function(id, cluster_choice) {
     })
 
     # disable download button if no plots available
-    shiny::observe({
-      if (plot_avail() == TRUE) {
-        shinyjs::enable("download_plot")
-      } else {
-        shinyjs::disable("download_plot")
-      }
+    shiny::observeEvent(plot_avail(), {
+      shinyjs::toggleState("download_plot", condition = plot_avail())
+    })
+
+    shiny::observeEvent(input$plot_type, {
+      shinyjs::toggleState("download_plot", condition = input$plot_type != "")
     })
 
     # download plot
@@ -86,10 +94,6 @@ plotsServer = function(id, cluster_choice) {
         file.copy(plot_file(), file)
       }
     )
-
-    shiny::observeEvent(input$plot_type, {
-      shinyjs::toggleState("plot_type", condition = input$plot_type != "")
-    })
 
   })
 
