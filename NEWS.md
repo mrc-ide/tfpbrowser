@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.13 _2023-01-16_
+
+- Remove renderUI and replace with update function
+
 # tfpbrowser 0.0.12 _2023-01-12_
 
 - Add sina plots to app
