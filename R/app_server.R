@@ -13,6 +13,14 @@ app_server = function(input, output, session) {
   # create ggiraph output from saved ggplot2 outputs
   output$treeview = ggiraph::renderGirafe({
     shiny::req(input$widgetChoice)
+    # define tooltip
+    tooltip_css = paste0(
+      "background-color:black;",
+      "color:grey;",
+      "padding:14px;",
+      "border-radius:8px;",
+      "font-family:\"Courier New\",monospace;"
+    )
     # set options
     if (input$widgetChoice == "tree-mutations.rds") {
       girafe_options = list(
@@ -36,14 +44,6 @@ app_server = function(input, output, session) {
         )
       )
     }
-    # define tooltip
-    tooltip_css = paste0(
-      "background-color:black;",
-      "color:grey;",
-      "padding:14px;",
-      "border-radius:8px;",
-      "font-family:\"Courier New\",monospace;"
-    )
     # set size
     w = shinybrowser::get_width() / 72
     h = (1800 - 40) / 72
