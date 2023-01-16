@@ -7,7 +7,7 @@ rdsUI = function(id) {
   # RDS files tab panel
   downloader_tab_panel(title = "RDS Files",
                        chooser_id = ns("rds_type"),
-                       download_button_id = ns("download_rds_button"),
+                       download_button_id = ns("download_rds"),
                        panel = display_panel(shiny::uiOutput(ns("display_rds"))))
 }
 
@@ -67,16 +67,10 @@ rdsServer = function(id, cluster_choice) {
     # disable download button if no rds files available
     shiny::observe({
       if (rds_avail() == TRUE) {
-        shinyjs::enable("download_rds_button")
+        shinyjs::enable("download_rds")
       } else {
-        shinyjs::disable("download_rds_button")
+        shinyjs::disable("download_rds")
       }
-    })
-
-    # download rds button
-    output$download_rds_button = shiny::renderUI({
-      shiny::downloadButton(ns("download_rds"),
-                            label = "Download")
     })
 
     # download plot

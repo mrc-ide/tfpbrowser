@@ -8,7 +8,7 @@ tablesUI = function(id) {
   # Tables tab panel
   downloader_tab_panel(title = "Tables",
                        chooser_id = ns("table_type"),
-                       download_button_id = ns("download_table_button"),
+                       download_button_id = ns("download_table"),
                        panel = display_panel(reactable::reactableOutput(ns("display_table"))))
 }
 
@@ -75,16 +75,10 @@ tablesServer = function(id, cluster_choice) {
     # disable download button if no tables available
     shiny::observe({
       if (table_avail() == TRUE) {
-        shinyjs::enable("download_table_button")
+        shinyjs::enable("download_table")
       } else {
-        shinyjs::disable("download_table_button")
+        shinyjs::disable("download_table")
       }
-    })
-
-    # download table button
-    output$download_table_button = shiny::renderUI({
-      shiny::downloadButton(ns("download_table"),
-                            label = "Download")
     })
 
     # download table

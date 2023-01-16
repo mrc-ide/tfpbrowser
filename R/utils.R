@@ -144,7 +144,8 @@ downloader_tab_panel = function(title,
                                        label = "Select type:",
                                        choices = NULL),
                     shiny::br(),
-                    shiny::uiOutput(download_button_id)
+                    shiny::downloadButton(download_button_id,
+                                          label = "Download")
       ),
       # display data
       shiny::column(9, align = "center", panel)

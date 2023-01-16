@@ -8,7 +8,7 @@ plotsUI = function(id) {
   # Plots tab panel
   downloader_tab_panel(title = "Plots",
                        chooser_id = ns("plot_type"),
-                       download_button_id = ns("download_plot_button"),
+                       download_button_id = ns("download_plot"),
                        panel = display_panel(shiny::uiOutput(ns("display_plot"))))
 
 }
@@ -71,16 +71,10 @@ plotsServer = function(id, cluster_choice) {
     # disable download button if no plots available
     shiny::observe({
       if (plot_avail() == TRUE) {
-        shinyjs::enable("download_plot_button")
+        shinyjs::enable("download_plot")
       } else {
-        shinyjs::disable("download_plot_button")
+        shinyjs::disable("download_plot")
       }
-    })
-
-    # download plot button
-    output$download_plot_button = shiny::renderUI({
-      shiny::downloadButton(ns("download_plot"),
-                            label = "Download")
     })
 
     # download plot
