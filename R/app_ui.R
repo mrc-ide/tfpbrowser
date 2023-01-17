@@ -71,6 +71,9 @@ app_ui = function(request) {
                                               label = "Select mutation",
                                               choices = available_mutations()),
 
+                        # markdown files to add description
+                        shiny::uiOutput("tree_md_files"),
+
                         # show treeview widget
                         shiny::wellPanel(
                           ggiraph::girafeOutput("treeview"),
