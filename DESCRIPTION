@@ -1,6 +1,6 @@
 Package: tfpbrowser
 Title: Builds Shiny application for 'tfpscanner' outputs
-Version: 0.0.10
+Version: 0.0.11
 Authors@R: 
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: An R package to contain the code for the Shiny app to explore the 
@@ -13,7 +13,7 @@ Imports:
     dplyr,
     fs,
     ggplot2,
-    ggiraph,
+    ggiraph (>= 0.8.4),
     glue,
     htmltools,
     janitor,

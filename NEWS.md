@@ -1,3 +1,9 @@
+# tfpbrowser 0.0.11 _2023-01-12_
+
+- Feat: Add search by mutation functionality
+- Feat: Allow colour by mutation
+- Set {ggiraph} minimum version 0.8.4
+
 # tfpbrowser 0.0.10 _2022-12-18_
 
 - Fix: speed of app
