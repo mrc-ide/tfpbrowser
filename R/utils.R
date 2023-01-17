@@ -180,8 +180,6 @@ get_selected_cluster_id = function(widgetChoice,
                           "sina-simple_logistic_growth_rate.rds")) {
     ids = built$data[1][[1]]["data_id"]
     tooltips = built$data[1][[1]]$tooltip
-    ###### MOVE THIS AFTER TRIMMED TOOLTIPS PR IS MERGED
-    ###### SINA PLOTS CURRENTLY STILL USE LONGER TOOLTIPS
     tooltip_ids = get_cluster_ID(tooltips)
   } else {
     n_layers = length(built$data)
