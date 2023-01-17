@@ -34,7 +34,6 @@ rdsServer = function(id, cluster_choice) {
     shiny::observeEvent(all_files(), {
       all_rds = filter_by_filetype(filenames = all_files(),
                                    filetypes = c("rds", "RDS"))
-      print(length(all_rds))
       if (length(all_rds) != 0) {
         shinyjs::enable("rds_type")
       }

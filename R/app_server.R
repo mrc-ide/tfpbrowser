@@ -24,7 +24,7 @@ app_server = function(input, output, session) {
     # set options
     if (input$widgetChoice == "tree-mutations.rds") {
       girafe_options = list(
-        ggiraph::opts_selection(type = "single", css = "fill:red;"),
+        ggiraph::opts_selection(css = "fill:red;"),
         ggiraph::opts_selection_inv(css = "fill:grey;"),
         ggiraph::opts_sizing(rescale = FALSE),
         ggiraph::opts_zoom(max = 5),
@@ -91,7 +91,7 @@ app_server = function(input, output, session) {
     shiny::req(input$widgetChoice)
     shiny::req(input$treeview_selected)
     get_selected_cluster_id(widgetChoice = input$widgetChoice,
-                            treeviewSelected = input$treeview_selected)
+                            treeviewSelected = tail(input$treeview_selected, 1))
   }) %>%
     shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
