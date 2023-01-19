@@ -174,8 +174,6 @@ get_selected_cluster_id = function(widgetChoice,
   filename = get_filename(widgetChoice)
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
-  g = readRDS(filename)
-  built = suppressWarnings(ggplot2::ggplot_build(g))
   if (widgetChoice %in% c("sina-logistic_growth_rate.rds",
                           "sina-simple_logistic_growth_rate.rds")) {
     ids = built$data[1][[1]]["data_id"]
