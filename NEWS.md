@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.12 _2023-01-12_
+
+- Add sina plots to app
+
 # tfpbrowser 0.0.11 _2023-01-12_
 
 - Feat: Add search by mutation functionality
