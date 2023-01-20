@@ -174,14 +174,10 @@ get_selected_cluster_id = function(widgetChoice,
   filename = get_filename(widgetChoice)
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
-  g = readRDS(filename)
-  built = suppressWarnings(ggplot2::ggplot_build(g))
   if (widgetChoice %in% c("sina-logistic_growth_rate.rds",
                           "sina-simple_logistic_growth_rate.rds")) {
     ids = built$data[1][[1]]["data_id"]
     tooltips = built$data[1][[1]]$tooltip
-    ###### MOVE THIS AFTER TRIMMED TOOLTIPS PR IS MERGED
-    ###### SINA PLOTS CURRENTLY STILL USE LONGER TOOLTIPS
     tooltip_ids = get_cluster_ID(tooltips)
   } else {
     n_layers = length(built$data)
