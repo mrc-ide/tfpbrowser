@@ -29,7 +29,8 @@ Imports:
 Suggests:
     shinytest2,
     testthat,
-    usethis
+    usethis,
+    ggtree
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
