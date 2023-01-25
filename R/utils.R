@@ -2,15 +2,15 @@
 available_treeview = function() {
   all_trees = list.files(system.file("app", "www", "data", "treeview",
                                      package = "tfpbrowser"), pattern = "\\.rds$")
+  all_trees = factor(all_trees,
+                    c(stringr::str_subset(all_trees, "tree"),
+                      stringr::str_subset(all_trees, "sina")))
+  all_trees = as.character(sort(all_trees))
   names(all_trees) = all_trees %>%
     stringr::str_replace_all("_|-|\\.rds", " ") %>%
     stringr::str_trim() %>%
     stringr::str_to_title()
-
-  all_trees = factor(all_trees,
-                    c(stringr::str_subset(all_trees, "tree"),
-                      stringr::str_subset(all_trees, "sina")))
-  return(sort(all_trees))
+  return(all_trees)
 }
 
 #' function to return mutation options
@@ -144,9 +144,13 @@ downloader_tab_panel = function(title,
       # drop down menu to select dataset
       shiny::column(3,
                     align = "center",
-                    shiny::uiOutput(chooser_id),
+                    shiny::selectInput(chooser_id,
+                                       label = "Select type:",
+                                       choices = NULL,
+                                       selected = NULL),
                     shiny::br(),
-                    shiny::uiOutput(download_button_id)
+                    shiny::downloadButton(download_button_id,
+                                          label = "Download")
       ),
       # display data
       shiny::column(9, align = "center", panel)

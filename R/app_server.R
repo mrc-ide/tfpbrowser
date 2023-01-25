@@ -101,6 +101,16 @@ app_server = function(input, output, session) {
   }) %>%
     shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
+  # select markdown file and display
+  output$tree_md_files = shiny::renderUI({
+    shiny::req(input$widgetChoice)
+    fname = stringr::str_replace(input$widgetChoice, ".rds", ".md")
+    shiny::includeMarkdown(system.file("app", "www", "content", "treeview",
+                                       fname,
+                                       package = "tfpbrowser",
+                                       mustWork = TRUE))
+  })
+
   # Tables Tab --------------------------------------------------------------
   tablesServer(
     "table1",
