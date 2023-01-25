@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.15 _2023-01-25_
+
+- Fix: available treeview options need to be characters
+
 # tfpbrowser 0.0.14 _2023-01-24_
 
 - Reorder radio buttons using factors
