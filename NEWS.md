@@ -1,3 +1,11 @@
+# tfpbrowser 0.0.15 _2023-01-25_
+
+- Add logo placeholder
+
+# tfpbrowser 0.0.14 _2023-01-24_
+
+- Reorder radio buttons using factors
+
 # tfpbrowser 0.0.13 _2023-01-24_
 
 - Add ggtree to suggests

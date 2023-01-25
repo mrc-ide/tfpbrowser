@@ -10,7 +10,7 @@ app_ui = function(request) {
 
     shiny::navbarPage(
       # title
-      title = "tfpbrowser",
+      title = place_title_logo(),
 
       header = add_ext_resources(),
       # theme
