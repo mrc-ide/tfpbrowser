@@ -2,15 +2,15 @@
 available_treeview = function() {
   all_trees = list.files(system.file("app", "www", "data", "treeview",
                                      package = "tfpbrowser"), pattern = "\\.rds$")
+  all_trees = factor(all_trees,
+                    c(stringr::str_subset(all_trees, "tree"),
+                      stringr::str_subset(all_trees, "sina")))
+  all_trees = as.character(sort(all_trees))
   names(all_trees) = all_trees %>%
     stringr::str_replace_all("_|-|\\.rds", " ") %>%
     stringr::str_trim() %>%
     stringr::str_to_title()
-
-  all_trees = factor(all_trees,
-                    c(stringr::str_subset(all_trees, "tree"),
-                      stringr::str_subset(all_trees, "sina")))
-  return(sort(all_trees))
+  return(all_trees)
 }
 
 #' function to return mutation options
