@@ -1,6 +1,10 @@
-# tfpbrowser 0.0.15 _2023-01-25_
+# tfpbrowser 0.0.16 _2023-01-25_
 
 - Add logo placeholder
+
+# tfpbrowser 0.0.15 _2023-01-25_
+
+- Fix: available treeview options need to be characters
 
 # tfpbrowser 0.0.14 _2023-01-24_
 
