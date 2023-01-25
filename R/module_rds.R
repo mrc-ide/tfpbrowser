@@ -17,7 +17,7 @@ rdsUI = function(id) {
 #' @noRd
 rdsServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns = session$ns
+    ns = session$ns # nolint
 
     # disable dropdown initially
     shiny::observe({
@@ -36,6 +36,8 @@ rdsServer = function(id, cluster_choice) {
                                    filetypes = c("rds", "RDS"))
       if (length(all_rds) != 0) {
         shinyjs::enable("rds_type")
+      } else {
+        shinyjs::disable("rds_type")
       }
       shiny::updateSelectInput(session,
                                "rds_type",

@@ -18,7 +18,7 @@ tablesUI = function(id) {
 #' @noRd
 tablesServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns = session$ns
+    ns = session$ns # nolint
 
     # disable dropdown initially
     shiny::observe({
@@ -37,6 +37,8 @@ tablesServer = function(id, cluster_choice) {
                                       filetypes = c("csv", "CSV"))
       if (length(all_tables) != 0) {
         shinyjs::enable("table_type")
+      } else {
+        shinyjs::disable("table_type")
       }
       shiny::updateSelectInput(session,
                                "table_type",
