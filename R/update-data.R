@@ -1,21 +1,26 @@
 #' function to create a treeview with all grey nodes to display
 #' @param treeview RDS file containing an existing treeview plot
+#' @param types Character vector of new variables to colour by
 #' @export
-empty_treeview = function(treeview = "tree-logistic_growth_rate.rds") {
+empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
+                          types = c("mutations", "sequences")) {
   filename = system.file("app", "www", "data", "treeview",
                          treeview,
                          package = "tfpbrowser",
                          mustWork = TRUE)
   g = readRDS(filename)
-  new_g = g +
-    ggplot2::scale_colour_gradient(low = "grey", high = "grey") +
-    ggplot2::guides(colour = "none",
-                    fill = "none",
-                    shape = "none") +
-    ggplot2::labs(title = "Colour: mutation")
-  new_filename = file.path("inst", "app", "www", "data", "treeview",
-                           "tree-mutations.rds")
-  saveRDS(new_g, file = new_filename)
+  make_treeview_type = function(type) {
+    new_g = g +
+      ggplot2::scale_colour_gradient(low = "grey", high = "grey") +
+      ggplot2::guides(colour = "none",
+                      fill = "none",
+                      shape = "none") +
+      ggplot2::labs(title = glue::glue("Colour: {type}"))
+    new_filename = file.path("inst", "app", "www", "data", "treeview",
+                             glue::glue("tree-{type}"), ".rds")
+    saveRDS(new_g, file = new_filename)
+  }
+  purrr::walk(.x = types, .f = ~make_treeview_type(.x))
 }
 
 #' function to create lookup for a single treeview
