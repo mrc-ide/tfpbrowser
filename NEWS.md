@@ -51,7 +51,6 @@
 - Fix: ggiraph treeview was not correctly resizing
 - Fix: Make radio button choices depend on files available
 - Fix: Formatting of tables in dropdown
->>>>>>> add-markdown-files
 
 # tfpbrowser 0.0.7 _2022-12-01_
 
