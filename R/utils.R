@@ -6,7 +6,11 @@ available_treeview = function() {
     stringr::str_replace_all("_|-|\\.rds", " ") %>%
     stringr::str_trim() %>%
     stringr::str_to_title()
-  return(all_trees)
+
+  all_trees = factor(all_trees,
+                    c(stringr::str_subset(all_trees, "tree"),
+                      stringr::str_subset(all_trees, "sina")))
+  return(sort(all_trees))
 }
 
 #' function to return mutation options
