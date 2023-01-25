@@ -103,7 +103,7 @@ app_server = function(input, output, session) {
 
   # select markdown file and display
   output$tree_md_files = shiny::renderUI({
-    req(input$widgetChoice)
+    shiny::req(input$widgetChoice)
     fname = stringr::str_replace(input$widgetChoice, ".rds", ".md")
     shiny::includeMarkdown(system.file("app", "www", "content", "treeview",
                                        fname,
