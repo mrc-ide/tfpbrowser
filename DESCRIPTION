@@ -18,6 +18,7 @@ Imports:
     htmltools,
     janitor,
     magrittr,
+    purrr,
     reactable,
     readr,
     rlang,

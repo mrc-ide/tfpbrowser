@@ -1,6 +1,8 @@
 # tfpbrowser 0.0.18 _2023-01-25_
 
 - Add function to create empty treeview
+- Add function to compute lookups for nodes
+- Add `update_data()` function
 
 # tfpbrowser 0.0.17 _2023-01-25_
 
