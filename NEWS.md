@@ -1,6 +1,10 @@
+# tfpbrowser 0.0.14 _2023-01-24_
+
+- Reorder radio buttons using factors
+
 # tfpbrowser 0.0.13 _2023-01-24_
 
-- Add ggtree to suggests
+- Add {ggtree} to suggests
 
 # tfpbrowser 0.0.12 _2023-01-12_
 
