@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.16 _2023-01-25_
+
+- Remove renderUI and replace with update function
+
 # tfpbrowser 0.0.15 _2023-01-25_
 
 - Fix: available treeview options need to be characters

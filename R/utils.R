@@ -144,9 +144,13 @@ downloader_tab_panel = function(title,
       # drop down menu to select dataset
       shiny::column(3,
                     align = "center",
-                    shiny::uiOutput(chooser_id),
+                    shiny::selectInput(chooser_id,
+                                       label = "Select type:",
+                                       choices = NULL,
+                                       selected = NULL),
                     shiny::br(),
-                    shiny::uiOutput(download_button_id)
+                    shiny::downloadButton(download_button_id,
+                                          label = "Download")
       ),
       # display data
       shiny::column(9, align = "center", panel)
