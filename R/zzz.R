@@ -4,7 +4,7 @@
 #'
 #' @description Mounts /www folder in browser so logo image can be found in app
 #'
-.onload = function(...){
+.onload = function(...) {
   shiny::addResourcePath(
     "www",
     system.file("www", package = "tfpbrowser",

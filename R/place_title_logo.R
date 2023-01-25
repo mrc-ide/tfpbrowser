@@ -2,7 +2,7 @@
 #'
 #' @description Function to place the logo to the left of the title
 #'
-place_title_logo = function(){
+place_title_logo = function() {
   title = shiny::h4(
     shiny::img(
       src = "www/logo.png",
