@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{get_cluster_ID}
 \alias{get_cluster_ID}
-\title{function to get node id from data_id column of ggplot}
+\title{function to get node id from data_id column of ggplot
+TO BE REMOVED AFTER TOOLTIPS TFPSCANNER PR IS MERGED}
 \usage{
 get_cluster_ID(tooltip_input)
 }
@@ -11,4 +12,5 @@ get_cluster_ID(tooltip_input)
 }
 \description{
 function to get node id from data_id column of ggplot
+TO BE REMOVED AFTER TOOLTIPS TFPSCANNER PR IS MERGED
 }

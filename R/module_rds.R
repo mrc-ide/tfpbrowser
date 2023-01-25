@@ -6,8 +6,8 @@ rdsUI = function(id) {
   ns = shiny::NS(id)
   # RDS files tab panel
   downloader_tab_panel(title = "RDS Files",
-                       chooser_id = ns("choose_rds"),
-                       download_button_id = ns("download_rds_button"),
+                       chooser_id = ns("rds_type"),
+                       download_button_id = ns("download_rds"),
                        panel = display_panel(shiny::uiOutput(ns("display_rds"))))
 }
 
@@ -17,30 +17,43 @@ rdsUI = function(id) {
 #' @noRd
 rdsServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns = session$ns
+    ns = session$ns # nolint
+
+    # disable dropdown initially
+    shiny::observe({
+      shinyjs::disable("rds_type")
+    })
 
     # all available rds
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
-    # drop down for plots
-    output$choose_rds = shiny::renderUI({
+    # drop down for rds
+    shiny::observeEvent(all_files(), {
       all_rds = filter_by_filetype(filenames = all_files(),
                                    filetypes = c("rds", "RDS"))
-      shiny::selectInput(ns("rds_type"),
-                         label = "Select RDS file:",
-                         choices = all_rds)
+      if (length(all_rds) != 0) {
+        shinyjs::enable("rds_type")
+      } else {
+        shinyjs::disable("rds_type")
+      }
+      shiny::updateSelectInput(session,
+                               "rds_type",
+                               label = "Select RDS file:",
+                               choices = all_rds)
     })
 
-    # get plot file
+    # get rds file
     rds_file = shiny::reactive({
       shiny::req(cluster_choice())
       rds_file = system.file("app", "www", "data", "scanner_output",
                               cluster_choice(), input$rds_type,
                               package = "tfpbrowser")
       return(rds_file)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice(), input$rds_type)
 
     # check if plots available
     rds_avail = shiny::reactive({
@@ -61,19 +74,13 @@ rdsServer = function(id, cluster_choice) {
       }
     })
 
-    # disable download button if no rds files available
-    shiny::observe({
-      if (rds_avail() == TRUE) {
-        shinyjs::enable("download_rds_button")
-      } else {
-        shinyjs::disable("download_rds_button")
-      }
+    # disable download button if no rds files available / none selected
+    shiny::observeEvent(rds_avail(), {
+      shinyjs::toggleState("download_rds", condition = rds_avail())
     })
 
-    # download rds button
-    output$download_rds_button = shiny::renderUI({
-      shiny::downloadButton(ns("download_rds"),
-                            label = "Download")
+    shiny::observeEvent(input$rds_type, {
+      shinyjs::toggleState("download_rds", condition = input$rds_type != "")
     })
 
     # download plot
@@ -85,10 +92,6 @@ rdsServer = function(id, cluster_choice) {
         file.copy(rds_file(), file)
       }
     )
-
-    shiny::observeEvent(input$rds_type, {
-      shinyjs::toggleState("rds_type", condition = input$rds_type != "")
-    })
 
   })
 

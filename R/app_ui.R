@@ -6,6 +6,7 @@ app_ui = function(request) {
   shiny::tagList(
 
     shinyjs::useShinyjs(),
+    shinybrowser::detect(),
 
     shiny::navbarPage(
       # title
@@ -51,30 +52,34 @@ app_ui = function(request) {
 
                           )
                         )
-                        )
-          ), # end fluid row
+          )
+        ), # end fluid row
 
         # Bottom row - show tree (static html output from tfpscanner)
         shiny::fluidRow(
 
           shiny::column(12,
 
-            # choose type of treeviw
-            shiny::radioButtons(inputId = "widgetChoice",
-                                label = "Select treeview",
-                                choices = c(
-                                  "Logistic growth rate",
-                                  "Simple logistic growth rate",
-                                  "Simple trait log odds",
-                                  "Mutations"),
-                                inline = TRUE),
+                        # choose type of treeview
+                        shiny::radioButtons(inputId = "widgetChoice",
+                                            label = "Select treeview",
+                                            choices = c(c("None" = ""), available_treeview()),
+                                            inline = TRUE),
 
-            # show treeview widget
-            shiny::wellPanel(
-              ggiraph::girafeOutput("treeview"),
-              style = "background: white",
-            ),
-            shiny::br()
+                        # choose type of mutation
+                        shiny::selectizeInput(inputId = "mutationChoice",
+                                              label = "Select mutation",
+                                              choices = available_mutations()),
+
+                        # markdown files to add description
+                        shiny::uiOutput("tree_md_files"),
+
+                        # show treeview widget
+                        shiny::wellPanel(
+                          ggiraph::girafeOutput("treeview"),
+                          style = "background: white; height: 1800px;",
+                        ),
+                        shiny::br()
           )
         ) # end fluid row
       ), # end "data" page
@@ -85,7 +90,7 @@ app_ui = function(request) {
         shiny::includeMarkdown(system.file("app", "www", "content", "about.md",
                                            package = "tfpbrowser",
                                            mustWork = TRUE))
-        )
+      )
 
     ) # end navbar page
   ) # end tag list

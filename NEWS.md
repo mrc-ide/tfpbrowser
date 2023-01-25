@@ -1,6 +1,52 @@
-# tfpbrowser 0.0.8 _2022-12-14_
+# tfpbrowser 0.0.18 _2023-01-25_
 
 - Add function to create empty treeview
+
+# tfpbrowser 0.0.17 _2023-01-25_
+
+- Add markdown files for treeview description
+
+# tfpbrowser 0.0.16 _2023-01-25_
+
+- Remove renderUI and replace with update function
+
+# tfpbrowser 0.0.15 _2023-01-25_
+
+- Fix: available treeview options need to be characters
+
+# tfpbrowser 0.0.14 _2023-01-24_
+
+- Reorder radio buttons using factors
+
+# tfpbrowser 0.0.13 _2023-01-24_
+
+- Add {ggtree} to suggests
+
+# tfpbrowser 0.0.12 _2023-01-12_
+
+- Add sina plots to app
+
+# tfpbrowser 0.0.11 _2023-01-12_
+
+- Feat: Add search by mutation functionality
+- Feat: Allow colour by mutation
+- Set {ggiraph} minimum version 0.8.4
+
+# tfpbrowser 0.0.10 _2022-12-18_
+
+- Fix: speed of app
+
+# tfpbrowser 0.0.9 _2022-12-18_
+
+- Add new tooltips with reduced info
+
+# tfpbrowser 0.0.8 _2022-12-05_
+
+- Add bigger data set
+- Fix: ggiraph treeview was not correctly resizing
+- Fix: Make radio button choices depend on files available
+- Fix: Formatting of tables in dropdown
+>>>>>>> add-markdown-files
 
 # tfpbrowser 0.0.7 _2022-12-01_
 
