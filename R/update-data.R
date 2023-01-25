@@ -17,7 +17,7 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
                       shape = "none") +
       ggplot2::labs(title = glue::glue("Colour: {type}"))
     new_filename = file.path("inst", "app", "www", "data", "treeview",
-                             glue::glue("tree-{type}"), ".rds")
+                             glue::glue("tree-{type}.rds"))
     saveRDS(new_g, file = new_filename)
   }
   purrr::walk(.x = types, .f = ~make_treeview_type(.x))
