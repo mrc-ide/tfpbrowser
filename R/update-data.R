@@ -19,6 +19,8 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds") {
 }
 
 #' function to create lookup for a single treeview
+#' @param widgetChoice rds filename for selected treeview output
+#' from radio button
 create_node_lookup = function(widgetChoice) {
   filename = get_filename(widgetChoice)
   g = readRDS(filename)

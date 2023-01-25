@@ -6,6 +6,10 @@
 \usage{
 create_node_lookup(widgetChoice)
 }
+\arguments{
+\item{widgetChoice}{rds filename for selected treeview output
+from radio button}
+}
 \description{
 function to create lookup for a single treeview
 }
