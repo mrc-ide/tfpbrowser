@@ -1,3 +1,7 @@
+# tfpbrowser 0.0.18 _2023-01-25_
+
+- Add logo placeholder
+
 # tfpbrowser 0.0.17 _2023-01-25_
 
 - Add markdown files for treeview description
