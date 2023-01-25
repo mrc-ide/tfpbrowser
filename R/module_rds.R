@@ -17,7 +17,7 @@ rdsUI = function(id) {
 #' @noRd
 rdsServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns = session$ns
+    ns = session$ns # nolint
 
     # disable dropdown initially
     shiny::observe({
