@@ -51,6 +51,34 @@ create_all_node_lookups = function() {
   purrr::walk(.x = all_widgets, .f = ~create_node_lookup(.x))
 }
 
+#' function to get lookup table of clusterID and sequence
+#' @param selected_folder Folder name relating to a single clusterID
+process_seq_table = function(selected_folder) {
+  sequences = system.file("app", "www", "data", "scanner_output",
+                          selected_folder, "sequences.csv",
+                          package = "tfpbrowser")
+  sequences = suppressMessages(readr::read_csv(sequences))
+  if (nrow(sequences) > 0) {
+    seq_names = unique(sequences$sequence_name)
+    output = tibble::tibble(cluster_id = rep(selected_folder, length(seq_names)),
+                            sequence = seq_names)
+    return(output)
+  }
+}
+
+#' function to save a CSV file of all sequences for all clusterIDs
+#' @export
+get_sequences_lookup = function() {
+  all_files = list.files(
+    system.file("app", "www", "data", "scanner_output",
+                package = "tfpbrowser")
+  )
+  output = purrr::map_dfr(.x = all_files, .f = ~process_seq_table(.x))
+  filepath = file.path("inst", "app", "www", "data", "sequences",
+                       "all_sequences.csv")
+  readr::write_csv(output, file = filepath)
+}
+
 #' function to be run anytime the data is updated
 #' wrapper around other required functions
 #' ideally these will be added to {tfpscanner} in the longer term
@@ -62,4 +90,6 @@ update_data = function(treeview = "tree-logistic_growth_rate.rds") {
   empty_treeview(treeview = treeview)
   # save csv files with node lookups
   create_all_node_lookups()
+  # get CSV of sequences vs clusterIDs
+  get_sequences_lookup()
 }
