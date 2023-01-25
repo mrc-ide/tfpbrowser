@@ -37,6 +37,8 @@ tablesServer = function(id, cluster_choice) {
                                       filetypes = c("csv", "CSV"))
       if (length(all_tables) != 0) {
         shinyjs::enable("table_type")
+      } else {
+        shinyjs::disable("table_type")
       }
       shiny::updateSelectInput(session,
                                "table_type",

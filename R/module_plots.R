@@ -38,6 +38,8 @@ plotsServer = function(id, cluster_choice) {
                                       filetypes = c("png", "PNG"))
       if (length(all_images) != 0) {
         shinyjs::enable("plot_type")
+      } else {
+        shinyjs::disable("plot_type")
       }
       shiny::updateSelectInput(session,
                                "plot_type",
