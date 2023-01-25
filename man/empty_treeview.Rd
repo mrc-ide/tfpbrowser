@@ -4,10 +4,15 @@
 \alias{empty_treeview}
 \title{function to create a treeview with all grey nodes to display}
 \usage{
-empty_treeview(treeview = "tree-logistic_growth_rate.rds")
+empty_treeview(
+  treeview = "tree-logistic_growth_rate.rds",
+  types = c("mutations", "sequences")
+)
 }
 \arguments{
 \item{treeview}{RDS file containing an existing treeview plot}
+
+\item{types}{Character vector of new variables to colour by}
 }
 \description{
 function to create a treeview with all grey nodes to display
