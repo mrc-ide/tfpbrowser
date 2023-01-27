@@ -86,6 +86,33 @@ app_server = function(input, output, session) {
     )
   })
 
+  # disable dropdown unless mutation treeview
+  shiny::observe({
+    shiny::req(input$widgetChoice)
+    shinyjs::toggleState(id = "sequenceChoice",
+                         condition = input$widgetChoice == "tree-mutations.rds")
+  })
+
+  # get selected nodes from mutation choice
+  shiny::observeEvent(input$sequenceChoice, {
+
+    nodeChoice = selected_mut_nodes(input$sequenceChoice)
+
+    # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
+    node_map = imported_ggtree()$data[c("cluster_id", "node")]
+    selection_map = dplyr::filter(
+      node_map,
+      .data[["cluster_id"]] %in% nodeChoice
+    )
+
+    session$sendCustomMessage(
+      # "<output_id>_set" defines the collection of selected nodes on the htmlwidget
+      type = paste0("treeview", "_set"),
+      #   but the nodes in the widget are ID's using strings, not integers
+      message = as.character(selection_map[["node"]])
+    )
+  })
+
   # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
     shiny::req(input$widgetChoice)
@@ -110,6 +137,10 @@ app_server = function(input, output, session) {
                                        package = "tfpbrowser",
                                        mustWork = TRUE))
   })
+
+  updateSelectizeInput(inputId = "sequenceChoice",
+                          label = "Select sequence",
+                          choices = available_sequences())
 
   # Tables Tab --------------------------------------------------------------
   tablesServer(

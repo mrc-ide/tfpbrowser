@@ -184,3 +184,26 @@ get_selected_cluster_id = function(widgetChoice,
   selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
   return(selected_cluster)
 }
+
+#' function to return sequence options
+available_sequences = function() {
+  all_seq = readr::read_csv(system.file("app", "www", "data",
+                                         "sequences", "all_sequences.csv",
+                                         package = "tfpbrowser"),
+                             col_types = readr::cols())
+  all_seq = unique(all_seq$sequence)
+  return(all_seq)
+}
+
+#' Which nodes have a given sequence
+#' @param chosen_sequence String for the user selected sequence
+selected_seq_nodes = function(chosen_sequence) {
+  all_seq = readr::read_csv(system.file("app", "www", "data",
+                                         "mutations", "defining_mutations.csv",
+                                         package = "tfpbrowser"),
+                             col_types = readr::cols())
+  selected_nodes = all_seq %>%
+    dplyr::filter(.data$sequence == chosen_sequence) %>%
+    dplyr::pull(.data$cluster_id)
+  return(selected_nodes)
+}
