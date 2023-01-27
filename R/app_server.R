@@ -86,17 +86,17 @@ app_server = function(input, output, session) {
     )
   })
 
-  # disable dropdown unless mutation treeview
+  # disable dropdown unless sequence treeview
   shiny::observe({
     shiny::req(input$widgetChoice)
     shinyjs::toggleState(id = "sequenceChoice",
                          condition = input$widgetChoice == "tree-mutations.rds")
   })
 
-  # get selected nodes from mutation choice
+  # get selected nodes from sequence choice
   shiny::observeEvent(input$sequenceChoice, {
 
-    nodeChoice = selected_mut_nodes(input$sequenceChoice)
+    nodeChoice = selected_seq_nodes(input$sequenceChoice)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
     node_map = imported_ggtree()$data[c("cluster_id", "node")]

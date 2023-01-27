@@ -199,7 +199,7 @@ available_sequences = function() {
 #' @param chosen_sequence String for the user selected sequence
 selected_seq_nodes = function(chosen_sequence) {
   all_seq = readr::read_csv(system.file("app", "www", "data",
-                                         "mutations", "defining_mutations.csv",
+                                         "sequences", "all_sequences.csv",
                                          package = "tfpbrowser"),
                              col_types = readr::cols())
   selected_nodes = all_seq %>%
