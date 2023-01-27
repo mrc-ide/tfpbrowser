@@ -10,6 +10,7 @@ Depends:
     R (>= 4.0.0)
 Imports:
     bslib,
+    data.table,
     dplyr,
     fs,
     ggiraph (>= 0.8.4),
