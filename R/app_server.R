@@ -59,11 +59,24 @@ app_server = function(input, output, session) {
   }) %>%
     shiny::bindCache(input$widgetChoice)
 
+
+# Mutation colouring ------------------------------------------------------
+
   # disable dropdown unless mutation treeview
   shiny::observe({
     shiny::req(input$widgetChoice)
+    # toggle mutation dropdown
     shinyjs::toggleState(id = "mutationChoice",
                          condition = input$widgetChoice == "tree-mutations.rds")
+    # toggle sequence dropdown
+    shinyjs::toggleState(id = "sequenceChoice",
+                         condition = input$widgetChoice == "tree-sequences.rds")
+    # select input for sequences
+    if (input$widgetChoice == "tree-sequences.rds") {
+      shiny::updateSelectizeInput(inputId = "sequenceChoice",
+                                  label = "Select sequence",
+                                  choices = available_sequences())
+    }
   })
 
   # get selected nodes from mutation choice
@@ -86,12 +99,7 @@ app_server = function(input, output, session) {
     )
   })
 
-  # disable dropdown unless sequence treeview
-  shiny::observe({
-    shiny::req(input$widgetChoice)
-    shinyjs::toggleState(id = "sequenceChoice",
-                         condition = input$widgetChoice == "tree-mutations.rds")
-  })
+# Sequence colouring ------------------------------------------------------
 
   # get selected nodes from sequence choice
   shiny::observeEvent(input$sequenceChoice, {
@@ -112,6 +120,8 @@ app_server = function(input, output, session) {
       message = as.character(selection_map[["node"]])
     )
   })
+
+# Get click ---------------------------------------------------------------
 
   # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
@@ -137,10 +147,6 @@ app_server = function(input, output, session) {
                                        package = "tfpbrowser",
                                        mustWork = TRUE))
   })
-
-  updateSelectizeInput(inputId = "sequenceChoice",
-                          label = "Select sequence",
-                          choices = available_sequences())
 
   # Tables Tab --------------------------------------------------------------
   tablesServer(
