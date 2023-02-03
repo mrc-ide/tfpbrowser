@@ -71,6 +71,11 @@ app_ui = function(request) {
                                               label = "Select mutation",
                                               choices = available_mutations()),
 
+                        # choose type of sequence
+                        shiny::selectizeInput(inputId = "sequenceChoice",
+                                              label = "Select sequence",
+                                              choices = NULL),
+
                         # markdown files to add description
                         shiny::uiOutput("tree_md_files"),
 
