@@ -1,5 +1,10 @@
-# tfpbrowser 0.0.18 _2023-01-25_
+# tfpbrowser 0.0.19 _2023-01-25_
 
+- Add function to create empty treeview
+- Add function to compute lookups for nodes
+- Add `update_data()` function
+
+# tfpbrowser 0.0.18 _2023-01-25_
 - Add logo placeholder
 
 # tfpbrowser 0.0.17 _2023-01-25_

@@ -91,7 +91,7 @@ app_server = function(input, output, session) {
     shiny::req(input$widgetChoice)
     shiny::req(input$treeview_selected)
     get_selected_cluster_id(widgetChoice = input$widgetChoice,
-                            treeviewSelected = tail(input$treeview_selected, 1))
+                            treeviewSelected = utils::tail(input$treeview_selected, 1))
   }) %>%
     shiny::bindCache(input$widgetChoice, input$treeview_selected)
 

@@ -3,8 +3,8 @@ available_treeview = function() {
   all_trees = list.files(system.file("app", "www", "data", "treeview",
                                      package = "tfpbrowser"), pattern = "\\.rds$")
   all_trees = factor(all_trees,
-                    c(stringr::str_subset(all_trees, "tree"),
-                      stringr::str_subset(all_trees, "sina")))
+                     c(stringr::str_subset(all_trees, "tree"),
+                       stringr::str_subset(all_trees, "sina")))
   all_trees = as.character(sort(all_trees))
   names(all_trees) = all_trees %>%
     stringr::str_replace_all("_|-|\\.rds", " ") %>%
@@ -17,7 +17,7 @@ available_treeview = function() {
 available_mutations = function() {
   all_muts = readr::read_csv(system.file("app", "www", "data",
                                          "mutations", "defining_mutations.csv",
-                              package = "tfpbrowser"),
+                                         package = "tfpbrowser"),
                              col_types = readr::cols())
   all_muts = all_muts %>%
     dplyr::pull(.data$mutation) %>%
@@ -175,21 +175,12 @@ get_cluster_ID = function(tooltip_input) {
 #' @param treeviewSelected Output from clicking on treeview plot
 get_selected_cluster_id = function(widgetChoice,
                                    treeviewSelected) {
-  filename = get_filename(widgetChoice)
-  g = readRDS(filename)
-  built = suppressWarnings(ggplot2::ggplot_build(g))
-  if (widgetChoice %in% c("sina-logistic_growth_rate.rds",
-                          "sina-simple_logistic_growth_rate.rds")) {
-    ids = built$data[1][[1]]["data_id"]
-    tooltips = built$data[1][[1]]$tooltip
-    tooltip_ids = get_cluster_ID(tooltips)
-  } else {
-    n_layers = length(built$data)
-    ids = built$data[n_layers][[1]]["data_id"]
-    tooltips = built$data[n_layers][[1]]$tooltip
-    tooltip_ids = suppressWarnings(readr::parse_number(tooltips))
-  }
-  ids$cluster_ids = tooltip_ids
+  filename = stringr::str_replace(widgetChoice, ".rds", ".csv")
+  filepath = system.file("app", "www", "data", "treeview", "node_lookup",
+                       filename, package = "tfpbrowser")
+  # load look up
+  ids = readr::read_csv(filepath,
+                        col_types = list(readr::col_double(), readr::col_double()))
   selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
   return(selected_cluster)
 }
