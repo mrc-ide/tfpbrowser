@@ -1,13 +1,48 @@
+#' function to return treeview options
+available_treeview = function() {
+  all_trees = list.files(system.file("app", "www", "data", "treeview",
+                                     package = "tfpbrowser"), pattern = "\\.rds$")
+  all_trees = factor(all_trees,
+                     c(stringr::str_subset(all_trees, "tree"),
+                       stringr::str_subset(all_trees, "sina")))
+  all_trees = as.character(sort(all_trees))
+  names(all_trees) = all_trees %>%
+    stringr::str_replace_all("_|-|\\.rds", " ") %>%
+    stringr::str_trim() %>%
+    stringr::str_to_title()
+  return(all_trees)
+}
+
+#' function to return mutation options
+available_mutations = function() {
+  all_muts = readr::read_csv(system.file("app", "www", "data",
+                                         "mutations", "defining_mutations.csv",
+                                         package = "tfpbrowser"),
+                             col_types = readr::cols())
+  all_muts = all_muts %>%
+    dplyr::pull(.data$mutation) %>%
+    unique()
+  return(all_muts)
+}
+
+#' Which nodes have a given mutation
+#' @param chosen_mutation String for the user selected mutation
+selected_mut_nodes = function(chosen_mutation) {
+  all_muts = readr::read_csv(system.file("app", "www", "data",
+                                         "mutations", "defining_mutations.csv",
+                                         package = "tfpbrowser"),
+                             col_types = readr::cols())
+  selected_nodes = all_muts %>%
+    dplyr::filter(.data$mutation == chosen_mutation) %>%
+    dplyr::pull(.data$cluster_id)
+  return(selected_nodes)
+}
+
 #' function to return folder name
-#' @param type Character string detailing type of widget to show
+#' @param type Choice of treeview widget to show
 get_filename = function(type) {
-  filename = switch(type,
-                    "Logistic growth rate" = "tree-logistic_growth_rate.rds", # nolint
-                    "Simple logistic growth rate" = "tree-simple_logistic_growth_rate.rds", # nolint
-                    "Simple trait log odds" = "tree-sim_trait_logodds.rds" # nolint
-  )
   filename = system.file("app", "www", "data", "treeview",
-                         filename,
+                         type,
                          package = "tfpbrowser",
                          mustWork = TRUE)
   return(filename)
@@ -54,29 +89,10 @@ get_all_files = function(cluster_choice) {
 #' function to tidy up table output
 #' @param table_to_display Data frame or tibble containing messy outputs
 reformat_table = function(table_to_display) {
-  if (nrow(table_to_display) == 1) {
-    output = table_to_display[, -1]$x
-    if (!is.na(output)) {
-      output = output %>%
-        stringr::str_split(pattern = "\n") %>%
-        unlist() %>%
-        stringr::str_trim() %>%
-        tibble::as_tibble() %>%
-        tidyr::separate(.data$value,
-                        into = c("x", "y"),
-                        sep = "  ",
-                        extra = "merge") %>%
-        dplyr::mutate(x = stringr::str_trim(.data$x),
-                      y = stringr::str_trim(.data$y)) %>%
-        `colnames<-`(.[1, ]) %>% # nolint
-        dplyr::slice(-1)
-    } else {
-      output = tibble::tibble(x = "Nothing to display")
-    }
-  } else {
-    output = janitor::clean_names(table_to_display,
-                                  case = "title")
+  if (all(table_to_display[[1]] == seq_len(nrow(table_to_display)))) {
+    table_to_display = table_to_display[, -1]
   }
+  output = janitor::clean_names(table_to_display, case = "title")
   return(output)
 }
 
@@ -128,9 +144,13 @@ downloader_tab_panel = function(title,
       # drop down menu to select dataset
       shiny::column(3,
                     align = "center",
-                    shiny::uiOutput(chooser_id),
+                    shiny::selectInput(chooser_id,
+                                       label = "Select type:",
+                                       choices = NULL,
+                                       selected = NULL),
                     shiny::br(),
-                    shiny::uiOutput(download_button_id)
+                    shiny::downloadButton(download_button_id,
+                                          label = "Download")
       ),
       # display data
       shiny::column(9, align = "center", panel)
@@ -139,11 +159,13 @@ downloader_tab_panel = function(title,
 }
 
 #' function to get node id from data_id column of ggplot
+#' TO BE REMOVED AFTER TOOLTIPS TFPSCANNER PR IS MERGED
 #' @param tooltip_input Character vector of tooltip content
+#' @export
 get_cluster_ID = function(tooltip_input) {
   # start searching the string after the "Cluster.ID" text
   # until the next new line
-  match_matrix = stringr::str_match(tooltip_input, r"(Cluster.ID\s+#(\d+))")
+  match_matrix = stringr::str_match(tooltip_input, pattern = r"(Cluster.ID\s+#(\d+))")
   cluster_ids = as.numeric(match_matrix[, 2])
   return(cluster_ids)
 }
@@ -153,15 +175,12 @@ get_cluster_ID = function(tooltip_input) {
 #' @param treeviewSelected Output from clicking on treeview plot
 get_selected_cluster_id = function(widgetChoice,
                                    treeviewSelected) {
-  filename = get_filename(widgetChoice)
-  g = readRDS(filename)
-  built = suppressWarnings(ggplot2::ggplot_build(g))
-  n_layers = length(built$data)
-  ids = built$data[n_layers][[1]]["data_id"]
-  tooltips = built$data[n_layers][[1]]$tooltip
-
-  tooltip_ids = get_cluster_ID(tooltips)
-  ids$cluster_ids = tooltip_ids
+  filename = stringr::str_replace(widgetChoice, ".rds", ".csv")
+  filepath = system.file("app", "www", "data", "treeview", "node_lookup",
+                       filename, package = "tfpbrowser")
+  # load look up
+  ids = readr::read_csv(filepath,
+                        col_types = list(readr::col_double(), readr::col_double()))
   selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
   return(selected_cluster)
 }

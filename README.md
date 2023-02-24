@@ -16,6 +16,7 @@ tfpbrowser::run_app()
 
 ## Updating with new data
 
-* Add the new data to `inst/app/www/data/`
+* Add the new data to relevant folders in `inst/app/www/data/`
 * Re-install {tfpbrowser}
+* Run `tfpbrowser::update_data()`
 

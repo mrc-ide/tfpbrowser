@@ -7,8 +7,8 @@ tablesUI = function(id) {
   ns = shiny::NS(id)
   # Tables tab panel
   downloader_tab_panel(title = "Tables",
-                       chooser_id = ns("choose_table"),
-                       download_button_id = ns("download_table_button"),
+                       chooser_id = ns("table_type"),
+                       download_button_id = ns("download_table"),
                        panel = display_panel(reactable::reactableOutput(ns("display_table"))))
 }
 
@@ -18,19 +18,32 @@ tablesUI = function(id) {
 #' @noRd
 tablesServer = function(id, cluster_choice) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns = session$ns
+    ns = session$ns # nolint
+
+    # disable dropdown initially
+    shiny::observe({
+      shinyjs::disable("table_type")
+    })
+
     # all available tables
     all_files = shiny::reactive({
       return(get_all_files(cluster_choice()))
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice())
 
     # drop down for tables
-    output$choose_table = shiny::renderUI({
+    shiny::observeEvent(all_files(), {
       all_tables = filter_by_filetype(filenames = all_files(),
                                       filetypes = c("csv", "CSV"))
-      shiny::selectInput(ns("table_type"),
-                         label = "Select table type:",
-                         choices = all_tables)
+      if (length(all_tables) != 0) {
+        shinyjs::enable("table_type")
+      } else {
+        shinyjs::disable("table_type")
+      }
+      shiny::updateSelectInput(session,
+                               "table_type",
+                               label = "Select table type:",
+                               choices = all_tables)
     })
 
     # get table file path
@@ -40,7 +53,8 @@ tablesServer = function(id, cluster_choice) {
                                cluster_choice(), input$table_type,
                                package = "tfpbrowser")
       return(table_file)
-    })
+    }) %>%
+      shiny::bindCache(cluster_choice(), input$table_type)
 
     # check if table available
     table_avail = shiny::reactive({
@@ -69,18 +83,12 @@ tablesServer = function(id, cluster_choice) {
     })
 
     # disable download button if no tables available
-    shiny::observe({
-      if (table_avail() == TRUE) {
-        shinyjs::enable("download_table_button")
-      } else {
-        shinyjs::disable("download_table_button")
-      }
+    shiny::observeEvent(table_avail(), {
+      shinyjs::toggleState("download_table", condition = table_avail())
     })
 
-    # download table button
-    output$download_table_button = shiny::renderUI({
-      shiny::downloadButton(ns("download_table"),
-                            label = "Download")
+    shiny::observeEvent(input$table_type, {
+      shinyjs::toggleState("download_table", condition = input$table_type != "")
     })
 
     # download table
@@ -92,10 +100,6 @@ tablesServer = function(id, cluster_choice) {
         file.copy(table_file(), file)
       }
     )
-
-    shiny::observeEvent(input$table_type, {
-      shinyjs::toggleState("table_type", condition = input$table_type != "")
-    })
 
   })
 }
