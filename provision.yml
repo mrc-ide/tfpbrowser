@@ -1,0 +1,24 @@
+self: true
+packages:
+  - bslib
+  - dplyr
+  - fs
+  - ggiraph (>= 0.8.4)
+  - ggplot2
+  - ggtree
+  - glue
+  - htmltools
+  - janitor
+  - magrittr
+  - purrr
+  - reactable
+  - readr
+  - rlang
+  - shiny
+  - shinybrowser
+  - shinyjs
+  - shinytest2
+  - stringr
+  - testthat
+  - tibble
+  - usethis
