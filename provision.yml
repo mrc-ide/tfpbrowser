@@ -3,9 +3,8 @@ packages:
   - bslib
   - dplyr
   - fs
-  - ggiraph (>= 0.8.4)
+  - ggiraph
   - ggplot2
-  - ggtree
   - glue
   - htmltools
   - janitor
@@ -22,3 +21,6 @@ packages:
   - testthat
   - tibble
   - usethis
+package_sources:
+  github:
+  - YuLab-SMU/ggtree
