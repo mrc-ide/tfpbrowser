@@ -5,6 +5,7 @@ packages:
   - fs
   - ggiraph
   - ggplot2
+  - ggtree
   - glue
   - htmltools
   - janitor
