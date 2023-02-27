@@ -26,3 +26,4 @@ packages:
 package_sources:
   github:
   - YuLab-SMU/ggtree
+  - YuLab-SMU/treeio
