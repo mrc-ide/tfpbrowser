@@ -1,3 +1,8 @@
+# tfpbrowser 0.0.20 _2023-01-25_
+
+- Add function to get lookup of sequences and clusterID
+- Add CSV of all_sequences
+
 # tfpbrowser 0.0.19 _2023-01-25_
 
 - Add function to create empty treeview
