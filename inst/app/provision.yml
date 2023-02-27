@@ -9,6 +9,7 @@ packages:
   - htmltools
   - janitor
   - magrittr
+  - markdown
   - purrr
   - reactable
   - readr
