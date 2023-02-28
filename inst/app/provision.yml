@@ -5,10 +5,12 @@ packages:
   - fs
   - ggiraph
   - ggplot2
+  - ggtree
   - glue
   - htmltools
   - janitor
   - magrittr
+  - markdown
   - purrr
   - reactable
   - readr
@@ -24,3 +26,4 @@ packages:
 package_sources:
   github:
   - YuLab-SMU/ggtree
+  - YuLab-SMU/treeio
