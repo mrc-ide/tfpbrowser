@@ -30,7 +30,7 @@ app_ui = function(request) {
                         # use details and summary to create expandable section
                         htmltools::tags$details(
                           # preview of expandable section
-                          htmltools::tags$summary("Download Files (click to expand)"),
+                          htmltools::tags$summary("Cluster statistics (click to expand)"),
 
                           shiny::br(),
 
