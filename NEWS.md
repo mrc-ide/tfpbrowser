@@ -1,3 +1,8 @@
+# tfpbrowser 0.0.21 _2023-03-01_
+
+- Fix: change to using `all_mutations` data
+- Fix: change wording of downloads
+
 # tfpbrowser 0.0.20 _2023-01-25_
 
 - Add function to get lookup of sequences and clusterID

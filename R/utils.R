@@ -29,7 +29,7 @@ available_mutations = function() {
 #' @param chosen_mutation String for the user selected mutation
 selected_mut_nodes = function(chosen_mutation) {
   all_muts = readr::read_csv(system.file("app", "www", "data",
-                                         "mutations", "defining_mutations.csv",
+                                         "mutations", "all_mutations.csv",
                                          package = "tfpbrowser"),
                              col_types = readr::cols())
   selected_nodes = all_muts %>%
