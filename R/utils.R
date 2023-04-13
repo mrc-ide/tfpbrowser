@@ -73,8 +73,8 @@ get_all_clusters = function(filename) {
 
 #' Get all file names in a folder of the data relating to a single cluster
 #' @param cluster_choice character relating to a folder name in inst/data
-get_all_files = function(cluster_choice) {
-  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+#' @param   data_dir   The data directory for the app. Must contain a `scanner_output` subdirectory
+get_all_files = function(cluster_choice, data_dir) {
   cluster_dir = file.path(data_dir, "scanner_output", cluster_choice)
   all_files = tibble::as_tibble(
     list.files(cluster_dir)

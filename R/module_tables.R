@@ -28,7 +28,7 @@ tablesServer = function(id, cluster_choice, data_dir) {
 
     # all available tables
     all_files = shiny::reactive({
-      return(get_all_files(cluster_choice()))
+      return(get_all_files(cluster_choice(), data_dir = data_dir))
     }) %>%
       shiny::bindCache(cluster_choice())
 
