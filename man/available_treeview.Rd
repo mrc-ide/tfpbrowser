@@ -4,7 +4,10 @@
 \alias{available_treeview}
 \title{function to return treeview options}
 \usage{
-available_treeview()
+available_treeview(data_dir)
+}
+\arguments{
+\item{data_dir}{The directory containing the data for the application.}
 }
 \description{
 function to return treeview options

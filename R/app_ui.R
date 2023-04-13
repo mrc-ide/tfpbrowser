@@ -63,7 +63,14 @@ app_ui = function(request) {
                         # choose type of treeview
                         shiny::radioButtons(inputId = "widgetChoice",
                                             label = "Select treeview",
-                                            choices = c(c("None" = ""), available_treeview()),
+                                            choices = c(
+                                              c("None" = ""),
+                                              available_treeview(
+                                                data_dir = system.file(
+                                                  "app", "www", "data", package = "tfpbrowser"
+                                                )
+                                              )
+                                            ),
                                             inline = TRUE),
 
                         # choose type of mutation

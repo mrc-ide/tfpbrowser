@@ -55,7 +55,7 @@ create_node_lookup = function(widgetChoice, data_dir) {
 #' @export
 create_all_node_lookups = function(data_dir) {
   # get list of all widgets
-  all_widgets = available_treeview()
+  all_widgets = available_treeview(data_dir)
   purrr::walk(.x = all_widgets, .f = ~create_node_lookup(.x, data_dir = data_dir))
 }
 
