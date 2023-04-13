@@ -4,6 +4,20 @@
 app_server = function(input, output, session) {
   data_dir = system.file("app", "www", "data", package = "tfpbrowser")
 
+  # Update the available treeviews
+  observe({
+    new_choices = c(
+      c("None" = ""),
+      available_treeview(data_dir = data_dir)
+    )
+    shiny::updateRadioButtons(
+      session = session,
+      inputId = "widgetChoice",
+      choices = new_choices,
+      inline = TRUE
+    )
+  })
+
   # Load treeview -----------------------------------------------------------
   imported_ggtree = shiny::reactive({
     shiny::req(input$widgetChoice)
