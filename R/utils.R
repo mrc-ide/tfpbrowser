@@ -1,7 +1,7 @@
 #' function to return treeview options
 available_treeview = function() {
-  all_trees = list.files(system.file("app", "www", "data", "treeview",
-                                     package = "tfpbrowser"), pattern = "\\.rds$")
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+  all_trees = list.files(file.path(data_dir, "treeview"), pattern = "\\.rds$")
   all_trees = factor(all_trees,
                      c(stringr::str_subset(all_trees, "tree"),
                        stringr::str_subset(all_trees, "sina")))
