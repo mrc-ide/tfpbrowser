@@ -73,13 +73,12 @@ process_seq_table = function(selected_folder) {
 #' function to save a CSV file of all sequences for all clusterIDs
 #' @export
 get_sequences_lookup = function() {
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
   all_files = list.files(
-    system.file("app", "www", "data", "scanner_output",
-                package = "tfpbrowser")
+    file.path(data_dir, "scanner_output")
   )
   output = purrr::map_dfr(.x = all_files, .f = ~process_seq_table(.x))
-  filepath = file.path("inst", "app", "www", "data", "sequences",
-                       "all_sequences.csv")
+  filepath = file.path(data_dir, "sequences", "all_sequences.csv")
   readr::write_csv(output, file = filepath)
 }
 
