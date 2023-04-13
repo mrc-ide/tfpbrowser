@@ -28,7 +28,7 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
 #' from radio button
 create_node_lookup = function(widgetChoice) {
   data_dir = system.file("app", "www", "data", package = "tfpbrowser")
-  filename = get_filename(widgetChoice)
+  filename = get_filename(widgetChoice, data_dir)
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
   if (widgetChoice %in% c("sina-logistic_growth_rate.rds",

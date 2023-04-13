@@ -7,7 +7,7 @@ app_server = function(input, output, session) {
   # Load treeview -----------------------------------------------------------
   imported_ggtree = shiny::reactive({
     shiny::req(input$widgetChoice)
-    filename = get_filename(input$widgetChoice)
+    filename = get_filename(input$widgetChoice, data_dir)
     readRDS(filename)
   })
 

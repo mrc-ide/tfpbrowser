@@ -37,13 +37,15 @@ selected_mut_nodes = function(chosen_mutation) {
   return(selected_nodes)
 }
 
-#' function to return folder name
-#' @param type Choice of treeview widget to show
-get_filename = function(type) {
-  filename = system.file("app", "www", "data", "treeview",
-                         type,
-                         package = "tfpbrowser",
-                         mustWork = TRUE)
+#' Obtain the file-path for a tree-view
+#' @param type Choice of tree-view widget to show
+#' @param data_dir The data directory for the app. Must contain a "treeview" subdirectory.
+get_filename = function(type, data_dir) {
+  stopifnot(dir.exists(data_dir))
+
+  filename = file.path(data_dir, "treeview", type)
+  stopifnot(file.exists(filename))
+
   return(filename)
 }
 
