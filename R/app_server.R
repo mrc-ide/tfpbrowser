@@ -4,7 +4,7 @@
 app_server = function(input, output, session) {
   data_dir = system.file("app", "www", "data", package = "tfpbrowser")
 
-  # Update the available treeviews
+  # Update the available treeviews & mutations
   observe({
     new_choices = c(
       c("None" = ""),
@@ -15,6 +15,15 @@ app_server = function(input, output, session) {
       inputId = "widgetChoice",
       choices = new_choices,
       inline = TRUE
+    )
+  })
+
+  observe({
+    mutation_set = available_mutations(data_dir = data_dir)
+    shiny::updateSelectizeInput(
+      session = session,
+      inputId = "mutationChoice",
+      choices = mutation_set
     )
   })
 

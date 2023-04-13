@@ -69,11 +69,7 @@ app_ui = function(request) {
                         # choose type of mutation
                         shiny::selectizeInput(inputId = "mutationChoice",
                                               label = "Select mutation",
-                                              choices = available_mutations(
-                                                data_dir = system.file(
-                                                  "app", "www", "data", package = "tfpbrowser"
-                                                )
-                                              )),
+                                              choices = character(0)),
 
                         # choose type of sequence
                         shiny::selectizeInput(inputId = "sequenceChoice",
