@@ -61,8 +61,9 @@ create_all_node_lookups = function(data_dir) {
 
 #' function to get lookup table of clusterID and sequence
 #' @param selected_folder Folder name relating to a single clusterID
-process_seq_table = function(selected_folder) {
-  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+#' @param   data_dir   The data directory for the application. Must have a `scanner_output`
+#' subdirectory.
+process_seq_table = function(selected_folder, data_dir) {
   sequences = file.path(data_dir, "scanner_output", selected_folder, "sequences.csv")
   sequences = suppressMessages(readr::read_csv(sequences))
   if (nrow(sequences) > 0) {
@@ -80,7 +81,7 @@ get_sequences_lookup = function() {
   all_files = list.files(
     file.path(data_dir, "scanner_output")
   )
-  output = purrr::map_dfr(.x = all_files, .f = ~process_seq_table(.x))
+  output = purrr::map_dfr(.x = all_files, .f = ~process_seq_table(.x, data_dir))
   filepath = file.path(data_dir, "sequences", "all_sequences.csv")
   readr::write_csv(output, file = filepath)
 }

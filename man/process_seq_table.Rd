@@ -4,10 +4,13 @@
 \alias{process_seq_table}
 \title{function to get lookup table of clusterID and sequence}
 \usage{
-process_seq_table(selected_folder)
+process_seq_table(selected_folder, data_dir)
 }
 \arguments{
 \item{selected_folder}{Folder name relating to a single clusterID}
+
+\item{data_dir}{The data directory for the application. Must have a \code{scanner_output}
+subdirectory.}
 }
 \description{
 function to get lookup table of clusterID and sequence
