@@ -59,9 +59,8 @@ create_all_node_lookups = function() {
 #' function to get lookup table of clusterID and sequence
 #' @param selected_folder Folder name relating to a single clusterID
 process_seq_table = function(selected_folder) {
-  sequences = system.file("app", "www", "data", "scanner_output",
-                          selected_folder, "sequences.csv",
-                          package = "tfpbrowser")
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+  sequences = file.path(data_dir, "scanner_output", selected_folder, "sequences.csv")
   sequences = suppressMessages(readr::read_csv(sequences))
   if (nrow(sequences) > 0) {
     seq_names = unique(sequences$sequence_name)
