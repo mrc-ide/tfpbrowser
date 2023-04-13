@@ -26,11 +26,10 @@ available_mutations = function() {
 
 #' Which nodes have a given mutation
 #' @param chosen_mutation String for the user selected mutation
-selected_mut_nodes = function(chosen_mutation) {
-  all_muts = readr::read_csv(system.file("app", "www", "data",
-                                         "mutations", "all_mutations.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#' @param data_dir The data directory for the app. Must contain a "mutations" subdirectory.
+selected_mut_nodes = function(chosen_mutation, data_dir) {
+  filepath = file.path(data_dir, "mutations", "all_mutations.csv")
+  all_muts = readr::read_csv(filepath, col_types = readr::cols())
   selected_nodes = all_muts %>%
     dplyr::filter(.data$mutation == chosen_mutation) %>%
     dplyr::pull(.data$cluster_id)

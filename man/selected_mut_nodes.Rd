@@ -4,10 +4,12 @@
 \alias{selected_mut_nodes}
 \title{Which nodes have a given mutation}
 \usage{
-selected_mut_nodes(chosen_mutation)
+selected_mut_nodes(chosen_mutation, data_dir)
 }
 \arguments{
 \item{chosen_mutation}{String for the user selected mutation}
+
+\item{data_dir}{The data directory for the app. Must contain a "mutations" subdirectory.}
 }
 \description{
 Which nodes have a given mutation

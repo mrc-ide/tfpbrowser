@@ -86,7 +86,7 @@ app_server = function(input, output, session) {
   # get selected nodes from mutation choice
   shiny::observeEvent(input$mutationChoice, {
 
-    nodeChoice = selected_mut_nodes(input$mutationChoice)
+    nodeChoice = selected_mut_nodes(input$mutationChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
     node_map = imported_ggtree()$data[c("cluster_id", "node")]
