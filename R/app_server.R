@@ -2,6 +2,7 @@
 #' @param input,output,session Internal parameters for `{shiny}`.
 #' @noRd
 app_server = function(input, output, session) {
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
 
   # Load treeview -----------------------------------------------------------
   imported_ggtree = shiny::reactive({
