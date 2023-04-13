@@ -16,8 +16,9 @@ plotsUI = function(id) {
 #' Plots tab Server
 #' @param id ID for shiny module namespacing
 #' @param cluster_choice which cluster to display the data for
+#' @param   data_dir   The data directory for the app.
 #' @noRd
-plotsServer = function(id, cluster_choice) {
+plotsServer = function(id, cluster_choice, data_dir) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
 
@@ -50,9 +51,7 @@ plotsServer = function(id, cluster_choice) {
     # the path to the plot, from the server's perspective
     plot_file = shiny::reactive({
       shiny::req(cluster_choice())
-      plot_file = system.file("app", "www", "data", "scanner_output",
-                              cluster_choice(), input$plot_type,
-                              package = "tfpbrowser")
+      plot_file = file.path(data_dir, "scanner_output", cluster_choice(), input$plot_type)
       return(plot_file)
     }) %>%
       shiny::bindCache(cluster_choice(), input$plot_type)

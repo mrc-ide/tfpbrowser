@@ -162,7 +162,8 @@ app_server = function(input, output, session) {
   # Plots Tab ----------------------------------------------------------
   plotsServer(
     "plot1",
-    cluster_choice = selected_cluster_id
+    cluster_choice = selected_cluster_id,
+    data_dir = data_dir
   )
 
   # RDS Tab ----------------------------------------------------------
