@@ -4,7 +4,11 @@
 \alias{get_sequences_lookup}
 \title{function to save a CSV file of all sequences for all clusterIDs}
 \usage{
-get_sequences_lookup()
+get_sequences_lookup(data_dir)
+}
+\arguments{
+\item{data_dir}{The data directory for the application. Must have a \code{scanner_output}
+subdirectory.}
 }
 \description{
 function to save a CSV file of all sequences for all clusterIDs

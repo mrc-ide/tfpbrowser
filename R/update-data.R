@@ -75,9 +75,12 @@ process_seq_table = function(selected_folder, data_dir) {
 }
 
 #' function to save a CSV file of all sequences for all clusterIDs
+#'
+#' @param   data_dir   The data directory for the application. Must have a `scanner_output`
+#' subdirectory.
+#'
 #' @export
-get_sequences_lookup = function() {
-  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+get_sequences_lookup = function(data_dir) {
   all_files = list.files(
     file.path(data_dir, "scanner_output")
   )
@@ -102,5 +105,5 @@ update_data = function(treeview = "tree-logistic_growth_rate.rds") {
   create_all_node_lookups(data_dir)
 
   # get CSV of sequences vs clusterIDs
-  get_sequences_lookup()
+  get_sequences_lookup(data_dir)
 }
