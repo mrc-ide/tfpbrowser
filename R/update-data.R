@@ -1,14 +1,15 @@
 #' function to create a treeview with all grey nodes to display
 #' @param treeview RDS file containing an existing treeview plot
 #' @param types Character vector of new variables to colour by
+#' @param data_dir   The directory where data should be read from / written to.
 #' @export
 empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
-                          types = c("mutations", "sequences")) {
-  filename = system.file("app", "www", "data", "treeview",
-                         treeview,
-                         package = "tfpbrowser",
-                         mustWork = TRUE)
+                          types = c("mutations", "sequences"),
+                          data_dir) {
+  filename = file.path(data_dir, "treeview", treeview)
+  stopifnot(file.exists(filename))
   g = readRDS(filename)
+
   make_treeview_type = function(type) { # nolint
     new_g = g +
       ggplot2::scale_colour_gradient(low = "grey", high = "grey") +
@@ -16,10 +17,10 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
                       fill = "none",
                       shape = "none") +
       ggplot2::labs(title = glue::glue("Colour: {type}"))
-    new_filename = file.path("inst", "app", "www", "data", "treeview",
-                             glue::glue("tree-{type}.rds"))
+    new_filename = file.path(data_dir, "treeview", glue::glue("tree-{type}.rds"))
     saveRDS(new_g, file = new_filename)
   }
+
   purrr::walk(.x = types, .f = ~make_treeview_type(.x))
 }
 
@@ -94,7 +95,7 @@ update_data = function(treeview = "tree-logistic_growth_rate.rds") {
   data_dir = system.file("app", "www", "data", package = "tfpbrowser")
 
   # create blank treeview
-  empty_treeview(treeview = treeview)
+  empty_treeview(treeview = treeview, data_dir = data_dir)
 
   # save csv files with node lookups
   create_all_node_lookups(data_dir)

@@ -6,13 +6,16 @@
 \usage{
 empty_treeview(
   treeview = "tree-logistic_growth_rate.rds",
-  types = c("mutations", "sequences")
+  types = c("mutations", "sequences"),
+  data_dir
 )
 }
 \arguments{
 \item{treeview}{RDS file containing an existing treeview plot}
 
 \item{types}{Character vector of new variables to colour by}
+
+\item{data_dir}{The directory where data should be read from / written to.}
 }
 \description{
 function to create a treeview with all grey nodes to display
