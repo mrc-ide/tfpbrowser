@@ -74,12 +74,10 @@ get_all_clusters = function(filename) {
 #' Get all file names in a folder of the data relating to a single cluster
 #' @param cluster_choice character relating to a folder name in inst/data
 get_all_files = function(cluster_choice) {
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+  cluster_dir = file.path(data_dir, "scanner_output", cluster_choice)
   all_files = tibble::as_tibble(
-    list.files(
-      system.file("app", "www", "data", "scanner_output",
-                  cluster_choice,
-                  package = "tfpbrowser")
-    )
+    list.files(cluster_dir)
   )
   all_files = all_files %>%
     dplyr::mutate(filetype = sub(".*\\.", "", .data$value))
