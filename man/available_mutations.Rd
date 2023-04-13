@@ -4,7 +4,11 @@
 \alias{available_mutations}
 \title{function to return mutation options}
 \usage{
-available_mutations()
+available_mutations(data_dir)
+}
+\arguments{
+\item{data_dir}{The directory containing the data for the application. Must contain a
+\code{mutations} subdirectory}
 }
 \description{
 function to return mutation options

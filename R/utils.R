@@ -19,8 +19,11 @@ available_treeview = function(data_dir) {
 }
 
 #' function to return mutation options
-available_mutations = function() {
-  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+#'
+#' @param   data_dir   The directory containing the data for the application. Must contain a
+#' `mutations` subdirectory
+
+available_mutations = function(data_dir) {
   filepath = file.path(data_dir, "mutations", "defining_mutations.csv")
   all_muts = readr::read_csv(filepath, col_types = readr::cols())
   all_muts = all_muts %>%
