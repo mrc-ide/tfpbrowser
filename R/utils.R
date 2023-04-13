@@ -15,10 +15,9 @@ available_treeview = function() {
 
 #' function to return mutation options
 available_mutations = function() {
-  all_muts = readr::read_csv(system.file("app", "www", "data",
-                                         "mutations", "defining_mutations.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+  filepath = file.path(data_dir, "mutations", "defining_mutations.csv")
+  all_muts = readr::read_csv(filepath, col_types = readr::cols())
   all_muts = all_muts %>%
     dplyr::pull(.data$mutation) %>%
     unique()
