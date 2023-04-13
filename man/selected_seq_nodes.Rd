@@ -4,10 +4,12 @@
 \alias{selected_seq_nodes}
 \title{Which nodes have a given sequence}
 \usage{
-selected_seq_nodes(chosen_sequence)
+selected_seq_nodes(chosen_sequence, data_dir)
 }
 \arguments{
 \item{chosen_sequence}{String for the user selected sequence}
+
+\item{data_dir}{The data directory for the app. Must contain a "sequences" subdirectory.}
 }
 \description{
 Which nodes have a given sequence

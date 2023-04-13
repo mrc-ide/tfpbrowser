@@ -194,11 +194,10 @@ available_sequences = function(data_dir) {
 
 #' Which nodes have a given sequence
 #' @param chosen_sequence String for the user selected sequence
-selected_seq_nodes = function(chosen_sequence) {
-  all_seq = readr::read_csv(system.file("app", "www", "data",
-                                         "sequences", "all_sequences.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#' @param data_dir The data directory for the app. Must contain a "sequences" subdirectory.
+selected_seq_nodes = function(chosen_sequence, data_dir) {
+  filepath = file.path(data_dir, "sequences", "all_sequences.csv")
+  all_seq = readr::read_csv(filepath, col_types = readr::cols())
   selected_nodes = all_seq %>%
     dplyr::filter(.data$sequence == chosen_sequence) %>%
     dplyr::pull(.data$cluster_id)
