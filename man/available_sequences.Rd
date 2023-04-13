@@ -4,7 +4,10 @@
 \alias{available_sequences}
 \title{function to return sequence options}
 \usage{
-available_sequences()
+available_sequences(data_dir)
+}
+\arguments{
+\item{data_dir}{The data directory for the app. Must contain a "sequences" subdirectory.}
 }
 \description{
 function to return sequence options

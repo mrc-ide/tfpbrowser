@@ -185,11 +185,10 @@ get_selected_cluster_id = function(widgetChoice,
 }
 
 #' function to return sequence options
-available_sequences = function() {
-  all_seq = readr::read_csv(system.file("app", "www", "data",
-                                         "sequences", "all_sequences.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#' @param   data_dir   The data directory for the app. Must contain a "sequences" subdirectory.
+available_sequences = function(data_dir) {
+  filepath = file.path(data_dir, "sequences", "all_sequences.csv")
+  all_seq = readr::read_csv(filepath, col_types = readr::cols())
   all_seq = unique(all_seq$sequence)
   return(all_seq)
 }

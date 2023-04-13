@@ -74,7 +74,7 @@ app_server = function(input, output, session) {
                          condition = input$widgetChoice == "tree-sequences.rds")
     # select input for sequences
     if (input$widgetChoice == "tree-sequences.rds") {
-      avail_seqs = data.table::as.data.table(available_sequences())
+      avail_seqs = data.table::as.data.table(available_sequences(data_dir))
       names(avail_seqs) = "Sequences"
       shiny::updateSelectizeInput(inputId = "sequenceChoice",
                                   label = "Select sequence",
