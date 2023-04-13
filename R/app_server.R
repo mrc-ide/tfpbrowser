@@ -170,7 +170,8 @@ app_server = function(input, output, session) {
   # RDS Tab ----------------------------------------------------------
   rdsServer(
     "rds1",
-    cluster_choice = selected_cluster_id
+    cluster_choice = selected_cluster_id,
+    data_dir = data_dir
   )
 
 } # end server function

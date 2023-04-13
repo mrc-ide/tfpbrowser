@@ -14,8 +14,9 @@ rdsUI = function(id) {
 #' rds tab Server
 #' @param id ID for shiny module namespacing
 #' @param cluster_choice which cluster to display the data for
+#' @param   data_dir   The data directory for the app.
 #' @noRd
-rdsServer = function(id, cluster_choice) {
+rdsServer = function(id, cluster_choice, data_dir) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
 
@@ -48,9 +49,7 @@ rdsServer = function(id, cluster_choice) {
     # get rds file
     rds_file = shiny::reactive({
       shiny::req(cluster_choice())
-      rds_file = system.file("app", "www", "data", "scanner_output",
-                              cluster_choice(), input$rds_type,
-                              package = "tfpbrowser")
+      rds_file = file.path(data_dir, "scanner_output", cluster_choice(), input$rds_type)
       return(rds_file)
     }) %>%
       shiny::bindCache(cluster_choice(), input$rds_type)
