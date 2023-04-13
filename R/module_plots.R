@@ -47,7 +47,7 @@ plotsServer = function(id, cluster_choice) {
                                choices = all_images)
     })
 
-    # get plot file
+    # the path to the plot, from the server's perspective
     plot_file = shiny::reactive({
       shiny::req(cluster_choice())
       plot_file = system.file("app", "www", "data", "scanner_output",
@@ -57,9 +57,16 @@ plotsServer = function(id, cluster_choice) {
     }) %>%
       shiny::bindCache(cluster_choice(), input$plot_type)
 
+    # the path to the plot, from the browser's perspective
+    plot_url = shiny::reactive({
+      shiny::req(plot_file())
+      fs::path_rel(plot_file(),
+                   system.file("app", package = "tfpbrowser"))
+    })
+
     # check if plots available
     plot_avail = shiny::reactive({
-      src = fs::path_rel(plot_file(), system.file("app", package = "tfpbrowser"))
+      src = plot_url()
       if (length(src) != 0) {
         return(grepl(".png", tolower(src)))
       } else {
@@ -70,9 +77,7 @@ plotsServer = function(id, cluster_choice) {
     # display plot if available
     output$display_plot = shiny::renderUI({
       if (plot_avail()) {
-        shiny::img(src = fs::path_rel(plot_file(),
-                                      system.file("app", package = "tfpbrowser")),
-                   width = "400px")
+        shiny::img(src = plot_url(), width = "400px")
       } else {
         shiny::p("No plots available.", style = "color: red; text-align: left")
       }
