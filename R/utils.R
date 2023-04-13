@@ -171,11 +171,13 @@ get_cluster_ID = function(tooltip_input) {
 #' function to get node id from data_id column of ggplot
 #' @param widgetChoice From click of radio button to select widget to display
 #' @param treeviewSelected Output from clicking on treeview plot
+#' @param   data_dir   The data directory for the app. Must contain a `treeview/node_lookup`
+#' subdirectory.
 get_selected_cluster_id = function(widgetChoice,
-                                   treeviewSelected) {
+                                   treeviewSelected,
+                                   data_dir) {
   filename = stringr::str_replace(widgetChoice, ".rds", ".csv")
-  filepath = system.file("app", "www", "data", "treeview", "node_lookup",
-                       filename, package = "tfpbrowser")
+  filepath = file.path(data_dir, "treeview", "node_lookup", filename)
   # load look up
   ids = readr::read_csv(filepath,
                         col_types = list(readr::col_double(), readr::col_double()))
