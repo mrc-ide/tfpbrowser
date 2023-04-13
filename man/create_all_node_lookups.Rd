@@ -4,7 +4,10 @@
 \alias{create_all_node_lookups}
 \title{function to create lookups for nodes for all treeviews}
 \usage{
-create_all_node_lookups()
+create_all_node_lookups(data_dir)
+}
+\arguments{
+\item{data_dir}{The directory where the data should be read from / written to.}
 }
 \description{
 function to create lookups for nodes for all treeviews

@@ -26,8 +26,8 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
 #' function to create lookup for a single treeview
 #' @param widgetChoice rds filename for selected treeview output
 #' from radio button
-create_node_lookup = function(widgetChoice) {
-  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+#' @param   data_dir   The directory where the data should be read from / written to.
+create_node_lookup = function(widgetChoice, data_dir) {
   filename = get_filename(widgetChoice, data_dir)
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
@@ -49,11 +49,13 @@ create_node_lookup = function(widgetChoice) {
 }
 
 #' function to create lookups for nodes for all treeviews
+#'
+#' @param   data_dir   The directory where the data should be read from / written to.
 #' @export
-create_all_node_lookups = function() {
+create_all_node_lookups = function(data_dir) {
   # get list of all widgets
   all_widgets = available_treeview()
-  purrr::walk(.x = all_widgets, .f = ~create_node_lookup(.x))
+  purrr::walk(.x = all_widgets, .f = ~create_node_lookup(.x, data_dir = data_dir))
 }
 
 #' function to get lookup table of clusterID and sequence
@@ -89,10 +91,14 @@ get_sequences_lookup = function() {
 #' @param treeview RDS file containing an existing treeview plot
 #' @export
 update_data = function(treeview = "tree-logistic_growth_rate.rds") {
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+
   # create blank treeview
   empty_treeview(treeview = treeview)
+
   # save csv files with node lookups
-  create_all_node_lookups()
+  create_all_node_lookups(data_dir)
+
   # get CSV of sequences vs clusterIDs
   get_sequences_lookup()
 }

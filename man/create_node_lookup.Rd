@@ -4,11 +4,13 @@
 \alias{create_node_lookup}
 \title{function to create lookup for a single treeview}
 \usage{
-create_node_lookup(widgetChoice)
+create_node_lookup(widgetChoice, data_dir)
 }
 \arguments{
 \item{widgetChoice}{rds filename for selected treeview output
 from radio button}
+
+\item{data_dir}{The directory where the data should be read from / written to.}
 }
 \description{
 function to create lookup for a single treeview
