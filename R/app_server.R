@@ -156,7 +156,8 @@ app_server = function(input, output, session) {
   # Tables Tab --------------------------------------------------------------
   tablesServer(
     "table1",
-    cluster_choice = selected_cluster_id
+    cluster_choice = selected_cluster_id,
+    data_dir = data_dir
   )
 
   # Plots Tab ----------------------------------------------------------
