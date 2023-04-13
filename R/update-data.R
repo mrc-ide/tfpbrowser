@@ -27,6 +27,7 @@ empty_treeview = function(treeview = "tree-logistic_growth_rate.rds",
 #' @param widgetChoice rds filename for selected treeview output
 #' from radio button
 create_node_lookup = function(widgetChoice) {
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
   filename = get_filename(widgetChoice)
   g = readRDS(filename)
   built = suppressWarnings(ggplot2::ggplot_build(g))
@@ -43,8 +44,7 @@ create_node_lookup = function(widgetChoice) {
   }
   ids$cluster_ids = tooltip_ids
   filename = stringr::str_replace(widgetChoice, ".rds", ".csv")
-  filepath = file.path("inst", "app", "www", "data", "treeview", "node_lookup",
-                       filename)
+  filepath = file.path(data_dir, "treeview", "node_lookup", filename)
   readr::write_csv(ids, file = filepath)
 }
 
