@@ -3,18 +3,17 @@
 #' @param request Internal parameter for `{shiny}`.
 #' @noRd
 app_ui = function(request) {
+  data_dir <- system.file("app", "www", "data", package = "tfpbrowser")
   shiny::tagList(
 
     shinyjs::useShinyjs(),
     shinybrowser::detect(),
 
-    # TODO: make renv using ggplot2-v3.3.5
-
     shiny::navbarPage(
       # title
       title = place_title_logo(),
 
-      header = add_ext_resources(),
+      header = add_ext_resources(data_dir),
       # theme
       theme = bslib::bs_theme(version = 4,
                               bootswatch = "minty",
