@@ -56,6 +56,7 @@ rdsServer = function(id, cluster_choice, data_dir) {
 
     # check if plots available
     rds_avail = shiny::reactive({
+      # TODO: define URL using data_url?
       src = fs::path_rel(rds_file(), system.file("app", package = "tfpbrowser"))
       if (length(src) != 0) {
         return(grepl(".rds", tolower(src)))

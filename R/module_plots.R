@@ -58,6 +58,7 @@ plotsServer = function(id, cluster_choice, data_dir) {
 
     # the path to the plot, from the browser's perspective
     plot_url = shiny::reactive({
+      # TODO: use data_url rather than path_rel
       shiny::req(plot_file())
       fs::path_rel(plot_file(),
                    system.file("app", package = "tfpbrowser"))

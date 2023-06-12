@@ -8,6 +8,8 @@ app_ui = function(request) {
     shinyjs::useShinyjs(),
     shinybrowser::detect(),
 
+    # TODO: make renv using ggplot2-v3.3.5
+
     shiny::navbarPage(
       # title
       title = place_title_logo(),
