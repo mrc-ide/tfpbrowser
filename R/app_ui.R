@@ -3,7 +3,8 @@
 #' @param request Internal parameter for `{shiny}`.
 #' @noRd
 app_ui = function(request) {
-  data_dir <- system.file("app", "www", "data", package = "tfpbrowser")
+  data_dir <- get_data_dir()
+
   shiny::tagList(
 
     shinyjs::useShinyjs(),

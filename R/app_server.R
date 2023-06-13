@@ -2,8 +2,7 @@
 #' @param input,output,session Internal parameters for `{shiny}`.
 #' @noRd
 app_server = function(input, output, session) {
-  # TODO: add function to get data_dir from env-var if available
-  data_dir = system.file("app", "www", "data", package = "tfpbrowser")
+  data_dir = get_data_dir()
 
   # Update the available treeviews & mutations
   observe({
