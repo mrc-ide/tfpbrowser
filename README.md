@@ -20,3 +20,26 @@ tfpbrowser::run_app()
 * Re-install {tfpbrowser}
 * Run `tfpbrowser::update_data()`
 
+## Configuring the deployed app
+
+Data presented by the app can be obtained from an arbitrary directory on the server.
+To configure the data-directory, use the environment variable `APP_DATA_DIR`.
+For example, if the app is to present data from the directory `/home/me/tfpdata/`, then the app can
+be configured from the command line:
+
+```bash
+APP_DATA_DIR=/home/me/tfpdata/
+# start the app
+```
+
+... or from inside R:
+
+```r
+Sys.setenv("APP_DATA_DIR" = "/home/me/tfpdata/")
+pkgload::load_all()
+run_app()
+```
+
+An alternative way to specify this data directory is to add the line
+`APP_DATA_DIR="/home/me/tfpdata/"` to a `.Renviron` file in the project root.
+
