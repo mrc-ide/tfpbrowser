@@ -5,7 +5,7 @@ app_server = function(input, output, session) {
   data_dir = get_data_dir()
 
   # Update the available treeviews & mutations
-  observe({
+  shiny::observe({
     new_choices = c(
       c("None" = ""),
       available_treeview(data_dir = data_dir)
@@ -18,7 +18,7 @@ app_server = function(input, output, session) {
     )
   })
 
-  observe({
+  shiny::observe({
     mutation_set = available_mutations(data_dir = data_dir)
     shiny::updateSelectizeInput(
       session = session,
