@@ -4,9 +4,12 @@
 \alias{add_ext_resources}
 \title{Add external resources to the shiny app}
 \usage{
-add_ext_resources()
+add_ext_resources(data_dir)
+}
+\arguments{
+\item{data_dir}{The (server-side )file-path for the directory that should be mounted to
+/data/ in the browser. The treeview figures are obtained from \verb{*.rds} files in this directory.}
 }
 \description{
-Function is internally used to add external
-resources inside the Shiny application.
+Function is internally used to add external resources inside the Shiny application.
 }
