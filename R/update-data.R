@@ -31,8 +31,22 @@ empty_treeview <- function(treeview = "tree-logistic_growth_rate.rds",
 #' from radio button
 #' @param   data_dir   The directory where the data should be read from / written to.
 create_node_lookup <- function(widgetChoice, data_dir) {
-  filename <- get_filename(widgetChoice, data_dir)
-  g <- readRDS(filename)
+  dirs <- list(
+    data = data_dir,
+    treeview = file.path(data_dir, "treeview"),
+    node_lookup = file.path(data_dir, "treeview", "node_lookup")
+  )
+
+  stopifnot(dir.exists(dirs[["treeview"]]))
+
+  output_basename <- stringr::str_replace(widgetChoice, ".rds", ".csv")
+  files <- list(
+    input = get_filename(widgetChoice, dirs[["data"]]),
+    output = file.path(dirs[["node_lookup"]], output_basename)
+  )
+
+  g <- readRDS(files[["input"]])
+
   built <- suppressWarnings(ggplot2::ggplot_build(g))
   if (widgetChoice %in% c(
     "sina-logistic_growth_rate.rds",
@@ -48,9 +62,8 @@ create_node_lookup <- function(widgetChoice, data_dir) {
     tooltip_ids <- suppressWarnings(readr::parse_number(tooltips))
   }
   ids$cluster_ids <- tooltip_ids
-  filename <- stringr::str_replace(widgetChoice, ".rds", ".csv")
-  filepath <- file.path(data_dir, "treeview", "node_lookup", filename)
-  readr::write_csv(ids, file = filepath)
+
+  readr::write_csv(ids, file = files[["output"]])
 }
 
 #' function to create lookups for nodes for all treeviews
