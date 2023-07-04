@@ -95,15 +95,21 @@ get_sequences_lookup <- function(data_dir) {
   readr::write_csv(output, file = filepath)
 }
 
-#' function to be run anytime the data is updated
-#' wrapper around other required functions
-#' ideally these will be added to {tfpscanner} in the longer term
-#' and the outputs transferred instead
-#' @param treeview RDS file containing an existing treeview plot
+#' Function to be run anytime the data is updated
+#'
+#' This is a wrapper around other required functions, which ideally will be added to {tfpscanner} in
+#' the longer term and the outputs transferred instead.
+#'
+#' @param data_dir   Location of the data directory. This must contain subdirectories
+#'   `scanner_output` and `treeview`.
+#' @param treeview   RDS file containing an existing treeview plot (in the `treeview` subdirectory
+#'   of `data_dir`).
+#'
 #' @export
-update_data <- function(treeview = "tree-logistic_growth_rate.rds") {
-  data_dir <- system.file("app", "www", "data", package = "tfpbrowser")
 
+update_data <- function(
+    data_dir = system.file("app", "www", "data", package = "tfpbrowser"),
+    treeview = "tree-logistic_growth_rate.rds") {
   # create blank treeview
   empty_treeview(treeview = treeview, data_dir = data_dir)
 

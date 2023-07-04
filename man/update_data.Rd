@@ -2,19 +2,21 @@
 % Please edit documentation in R/update-data.R
 \name{update_data}
 \alias{update_data}
-\title{function to be run anytime the data is updated
-wrapper around other required functions
-ideally these will be added to {tfpscanner} in the longer term
-and the outputs transferred instead}
+\title{Function to be run anytime the data is updated}
 \usage{
-update_data(treeview = "tree-logistic_growth_rate.rds")
+update_data(
+  data_dir = system.file("app", "www", "data", package = "tfpbrowser"),
+  treeview = "tree-logistic_growth_rate.rds"
+)
 }
 \arguments{
-\item{treeview}{RDS file containing an existing treeview plot}
+\item{data_dir}{Location of the data directory. This must contain subdirectories
+\code{scanner_output} and \code{treeview}.}
+
+\item{treeview}{RDS file containing an existing treeview plot (in the \code{treeview} subdirectory
+of \code{data_dir}).}
 }
 \description{
-function to be run anytime the data is updated
-wrapper around other required functions
-ideally these will be added to {tfpscanner} in the longer term
-and the outputs transferred instead
+This is a wrapper around other required functions, which ideally will be added to {tfpscanner} in
+the longer term and the outputs transferred instead.
 }
