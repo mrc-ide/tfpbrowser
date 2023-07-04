@@ -39,6 +39,10 @@ create_node_lookup <- function(widgetChoice, data_dir) {
 
   stopifnot(dir.exists(dirs[["treeview"]]))
 
+  if (!dir.exists(dirs[["node_lookup"]])) {
+    dir.create(dirs[["node_lookup"]])
+  }
+
   output_basename <- stringr::str_replace(widgetChoice, ".rds", ".csv")
   files <- list(
     input = get_filename(widgetChoice, dirs[["data"]]),
