@@ -38,10 +38,7 @@ create_node_lookup <- function(widgetChoice, data_dir) {
   )
 
   stopifnot(dir.exists(dirs[["treeview"]]))
-
-  if (!dir.exists(dirs[["node_lookup"]])) {
-    dir.create(dirs[["node_lookup"]])
-  }
+  create_dir_if_missing(dirs[["node_lookup"]])
 
   output_basename <- stringr::str_replace(widgetChoice, ".rds", ".csv")
   files <- list(
@@ -147,4 +144,16 @@ update_data <- function(
 
   # get CSV of sequences vs clusterIDs
   create_sequences_lookup(data_dir)
+}
+
+#' Create a directory if it doesn't yet exist
+#'
+#' @param   path   The path for the required directory
+
+create_dir_if_missing <- function(path) {
+  stopifnot(length(path) == 1)
+
+  if (!dir.exists(path)) {
+    dir.create(path)
+  }
 }
