@@ -16,9 +16,12 @@ tfpbrowser::run_app()
 
 ## Updating with new data
 
-* Add the new data to relevant folders in `inst/app/www/data/`
-* Re-install {tfpbrowser}
-* Run `tfpbrowser::update_data()`
+* See the notes on using `tfpscanner::create_browser_data()` with tfpbrowser in the README for
+  {tfpscanner}
+* Either:
+  - configure {tfpbrowser} to use the output data directory used in `create_browser_data()` (see the
+  next section); or
+  - copy the contents of that directory into `inst/app/www/data/` and re-install {tfpbrowser}
 
 ## Configuring the deployed app
 
@@ -42,4 +45,3 @@ run_app()
 
 An alternative way to specify this data directory is to add the line
 `APP_DATA_DIR="/home/me/tfpdata/"` to a `.Renviron` file in the project root.
-
