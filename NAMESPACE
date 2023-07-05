@@ -2,9 +2,9 @@
 
 export("%>%")
 export(create_all_node_lookups)
+export(create_sequences_lookup)
 export(empty_treeview)
 export(get_cluster_ID)
-export(get_sequences_lookup)
 export(run_app)
 export(update_data)
 importFrom(magrittr,"%>%")
