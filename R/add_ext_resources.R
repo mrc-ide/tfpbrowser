@@ -2,8 +2,9 @@
 #'
 #' Function is internally used to add external resources inside the Shiny application.
 #'
-#' @param   data_dir   The (server-side )file-path for the directory that should be mounted to
-#'   /data/ in the browser. The treeview figures are obtained from `*.rds` files in this directory.
+#' @param   data_dir   The (server-side) file-path for the directory containing the data for
+#'   presentation. This should contain a `scanner_output` subdirectory, which will be mounted as
+#'   /data/scanner_output/ in the browser.
 
 add_ext_resources = function(data_dir) {
   shiny::addResourcePath(
