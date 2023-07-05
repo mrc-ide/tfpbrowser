@@ -1,3 +1,28 @@
+#' Function to be run anytime the data is updated
+#'
+#' This is a wrapper around other required functions, which ideally will be added to {tfpscanner} in
+#' the longer term and the outputs transferred instead.
+#'
+#' @param data_dir   Location of the data directory. This must contain subdirectories
+#'   `scanner_output` and `treeview`.
+#' @param treeview   RDS file containing an existing treeview plot (in the `treeview` subdirectory
+#'   of `data_dir`).
+#'
+#' @export
+
+update_data <- function(
+    data_dir = system.file("app", "www", "data", package = "tfpbrowser"),
+    treeview = "tree-logistic_growth_rate.rds") {
+  # create blank treeview
+  empty_treeview(treeview = treeview, data_dir = data_dir)
+
+  # save csv files with node lookups
+  create_all_node_lookups(data_dir)
+
+  # get CSV of sequences vs clusterIDs
+  create_sequences_lookup(data_dir)
+}
+
 #' function to create a treeview with all grey nodes to display
 #' @param treeview RDS file containing an existing treeview plot
 #' @param types Character vector of new variables to colour by
@@ -121,31 +146,6 @@ create_sequences_lookup <- function(data_dir) {
 
   lookup_table <- purrr::map_dfr(.x = cluster_ids, .f = ~ process_seq_table(.x, data_dir))
   readr::write_csv(lookup_table, file = output_filepath)
-}
-
-#' Function to be run anytime the data is updated
-#'
-#' This is a wrapper around other required functions, which ideally will be added to {tfpscanner} in
-#' the longer term and the outputs transferred instead.
-#'
-#' @param data_dir   Location of the data directory. This must contain subdirectories
-#'   `scanner_output` and `treeview`.
-#' @param treeview   RDS file containing an existing treeview plot (in the `treeview` subdirectory
-#'   of `data_dir`).
-#'
-#' @export
-
-update_data <- function(
-    data_dir = system.file("app", "www", "data", package = "tfpbrowser"),
-    treeview = "tree-logistic_growth_rate.rds") {
-  # create blank treeview
-  empty_treeview(treeview = treeview, data_dir = data_dir)
-
-  # save csv files with node lookups
-  create_all_node_lookups(data_dir)
-
-  # get CSV of sequences vs clusterIDs
-  create_sequences_lookup(data_dir)
 }
 
 #' Create a directory if it doesn't yet exist
