@@ -8,8 +8,10 @@ create_sequences_lookup(data_dir)
 }
 \arguments{
 \item{data_dir}{The data directory for the application. Must have a \code{scanner_output}
-subdirectory.}
+subdirectory. Within \verb{<data_dir>/scanner_output/} every subdirectory must contain a
+\code{sequences.csv} file.}
 }
 \description{
-Function to save a CSV file of all sequences for all clusterIDs
+The files \verb{<data_dir>/scanner_output/*/sequences.csv} will be combined together to create the
+output file \verb{<data_dir>/sequences/all_sequences.csv}.
 }

@@ -99,18 +99,29 @@ process_seq_table <- function(selected_folder, data_dir) {
 
 #' Function to save a CSV file of all sequences for all clusterIDs
 #'
+#' The files `<data_dir>/scanner_output/*/sequences.csv` will be combined together to create the
+#' output file `<data_dir>/sequences/all_sequences.csv`.
+#'
 #' @param   data_dir   The data directory for the application. Must have a `scanner_output`
-#' subdirectory.
+#'   subdirectory. Within `<data_dir>/scanner_output/` every subdirectory must contain a
+#'   `sequences.csv` file.
 #'
 #' @export
 
 create_sequences_lookup <- function(data_dir) {
-  all_files <- list.files(
-    file.path(data_dir, "scanner_output")
+  dirs <- list(
+    input = file.path(data_dir, "scanner_output"),
+    output = file.path(data_dir, "sequences")
   )
-  output <- purrr::map_dfr(.x = all_files, .f = ~ process_seq_table(.x, data_dir))
-  filepath <- file.path(data_dir, "sequences", "all_sequences.csv")
-  readr::write_csv(output, file = filepath)
+  cluster_ids <- list.dirs(
+    dirs[["input"]],
+    recursive = FALSE,
+    full.names = FALSE
+  )
+  output_filepath <- file.path(dirs[["output"]], "all_sequences.csv")
+
+  lookup_table <- purrr::map_dfr(.x = cluster_ids, .f = ~ process_seq_table(.x, data_dir))
+  readr::write_csv(lookup_table, file = output_filepath)
 }
 
 #' Function to be run anytime the data is updated
