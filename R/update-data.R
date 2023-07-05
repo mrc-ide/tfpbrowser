@@ -117,6 +117,8 @@ create_sequences_lookup <- function(data_dir) {
   )
   output_filepath <- file.path(dirs[["output"]], "all_sequences.csv")
 
+  create_dir_if_missing(dirs[["output"]])
+
   lookup_table <- purrr::map_dfr(.x = cluster_ids, .f = ~ process_seq_table(.x, data_dir))
   readr::write_csv(lookup_table, file = output_filepath)
 }
