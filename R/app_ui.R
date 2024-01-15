@@ -63,20 +63,22 @@ app_ui = function(request) {
           shiny::column(12,
 
                         # choose type of treeview
-                        shiny::radioButtons(inputId = "widgetChoice",
-                                            label = "Select treeview",
-                                            choices = c("None" = ""),
-                                            inline = TRUE),
+                        shiny::selectInput(inputId = "widgetChoice",
+                                              label = "View",
+                                              choices = c("None" = ""),
+                                              selectize = FALSE),
 
                         # choose type of mutation
-                        shiny::selectizeInput(inputId = "mutationChoice",
-                                              label = "Select mutation",
-                                              choices = character(0)),
+                        shiny::selectInput(inputId = "mutationChoice",
+                                              label = "Mutation",
+                                              choices = character(0),
+                                              selectize = FALSE),
 
                         # choose type of sequence
-                        shiny::selectizeInput(inputId = "sequenceChoice",
-                                              label = "Select sequence",
-                                              choices = NULL),
+                        shiny::selectInput(inputId = "sequenceChoice",
+                                              label = "Sequence",
+                                              choices = NULL,
+                                              selectize = FALSE),
 
                         # markdown files to add description
                         shiny::uiOutput("tree_md_files"),

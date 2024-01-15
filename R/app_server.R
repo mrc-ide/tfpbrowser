@@ -10,17 +10,16 @@ app_server = function(input, output, session) {
       c("None" = ""),
       available_treeview(data_dir = data_dir)
     )
-    shiny::updateRadioButtons(
+    shiny::updateSelectInput(
       session = session,
       inputId = "widgetChoice",
-      choices = new_choices,
-      inline = TRUE
+      choices = new_choices
     )
   })
 
   shiny::observe({
     mutation_set = available_mutations(data_dir = data_dir)
-    shiny::updateSelectizeInput(
+    shiny::updateSelectInput(
       session = session,
       inputId = "mutationChoice",
       choices = mutation_set
@@ -99,7 +98,7 @@ app_server = function(input, output, session) {
     if (input$widgetChoice == "tree-sequences.rds") {
       avail_seqs = data.table::as.data.table(available_sequences(data_dir))
       names(avail_seqs) = "Sequences"
-      shiny::updateSelectizeInput(inputId = "sequenceChoice",
+      shiny::updateSelectInput(inputId = "sequenceChoice",
                                   label = "Select sequence",
                                   choices = avail_seqs
                                   )
