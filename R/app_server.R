@@ -87,19 +87,18 @@ app_server = function(input, output, session) {
 
   # disable dropdown unless mutation treeview
   shiny::observe({
-    shiny::req(input$widgetChoice)
+    choice = ifelse(input$widgetChoice != "", input$widgetChoice, "")
     # toggle mutation dropdown
-    shinyjs::toggleState(id = "mutationChoice",
-                         condition = input$widgetChoice == "tree-mutations.rds")
+    shinyjs::toggleElement(id = "mutationChoice",
+                         condition = choice == "tree-mutations.rds")
     # toggle sequence dropdown
-    shinyjs::toggleState(id = "sequenceChoice",
-                         condition = input$widgetChoice == "tree-sequences.rds")
+    shinyjs::toggleElement(id = "sequenceChoice",
+                         condition = choice == "tree-sequences.rds")
     # select input for sequences
-    if (input$widgetChoice == "tree-sequences.rds") {
+    if (choice == "tree-sequences.rds") {
       avail_seqs = data.table::as.data.table(available_sequences(data_dir))
       names(avail_seqs) = "Sequences"
       shiny::updateSelectInput(inputId = "sequenceChoice",
-                                  label = "Select sequence",
                                   choices = avail_seqs
                                   )
     }
