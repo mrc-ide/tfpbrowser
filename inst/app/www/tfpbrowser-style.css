@@ -11,6 +11,7 @@ details {
   display: flex;
   flex-wrap: wrap;
   column-gap: 2em;
+  position: relative;
 }
 
 [id="view-selection"] {
@@ -37,6 +38,15 @@ details {
     flex-basis: 300px;
     flex-direction: column;
     row-gap: 1.5em;
+    align-self: flex-start;
+  }
+}
+
+
+@media (min-width: 900px) and (min-height: 400px) {
+  [id="view-selection"] {
+    position: sticky;
+    top: 2em;
   }
 }
 
