@@ -61,7 +61,17 @@ app_ui = function(request) {
         shiny::fluidRow(
           shiny::column(12,
             id="view-container",
-            shiny::div(id="view-selection",
+                        shiny::div(id="view-selection",
+                          htmltools::tags$details(
+                            id="sidebar-toggle",
+                            open="open",
+                            `aria-role`="button",
+                            `aria-label`="Toggle sidebar visibility",
+                            htmltools::tags$summary(
+                              shiny::span(">>"),
+                              shiny::span("<<")
+                            )
+                          ),
                           # choose type of treeview
                           shiny::selectInput(inputId = "widgetChoice",
                                                 label = "View",

@@ -10,7 +10,6 @@ details {
 [id="view-container"] {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 2em;
   position: relative;
 }
 
@@ -32,13 +31,62 @@ details {
   margin-bottom: 0;
 }
 
+[id="sidebar-toggle"] {
+  display: none;
+}
+
 
 @media (min-width: 900px) {
+  :root {
+    --sidebar-top-gap: 1em;
+    --sidebar-col-gap: 2.3em;
+  }
+
+  [id="view-container"] {
+    column-gap: var(--sidebar-col-gap);
+  }
+
   [id="view-selection"] {
     flex-basis: 300px;
     flex-direction: column;
     row-gap: 1.5em;
+    padding-top: var(--sidebar-top-gap);
     align-self: flex-start;
+  }
+
+  /* Only display sidebar toggle if browser supports :has */
+  [id="view-selection"]:has([id="sidebar-toggle"]) [id="sidebar-toggle"] {
+    display: contents;
+  }
+  
+  [id="sidebar-toggle"] summary {
+    position: absolute;
+    right: 0;
+    transform: translate(calc(var(--sidebar-col-gap) + 0.5em), calc(var(--sidebar-top-gap) * -1));
+    width: 2.5em;
+    display: block;
+    padding: 0.4em;
+    padding-left: 0.1em;
+    text-align: center;
+    border-top-left-radius: 0.2em;
+    border-bottom-left-radius: 0.2em;
+    background-color: rgba(0,33,71,0.03);
+  }
+  
+  [id="sidebar-toggle"][open] span:first-child {
+    display: none;
+  }
+  
+  [id="sidebar-toggle"]:not([open]) span:last-child {
+    display: none;
+  }
+
+  [id="view-selection"]:has([id="sidebar-toggle"]:not([open])) {
+    flex-basis: 0;
+  }
+
+  [id="view-selection"]:has([id="sidebar-toggle"]:not([open])) .form-group {
+    display: none;
   }
 }
 
@@ -46,7 +94,7 @@ details {
 @media (min-width: 900px) and (min-height: 400px) {
   [id="view-selection"] {
     position: sticky;
-    top: 2em;
+    top: 0.1em;
   }
 }
 
