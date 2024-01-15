@@ -59,36 +59,38 @@ app_ui = function(request) {
 
         # Bottom row - show tree (static html output from tfpscanner)
         shiny::fluidRow(
-
           shiny::column(12,
+            id="view-container",
+            shiny::div(id="view-selection",
+                          # choose type of treeview
+                          shiny::selectInput(inputId = "widgetChoice",
+                                                label = "View",
+                                                choices = c("None" = ""),
+                                                selectize = FALSE),
 
-                        # choose type of treeview
-                        shiny::selectInput(inputId = "widgetChoice",
-                                              label = "View",
-                                              choices = c("None" = ""),
-                                              selectize = FALSE),
+                          # choose type of mutation
+                          shiny::selectInput(inputId = "mutationChoice",
+                                                label = "Mutation",
+                                                choices = character(0),
+                                                selectize = FALSE),
 
-                        # choose type of mutation
-                        shiny::selectInput(inputId = "mutationChoice",
-                                              label = "Mutation",
-                                              choices = character(0),
-                                              selectize = FALSE),
+                          # choose type of sequence
+                          shiny::selectInput(inputId = "sequenceChoice",
+                                                label = "Sequence",
+                                                choices = NULL,
+                                                selectize = FALSE),
+            ),
+            shiny::div(id="view-graphic",
+                          # markdown files to add description
+                          shiny::uiOutput("tree_md_files"),
 
-                        # choose type of sequence
-                        shiny::selectInput(inputId = "sequenceChoice",
-                                              label = "Sequence",
-                                              choices = NULL,
-                                              selectize = FALSE),
-
-                        # markdown files to add description
-                        shiny::uiOutput("tree_md_files"),
-
-                        # show treeview widget
-                        shiny::wellPanel(
-                          ggiraph::girafeOutput("treeview"),
-                          style = "background: white; height: 1800px;",
-                        ),
-                        shiny::br()
+                          # show treeview widget
+                          shiny::wellPanel(
+                            ggiraph::girafeOutput("treeview"),
+                            style = "background: white; height: 1800px;",
+                          ),
+                          shiny::br()
+            )
           )
         ) # end fluid row
       ), # end "data" page
