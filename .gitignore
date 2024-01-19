@@ -1,6 +1,9 @@
 # {shinytest2}: Ignore new debug snapshots for `$expect_values()`
 *_.new.png
 
+# Prevent the in-repo small example dataset being over-written with production data
+inst/app/www/data/
+
 # History files
 .Rhistory
 .Rapp.history
