@@ -30,7 +30,7 @@ app_ui = function(request) {
                         # use details and summary to create expandable section
                         htmltools::tags$details(
                           # preview of expandable section
-                          htmltools::tags$summary("Download Files (click to expand)"),
+                          htmltools::tags$summary("Cluster statistics (click to expand)"),
 
                           shiny::br(),
 
@@ -70,6 +70,11 @@ app_ui = function(request) {
                         shiny::selectizeInput(inputId = "mutationChoice",
                                               label = "Select mutation",
                                               choices = available_mutations()),
+
+                        # choose type of sequence
+                        shiny::selectizeInput(inputId = "sequenceChoice",
+                                              label = "Select sequence",
+                                              choices = NULL),
 
                         # markdown files to add description
                         shiny::uiOutput("tree_md_files"),
