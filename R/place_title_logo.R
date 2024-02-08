@@ -8,7 +8,7 @@ place_title_logo = function() {
       src = "www/logo.png",
       contentType = "image/png",
       height = 80, width = 100),
-    "tpfbrowser")
+    "tfpbrowser")
 
   return(title)
 }
