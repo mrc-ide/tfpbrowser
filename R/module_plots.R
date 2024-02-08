@@ -16,8 +16,9 @@ plotsUI = function(id) {
 #' Plots tab Server
 #' @param id ID for shiny module namespacing
 #' @param cluster_choice which cluster to display the data for
+#' @param   data_dir   The data directory for the app.
 #' @noRd
-plotsServer = function(id, cluster_choice) {
+plotsServer = function(id, cluster_choice, data_dir) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
 
@@ -28,7 +29,7 @@ plotsServer = function(id, cluster_choice) {
 
     # all available plots
     all_files = shiny::reactive({
-      return(get_all_files(cluster_choice()))
+      return(get_all_files(cluster_choice(), data_dir = data_dir))
     }) %>%
       shiny::bindCache(cluster_choice())
 
@@ -47,19 +48,25 @@ plotsServer = function(id, cluster_choice) {
                                choices = all_images)
     })
 
-    # get plot file
+    # the path to the plot, from the server's perspective
     plot_file = shiny::reactive({
       shiny::req(cluster_choice())
-      plot_file = system.file("app", "www", "data", "scanner_output",
-                              cluster_choice(), input$plot_type,
-                              package = "tfpbrowser")
+      plot_file = file.path(data_dir, "scanner_output", cluster_choice(), input$plot_type)
       return(plot_file)
     }) %>%
       shiny::bindCache(cluster_choice(), input$plot_type)
 
+    # the path to the plot, from the browser's perspective
+    plot_url = shiny::reactive({
+      shiny::req(plot_file())
+
+      plot_subpath <- fs::path_rel(plot_file(), data_dir)
+      glue::glue("data/{plot_subpath}")
+    })
+
     # check if plots available
     plot_avail = shiny::reactive({
-      src = fs::path_rel(plot_file(), system.file("app", package = "tfpbrowser"))
+      src = plot_url()
       if (length(src) != 0) {
         return(grepl(".png", tolower(src)))
       } else {
@@ -70,9 +77,7 @@ plotsServer = function(id, cluster_choice) {
     # display plot if available
     output$display_plot = shiny::renderUI({
       if (plot_avail()) {
-        shiny::img(src = fs::path_rel(plot_file(),
-                                      system.file("app", package = "tfpbrowser")),
-                   width = "400px")
+        shiny::img(src = plot_url(), width = "400px")
       } else {
         shiny::p("No plots available.", style = "color: red; text-align: left")
       }

@@ -1,7 +1,12 @@
 #' function to return treeview options
-available_treeview = function() {
-  all_trees = list.files(system.file("app", "www", "data", "treeview",
-                                     package = "tfpbrowser"), pattern = "\\.rds$")
+#'
+#' @param   data_dir   The directory containing the data for the application.
+
+available_treeview = function(data_dir) {
+  all_trees = list.files(
+    file.path(data_dir, "treeview"),
+    pattern = "\\.rds$"
+  )
   all_trees = factor(all_trees,
                      c(stringr::str_subset(all_trees, "tree"),
                        stringr::str_subset(all_trees, "sina")))
@@ -14,11 +19,13 @@ available_treeview = function() {
 }
 
 #' function to return mutation options
-available_mutations = function() {
-  all_muts = readr::read_csv(system.file("app", "www", "data",
-                                         "mutations", "defining_mutations.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#'
+#' @param   data_dir   The directory containing the data for the application. Must contain a
+#' `mutations` subdirectory
+
+available_mutations = function(data_dir) {
+  filepath = file.path(data_dir, "mutations", "defining_mutations.csv")
+  all_muts = readr::read_csv(filepath, col_types = readr::cols())
   all_muts = all_muts %>%
     dplyr::pull(.data$mutation) %>%
     unique()
@@ -27,24 +34,25 @@ available_mutations = function() {
 
 #' Which nodes have a given mutation
 #' @param chosen_mutation String for the user selected mutation
-selected_mut_nodes = function(chosen_mutation) {
-  all_muts = readr::read_csv(system.file("app", "www", "data",
-                                         "mutations", "all_mutations.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#' @param data_dir The data directory for the app. Must contain a "mutations" subdirectory.
+selected_mut_nodes = function(chosen_mutation, data_dir) {
+  filepath = file.path(data_dir, "mutations", "all_mutations.csv")
+  all_muts = readr::read_csv(filepath, col_types = readr::cols())
   selected_nodes = all_muts %>%
     dplyr::filter(.data$mutation == chosen_mutation) %>%
     dplyr::pull(.data$cluster_id)
   return(selected_nodes)
 }
 
-#' function to return folder name
-#' @param type Choice of treeview widget to show
-get_filename = function(type) {
-  filename = system.file("app", "www", "data", "treeview",
-                         type,
-                         package = "tfpbrowser",
-                         mustWork = TRUE)
+#' Obtain the file-path for a tree-view
+#' @param type Choice of tree-view widget to show
+#' @param data_dir The data directory for the app. Must contain a "treeview" subdirectory.
+get_filename = function(type, data_dir) {
+  stopifnot(dir.exists(data_dir))
+
+  filename = file.path(data_dir, "treeview", type)
+  stopifnot(file.exists(filename))
+
   return(filename)
 }
 
@@ -73,13 +81,11 @@ get_all_clusters = function(filename) {
 
 #' Get all file names in a folder of the data relating to a single cluster
 #' @param cluster_choice character relating to a folder name in inst/data
-get_all_files = function(cluster_choice) {
+#' @param   data_dir   The data directory for the app. Must contain a `scanner_output` subdirectory
+get_all_files = function(cluster_choice, data_dir) {
+  cluster_dir = file.path(data_dir, "scanner_output", cluster_choice)
   all_files = tibble::as_tibble(
-    list.files(
-      system.file("app", "www", "data", "scanner_output",
-                  cluster_choice,
-                  package = "tfpbrowser")
-    )
+    list.files(cluster_dir)
   )
   all_files = all_files %>%
     dplyr::mutate(filetype = sub(".*\\.", "", .data$value))
@@ -173,11 +179,13 @@ get_cluster_ID = function(tooltip_input) {
 #' function to get node id from data_id column of ggplot
 #' @param widgetChoice From click of radio button to select widget to display
 #' @param treeviewSelected Output from clicking on treeview plot
+#' @param   data_dir   The data directory for the app. Must contain a `treeview/node_lookup`
+#' subdirectory.
 get_selected_cluster_id = function(widgetChoice,
-                                   treeviewSelected) {
+                                   treeviewSelected,
+                                   data_dir) {
   filename = stringr::str_replace(widgetChoice, ".rds", ".csv")
-  filepath = system.file("app", "www", "data", "treeview", "node_lookup",
-                       filename, package = "tfpbrowser")
+  filepath = file.path(data_dir, "treeview", "node_lookup", filename)
   # load look up
   ids = readr::read_csv(filepath,
                         col_types = list(readr::col_double(), readr::col_double()))
@@ -186,22 +194,20 @@ get_selected_cluster_id = function(widgetChoice,
 }
 
 #' function to return sequence options
-available_sequences = function() {
-  all_seq = readr::read_csv(system.file("app", "www", "data",
-                                         "sequences", "all_sequences.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#' @param   data_dir   The data directory for the app. Must contain a "sequences" subdirectory.
+available_sequences = function(data_dir) {
+  filepath = file.path(data_dir, "sequences", "all_sequences.csv")
+  all_seq = readr::read_csv(filepath, col_types = readr::cols())
   all_seq = unique(all_seq$sequence)
   return(all_seq)
 }
 
 #' Which nodes have a given sequence
 #' @param chosen_sequence String for the user selected sequence
-selected_seq_nodes = function(chosen_sequence) {
-  all_seq = readr::read_csv(system.file("app", "www", "data",
-                                         "sequences", "all_sequences.csv",
-                                         package = "tfpbrowser"),
-                             col_types = readr::cols())
+#' @param data_dir The data directory for the app. Must contain a "sequences" subdirectory.
+selected_seq_nodes = function(chosen_sequence, data_dir) {
+  filepath = file.path(data_dir, "sequences", "all_sequences.csv")
+  all_seq = readr::read_csv(filepath, col_types = readr::cols())
   selected_nodes = all_seq %>%
     dplyr::filter(.data$sequence == chosen_sequence) %>%
     dplyr::pull(.data$cluster_id)

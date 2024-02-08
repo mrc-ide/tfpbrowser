@@ -2,13 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{get_filename}
 \alias{get_filename}
-\title{function to return folder name}
+\title{Obtain the file-path for a tree-view}
 \usage{
-get_filename(type)
+get_filename(type, data_dir)
 }
 \arguments{
-\item{type}{Choice of treeview widget to show}
+\item{type}{Choice of tree-view widget to show}
+
+\item{data_dir}{The data directory for the app. Must contain a "treeview" subdirectory.}
 }
 \description{
-function to return folder name
+Obtain the file-path for a tree-view
 }

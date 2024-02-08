@@ -4,10 +4,12 @@
 \alias{get_all_files}
 \title{Get all file names in a folder of the data relating to a single cluster}
 \usage{
-get_all_files(cluster_choice)
+get_all_files(cluster_choice, data_dir)
 }
 \arguments{
 \item{cluster_choice}{character relating to a folder name in inst/data}
+
+\item{data_dir}{The data directory for the app. Must contain a \code{scanner_output} subdirectory}
 }
 \description{
 Get all file names in a folder of the data relating to a single cluster

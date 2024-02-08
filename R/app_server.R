@@ -2,11 +2,34 @@
 #' @param input,output,session Internal parameters for `{shiny}`.
 #' @noRd
 app_server = function(input, output, session) {
+  data_dir = get_data_dir()
+
+  # Update the available treeviews & mutations
+  shiny::observe({
+    new_choices = c(
+      c("None" = ""),
+      available_treeview(data_dir = data_dir)
+    )
+    shiny::updateSelectInput(
+      session = session,
+      inputId = "widgetChoice",
+      choices = new_choices
+    )
+  })
+
+  shiny::observe({
+    mutation_set = available_mutations(data_dir = data_dir)
+    shiny::updateSelectInput(
+      session = session,
+      inputId = "mutationChoice",
+      choices = mutation_set
+    )
+  })
 
   # Load treeview -----------------------------------------------------------
   imported_ggtree = shiny::reactive({
     shiny::req(input$widgetChoice)
-    filename = get_filename(input$widgetChoice)
+    filename = get_filename(input$widgetChoice, data_dir)
     readRDS(filename)
   })
 
@@ -64,19 +87,18 @@ app_server = function(input, output, session) {
 
   # disable dropdown unless mutation treeview
   shiny::observe({
-    shiny::req(input$widgetChoice)
+    choice = ifelse(input$widgetChoice != "", input$widgetChoice, "")
     # toggle mutation dropdown
-    shinyjs::toggleState(id = "mutationChoice",
-                         condition = input$widgetChoice == "tree-mutations.rds")
+    shinyjs::toggleElement(id = "mutationChoice",
+                         condition = choice == "tree-mutations.rds")
     # toggle sequence dropdown
-    shinyjs::toggleState(id = "sequenceChoice",
-                         condition = input$widgetChoice == "tree-sequences.rds")
+    shinyjs::toggleElement(id = "sequenceChoice",
+                         condition = choice == "tree-sequences.rds")
     # select input for sequences
-    if (input$widgetChoice == "tree-sequences.rds") {
-      avail_seqs = data.table::as.data.table(available_sequences())
+    if (choice == "tree-sequences.rds") {
+      avail_seqs = data.table::as.data.table(available_sequences(data_dir))
       names(avail_seqs) = "Sequences"
-      shiny::updateSelectizeInput(inputId = "sequenceChoice",
-                                  label = "Select sequence",
+      shiny::updateSelectInput(inputId = "sequenceChoice",
                                   choices = avail_seqs
                                   )
     }
@@ -85,7 +107,7 @@ app_server = function(input, output, session) {
   # get selected nodes from mutation choice
   shiny::observeEvent(input$mutationChoice, {
 
-    nodeChoice = selected_mut_nodes(input$mutationChoice)
+    nodeChoice = selected_mut_nodes(input$mutationChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
     node_map = imported_ggtree()$data[c("cluster_id", "node")]
@@ -107,7 +129,7 @@ app_server = function(input, output, session) {
   # get selected nodes from sequence choice
   shiny::observeEvent(input$sequenceChoice, {
 
-    nodeChoice = selected_seq_nodes(input$sequenceChoice)
+    nodeChoice = selected_seq_nodes(input$sequenceChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
     node_map = imported_ggtree()$data[c("cluster_id", "node")]
@@ -131,7 +153,8 @@ app_server = function(input, output, session) {
     shiny::req(input$widgetChoice)
     shiny::req(input$treeview_selected)
     get_selected_cluster_id(widgetChoice = input$widgetChoice,
-                            treeviewSelected = utils::tail(input$treeview_selected, 1))
+                            treeviewSelected = utils::tail(input$treeview_selected, 1),
+                            data_dir = data_dir)
   }) %>%
     shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
@@ -154,19 +177,22 @@ app_server = function(input, output, session) {
   # Tables Tab --------------------------------------------------------------
   tablesServer(
     "table1",
-    cluster_choice = selected_cluster_id
+    cluster_choice = selected_cluster_id,
+    data_dir = data_dir
   )
 
   # Plots Tab ----------------------------------------------------------
   plotsServer(
     "plot1",
-    cluster_choice = selected_cluster_id
+    cluster_choice = selected_cluster_id,
+    data_dir = data_dir
   )
 
   # RDS Tab ----------------------------------------------------------
   rdsServer(
     "rds1",
-    cluster_choice = selected_cluster_id
+    cluster_choice = selected_cluster_id,
+    data_dir = data_dir
   )
 
 } # end server function

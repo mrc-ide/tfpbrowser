@@ -4,9 +4,13 @@
 \alias{add_ext_resources}
 \title{Add external resources to the shiny app}
 \usage{
-add_ext_resources()
+add_ext_resources(data_dir)
+}
+\arguments{
+\item{data_dir}{The (server-side) file-path for the directory containing the data for
+presentation. This should contain a \code{scanner_output} subdirectory, which will be mounted as
+/data/scanner_output/ in the browser.}
 }
 \description{
-Function is internally used to add external
-resources inside the Shiny application.
+Function is internally used to add external resources inside the Shiny application.
 }

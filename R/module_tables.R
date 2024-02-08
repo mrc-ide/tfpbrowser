@@ -15,8 +15,9 @@ tablesUI = function(id) {
 #' Tables tab Server
 #' @param id ID for shiny module namespacing
 #' @param cluster_choice which cluster to display the data for
+#' @param   data_dir   The data directory for the app.
 #' @noRd
-tablesServer = function(id, cluster_choice) {
+tablesServer = function(id, cluster_choice, data_dir) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
 
@@ -27,7 +28,7 @@ tablesServer = function(id, cluster_choice) {
 
     # all available tables
     all_files = shiny::reactive({
-      return(get_all_files(cluster_choice()))
+      return(get_all_files(cluster_choice(), data_dir = data_dir))
     }) %>%
       shiny::bindCache(cluster_choice())
 
@@ -49,9 +50,7 @@ tablesServer = function(id, cluster_choice) {
     # get table file path
     table_file = shiny::reactive({
       shiny::req(cluster_choice())
-      table_file = system.file("app", "www", "data", "scanner_output",
-                               cluster_choice(), input$table_type,
-                               package = "tfpbrowser")
+      table_file = file.path(data_dir, "scanner_output", cluster_choice(), input$table_type)
       return(table_file)
     }) %>%
       shiny::bindCache(cluster_choice(), input$table_type)

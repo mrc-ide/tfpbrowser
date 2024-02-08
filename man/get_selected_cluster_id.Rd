@@ -4,12 +4,15 @@
 \alias{get_selected_cluster_id}
 \title{function to get node id from data_id column of ggplot}
 \usage{
-get_selected_cluster_id(widgetChoice, treeviewSelected)
+get_selected_cluster_id(widgetChoice, treeviewSelected, data_dir)
 }
 \arguments{
 \item{widgetChoice}{From click of radio button to select widget to display}
 
 \item{treeviewSelected}{Output from clicking on treeview plot}
+
+\item{data_dir}{The data directory for the app. Must contain a \code{treeview/node_lookup}
+subdirectory.}
 }
 \description{
 function to get node id from data_id column of ggplot
