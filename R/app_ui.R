@@ -14,7 +14,7 @@ app_ui = function(request) {
       header = add_ext_resources(data_dir),
       # theme
       theme = bslib::bs_theme(
-        version = 4,
+        version = 5,
         bootswatch = "minty",
         bg = "#EBEEEE",
         fg = "#002147",
