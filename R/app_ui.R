@@ -26,33 +26,7 @@ app_ui = function(request) {
       shiny::tabPanel(
         title = "Data",
         shiny::fluidRow(
-          shiny::column(
-            12,
-            # use details and summary to create expandable section
-            htmltools::tags$details(
-              # preview of expandable section
-              htmltools::tags$summary("Cluster statistics (click to expand)"),
-              shiny::br(),
-
-              # text to print choice
-              shiny::textOutput("select_text"),
-              shiny::br(),
-
-              # output options
-              shiny::tabsetPanel(
-                id = "plot_tabs",
-
-                # Tables tab
-                tablesUI("table1"),
-
-                # Plots tab
-                plotsUI("plot1"),
-
-                # RDS tab
-                rdsUI("rds1")
-              )
-            )
-          )
+          shiny::column(12, clusterStatsUI(id = NULL))
         ), # end fluid row
 
         # Bottom row - show tree (static html output from tfpscanner)
