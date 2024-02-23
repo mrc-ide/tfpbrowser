@@ -20,9 +20,18 @@ clusterStatsUI = function(id) {
   )
 
   # use details and summary to create expandable section
-  htmltools::tags$details(
-    # preview of expandable section
-    htmltools::tags$summary("Cluster statistics (click to expand)"),
-    box_content
+  fluidRow(
+    column(
+      width = 11,
+      htmltools::tags$details(
+        # preview of expandable section
+        htmltools::tags$summary("Cluster statistics (click to expand)"),
+        box_content
+      )
+    ),
+    column(
+      width = 1,
+      bslib::popover(bsicons::bs_icon("question-circle"), "Help!")
+    )
   )
 }
