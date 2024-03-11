@@ -23,28 +23,25 @@ create_girafe = function(
   )
 
   # set options
-  if (widget_choice == "tree-mutations.rds") {
-    girafe_options = list(
+  common_options = list(
+    ggiraph::opts_sizing(rescale = FALSE),
+    ggiraph::opts_zoom(max = 5),
+    ggiraph::opts_tooltip(
+      css = tooltip_css,
+      use_fill = FALSE
+    )
+  )
+
+  plot_specific_options = if (widget_choice == "tree-mutations.rds") {
+    list(
       ggiraph::opts_selection(css = "fill:red;"),
-      ggiraph::opts_selection_inv(css = "fill:grey;"),
-      ggiraph::opts_sizing(rescale = FALSE),
-      ggiraph::opts_zoom(max = 5),
-      ggiraph::opts_tooltip(
-        css = tooltip_css,
-        use_fill = FALSE
-      )
+      ggiraph::opts_selection_inv(css = "fill:grey;")
     )
   } else {
-    girafe_options = list(
-      ggiraph::opts_selection(type = "single"),
-      ggiraph::opts_sizing(rescale = FALSE),
-      ggiraph::opts_zoom(max = 5),
-      ggiraph::opts_tooltip(
-        css = tooltip_css,
-        use_fill = FALSE
-      )
-    )
+    list(ggiraph::opts_selection(type = "single"))
   }
+
+  girafe_options = c(plot_specific_options, common_options)
 
   create_widget = function() {
     ggiraph::girafe(
