@@ -37,15 +37,20 @@ app_server = function(input, output, session) {
   output$treeview = ggiraph::renderGirafe({
     shiny::req(input$widgetChoice)
 
-    # set size
-    w = shinybrowser::get_width() / 72
-    h = (1800 - 40) / 72
+    # set the relative height/width of the ggiraph-based graphs
+    is_dendrogram = grepl("^tree-", x = input$widgetChoice)
+    width = shinybrowser::get_width() / 72
+    height = if (is_dendrogram) {
+      (1800 - 40) / 72
+    } else {
+      (600 - 40) / 72
+    }
 
     create_girafe(
       ggobj = imported_ggtree(),
       widget_choice = input$widgetChoice,
-      width_svg = w,
-      height_svg = h,
+      width_svg = width,
+      height_svg = height,
       suppress_warnings = TRUE
     )
   }) %>%
