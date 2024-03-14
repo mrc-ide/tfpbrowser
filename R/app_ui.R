@@ -3,7 +3,7 @@
 #' @param request Internal parameter for `{shiny}`.
 #' @noRd
 app_ui = function(request) {
-  data_dir <- get_data_dir()
+  data_dir = get_data_dir()
 
   shiny::tagList(
     shinyjs::useShinyjs(),

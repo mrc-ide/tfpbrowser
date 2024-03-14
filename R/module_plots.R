@@ -64,7 +64,7 @@ plotsServer = function(id, cluster_choice, data_dir) {
     plot_url = shiny::reactive({
       shiny::req(plot_file())
 
-      plot_subpath <- fs::path_rel(plot_file(), data_dir)
+      plot_subpath = fs::path_rel(plot_file(), data_dir)
       glue::glue("data/{plot_subpath}")
     })
 
