@@ -7,7 +7,9 @@
 .onload = function(...) {
   shiny::addResourcePath(
     "www",
-    system.file("www", package = "tfpbrowser",
-                mustWork = TRUE)
+    system.file("www",
+      package = "tfpbrowser",
+      mustWork = TRUE
+    )
   )
 }

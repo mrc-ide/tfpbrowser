@@ -6,100 +6,106 @@ app_ui = function(request) {
   data_dir <- get_data_dir()
 
   shiny::tagList(
-
     shinyjs::useShinyjs(),
     shinybrowser::detect(),
-
     shiny::navbarPage(
       # title
       title = place_title_logo(),
-
       header = add_ext_resources(data_dir),
       # theme
-      theme = bslib::bs_theme(version = 4,
-                              bootswatch = "minty",
-                              bg = "#EBEEEE",
-                              fg = "#002147",
-                              primary = "#003E74",
-                              secondary = "#9D9D9D"),
+      theme = bslib::bs_theme(
+        version = 4,
+        bootswatch = "minty",
+        bg = "#EBEEEE",
+        fg = "#002147",
+        primary = "#003E74",
+        secondary = "#9D9D9D"
+      ),
 
       # Input widgets
       shiny::tabPanel(
         title = "Data",
-
         shiny::fluidRow(
-          shiny::column(12,
-                        # use details and summary to create expandable section
-                        htmltools::tags$details(
-                          # preview of expandable section
-                          htmltools::tags$summary("Cluster statistics (click to expand)"),
+          shiny::column(
+            12,
+            # use details and summary to create expandable section
+            htmltools::tags$details(
+              # preview of expandable section
+              htmltools::tags$summary("Cluster statistics (click to expand)"),
+              shiny::br(),
 
-                          shiny::br(),
+              # text to print choice
+              shiny::textOutput("select_text"),
+              shiny::br(),
 
-                          # text to print choice
-                          shiny::textOutput("select_text"),
-                          shiny::br(),
+              # output options
+              shiny::tabsetPanel(
+                id = "plot_tabs",
 
-                          # output options
-                          shiny::tabsetPanel(id = "plot_tabs",
+                # Tables tab
+                tablesUI("table1"),
 
-                                             # Tables tab
-                                             tablesUI("table1"),
+                # Plots tab
+                plotsUI("plot1"),
 
-                                             # Plots tab
-                                             plotsUI("plot1"),
-
-                                             # RDS tab
-                                             rdsUI("rds1")
-
-                          )
-                        )
+                # RDS tab
+                rdsUI("rds1")
+              )
+            )
           )
         ), # end fluid row
 
         # Bottom row - show tree (static html output from tfpscanner)
         shiny::fluidRow(
           shiny::column(12,
-            id="view-container",
-                        shiny::div(id="view-selection",
-                          htmltools::tags$details(
-                            id="sidebar-toggle",
-                            open="open",
-                            `aria-role`="button",
-                            `aria-label`="Toggle sidebar visibility",
-                            htmltools::tags$summary(
-                              shiny::span(">>"),
-                              shiny::span("<<")
-                            )
-                          ),
-                          # choose type of treeview
-                          shiny::selectInput(inputId = "widgetChoice",
-                                                label = "View",
-                                                choices = c("None" = ""),
-                                                selectize = FALSE),
+            id = "view-container",
+            shiny::div(
+              id = "view-selection",
+              htmltools::tags$details(
+                id = "sidebar-toggle",
+                open = "open",
+                `aria-role` = "button",
+                `aria-label` = "Toggle sidebar visibility",
+                htmltools::tags$summary(
+                  shiny::span(">>"),
+                  shiny::span("<<")
+                )
+              ),
+              # choose type of treeview
+              shiny::selectInput(
+                inputId = "widgetChoice",
+                label = "View",
+                choices = c("None" = ""),
+                selectize = FALSE
+              ),
 
-                          # choose type of mutation
-                          shiny::selectInput(inputId = "mutationChoice",
-                                                label = "Mutation",
-                                                choices = character(0),
-                                                selectize = FALSE),
+              # choose type of mutation
+              shiny::selectInput(
+                inputId = "mutationChoice",
+                label = "Mutation",
+                choices = character(0),
+                selectize = FALSE
+              ),
 
-                          # choose type of sequence
-                          shiny::selectInput(inputId = "sequenceChoice",
-                                                label = "Sequence",
-                                                choices = NULL,
-                                                selectize = FALSE),
+              # choose type of sequence
+              shiny::selectInput(
+                inputId = "sequenceChoice",
+                label = "Sequence",
+                choices = NULL,
+                selectize = FALSE
+              ),
             ),
-            shiny::div(id="view-graphic",
-                          # markdown files to add description
-                          shiny::uiOutput("tree_md_files"),
+            shiny::div(
+              id = "view-graphic",
+              # markdown files to add description
+              shiny::uiOutput("tree_md_files"),
 
-                          # show treeview widget
-                          shiny::wellPanel(
-                            ggiraph::girafeOutput("treeview"),
-                            style = "background: white; height: 1800px;",
-                          ),
-                          shiny::br()
+              # show treeview widget
+              shiny::wellPanel(
+                ggiraph::girafeOutput("treeview"),
+                style = "background: white; height: 1800px;",
+              ),
+              shiny::br()
             )
           )
         ) # end fluid row
@@ -109,11 +115,10 @@ app_ui = function(request) {
       shiny::tabPanel(
         title = "About",
         shiny::includeMarkdown(system.file("app", "www", "content", "about.md",
-                                           package = "tfpbrowser",
-                                           mustWork = TRUE))
+          package = "tfpbrowser",
+          mustWork = TRUE
+        ))
       )
-
     ) # end navbar page
   ) # end tag list
-
 }

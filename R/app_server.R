@@ -83,30 +83,34 @@ app_server = function(input, output, session) {
     shiny::bindCache(input$widgetChoice)
 
 
-# Mutation colouring ------------------------------------------------------
+  # Mutation colouring ------------------------------------------------------
 
   # disable dropdown unless mutation treeview
   shiny::observe({
     choice = ifelse(input$widgetChoice != "", input$widgetChoice, "")
     # toggle mutation dropdown
-    shinyjs::toggleElement(id = "mutationChoice",
-                         condition = choice == "tree-mutations.rds")
+    shinyjs::toggleElement(
+      id = "mutationChoice",
+      condition = choice == "tree-mutations.rds"
+    )
     # toggle sequence dropdown
-    shinyjs::toggleElement(id = "sequenceChoice",
-                         condition = choice == "tree-sequences.rds")
+    shinyjs::toggleElement(
+      id = "sequenceChoice",
+      condition = choice == "tree-sequences.rds"
+    )
     # select input for sequences
     if (choice == "tree-sequences.rds") {
       avail_seqs = data.table::as.data.table(available_sequences(data_dir))
       names(avail_seqs) = "Sequences"
-      shiny::updateSelectInput(inputId = "sequenceChoice",
-                                  choices = avail_seqs
-                                  )
+      shiny::updateSelectInput(
+        inputId = "sequenceChoice",
+        choices = avail_seqs
+      )
     }
   })
 
   # get selected nodes from mutation choice
   shiny::observeEvent(input$mutationChoice, {
-
     nodeChoice = selected_mut_nodes(input$mutationChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
@@ -124,11 +128,10 @@ app_server = function(input, output, session) {
     )
   })
 
-# Sequence colouring ------------------------------------------------------
+  # Sequence colouring ------------------------------------------------------
 
   # get selected nodes from sequence choice
   shiny::observeEvent(input$sequenceChoice, {
-
     nodeChoice = selected_seq_nodes(input$sequenceChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
@@ -146,15 +149,17 @@ app_server = function(input, output, session) {
     )
   })
 
-# Get click ---------------------------------------------------------------
+  # Get click ---------------------------------------------------------------
 
   # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
     shiny::req(input$widgetChoice)
     shiny::req(input$treeview_selected)
-    get_selected_cluster_id(widgetChoice = input$widgetChoice,
-                            treeviewSelected = utils::tail(input$treeview_selected, 1),
-                            data_dir = data_dir)
+    get_selected_cluster_id(
+      widgetChoice = input$widgetChoice,
+      treeviewSelected = utils::tail(input$treeview_selected, 1),
+      data_dir = data_dir
+    )
   }) %>%
     shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
@@ -169,9 +174,10 @@ app_server = function(input, output, session) {
     shiny::req(input$widgetChoice)
     fname = stringr::str_replace(input$widgetChoice, ".rds", ".md")
     shiny::includeMarkdown(system.file("app", "www", "content", "treeview",
-                                       fname,
-                                       package = "tfpbrowser",
-                                       mustWork = TRUE))
+      fname,
+      package = "tfpbrowser",
+      mustWork = TRUE
+    ))
   })
 
   # Tables Tab --------------------------------------------------------------
@@ -194,5 +200,4 @@ app_server = function(input, output, session) {
     cluster_choice = selected_cluster_id,
     data_dir = data_dir
   )
-
 } # end server function
