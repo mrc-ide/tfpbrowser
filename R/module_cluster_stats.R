@@ -19,6 +19,11 @@ clusterStatsUI = function(id) {
     )
   )
 
+  help_text <- tags$p(
+    "The 'Cluster statistics' panel can be used to view or download data about a cluster.",
+    "First, select a cluster by clicking on a node in one of the tree-views or scatter plots."
+  )
+
   # use details and summary to create expandable section
   fluidRow(
     column(
@@ -31,7 +36,7 @@ clusterStatsUI = function(id) {
     ),
     column(
       width = 1,
-      bslib::popover(bsicons::bs_icon("question-circle"), "Help!")
+      bslib::popover(bsicons::bs_icon("question-circle"), help_text)
     )
   )
 }
