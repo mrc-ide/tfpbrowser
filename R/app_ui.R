@@ -114,10 +114,9 @@ app_ui = function(request) {
       # about page
       shiny::tabPanel(
         title = "About",
-        shiny::includeMarkdown(system.file("app", "www", "content", "about.md",
-          package = "tfpbrowser",
-          mustWork = TRUE
-        ))
+        shiny::includeMarkdown(
+          system.file("app", "www", "content", "about.md", package = "tfpbrowser", mustWork = TRUE)
+        )
       )
     ) # end navbar page
   ) # end tag list
