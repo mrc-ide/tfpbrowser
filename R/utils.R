@@ -7,9 +7,13 @@ available_treeview = function(data_dir) {
     file.path(data_dir, "treeview"),
     pattern = "\\.rds$"
   )
-  all_trees = factor(all_trees,
-                     c(stringr::str_subset(all_trees, "tree"),
-                       stringr::str_subset(all_trees, "sina")))
+  all_trees = factor(
+    all_trees,
+    c(
+      stringr::str_subset(all_trees, "tree"),
+      stringr::str_subset(all_trees, "sina")
+    )
+  )
   all_trees = as.character(sort(all_trees))
   names(all_trees) = all_trees %>%
     stringr::str_replace_all("_|-|\\.rds", " ") %>%
@@ -73,8 +77,9 @@ get_unique_mutations = function(filename) {
 get_all_clusters = function(filename) {
   all_files = list.files(filename)
   has_no_dot = stringr::str_detect(all_files,
-                                   pattern = "\\.",
-                                   negate = TRUE)
+    pattern = "\\.",
+    negate = TRUE
+  )
   all_clusters = all_files[which(has_no_dot)]
   return(all_clusters)
 }
@@ -128,7 +133,9 @@ filter_by_filetype = function(filenames, filetypes) {
 
   file_names = stringr::str_to_title(
     stringr::str_replace_all(
-      gsub("\\..*", "", matching_files), "_", " "))
+      gsub("\\..*", "", matching_files), "_", " "
+    )
+  )
 
   names(matching_files) = file_names
   return(matching_files)
@@ -149,14 +156,16 @@ downloader_tab_panel = function(title,
     shiny::fluidRow(
       # drop down menu to select dataset
       shiny::column(3,
-                    align = "center",
-                    shiny::selectInput(chooser_id,
-                                       label = "Select type:",
-                                       choices = NULL,
-                                       selected = NULL),
-                    shiny::br(),
-                    shiny::downloadButton(download_button_id,
-                                          label = "Download")
+        align = "center",
+        shiny::selectInput(chooser_id,
+          label = "Select type:",
+          choices = NULL,
+          selected = NULL
+        ),
+        shiny::br(),
+        shiny::downloadButton(download_button_id,
+          label = "Download"
+        )
       ),
       # display data
       shiny::column(9, align = "center", panel)
@@ -188,7 +197,8 @@ get_selected_cluster_id = function(widgetChoice,
   filepath = file.path(data_dir, "treeview", "node_lookup", filename)
   # load look up
   ids = readr::read_csv(filepath,
-                        col_types = list(readr::col_double(), readr::col_double()))
+    col_types = list(readr::col_double(), readr::col_double())
+  )
   selected_cluster = as.numeric(ids[which(ids$data_id == treeviewSelected), 2])
   return(selected_cluster)
 }

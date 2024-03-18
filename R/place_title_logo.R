@@ -7,8 +7,10 @@ place_title_logo = function() {
     shiny::img(
       src = "www/logo.png",
       contentType = "image/png",
-      height = 80, width = 100),
-    "tpfbrowser")
+      height = 80, width = 100
+    ),
+    "tfpbrowser"
+  )
 
   return(title)
 }

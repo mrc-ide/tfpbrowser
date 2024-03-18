@@ -2,8 +2,8 @@
 % Please edit documentation in R/tfpbrowser.R
 \docType{package}
 \name{tfpbrowser}
-\alias{tfpbrowser}
 \alias{tfpbrowser-package}
+\alias{tfpbrowser}
 \title{\code{{tfpbrowser}} package}
 \description{
 An R package to build a Shiny application to explore {tfpscanner} outputs.

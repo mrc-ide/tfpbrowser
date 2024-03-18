@@ -6,10 +6,12 @@
 tablesUI = function(id) {
   ns = shiny::NS(id)
   # Tables tab panel
-  downloader_tab_panel(title = "Tables",
-                       chooser_id = ns("table_type"),
-                       download_button_id = ns("download_table"),
-                       panel = display_panel(reactable::reactableOutput(ns("display_table"))))
+  downloader_tab_panel(
+    title = "Tables",
+    chooser_id = ns("table_type"),
+    download_button_id = ns("download_table"),
+    panel = display_panel(reactable::reactableOutput(ns("display_table")))
+  )
 }
 
 #' Tables tab Server
@@ -34,17 +36,20 @@ tablesServer = function(id, cluster_choice, data_dir) {
 
     # drop down for tables
     shiny::observeEvent(all_files(), {
-      all_tables = filter_by_filetype(filenames = all_files(),
-                                      filetypes = c("csv", "CSV"))
+      all_tables = filter_by_filetype(
+        filenames = all_files(),
+        filetypes = c("csv", "CSV")
+      )
       if (length(all_tables) != 0) {
         shinyjs::enable("table_type")
       } else {
         shinyjs::disable("table_type")
       }
       shiny::updateSelectInput(session,
-                               "table_type",
-                               label = "Select table type:",
-                               choices = all_tables)
+        "table_type",
+        label = "Select table type:",
+        choices = all_tables
+      )
     })
 
     # get table file path
@@ -72,10 +77,11 @@ tablesServer = function(id, cluster_choice, data_dir) {
         table_to_display = suppressMessages(readr::read_csv(table_file()))
         table_to_display_nice = reformat_table(table_to_display)
         reactable::reactable(table_to_display_nice,
-                             striped = TRUE,
-                             defaultPageSize = 8,
-                             wrap = FALSE,
-                             height = 400)
+          striped = TRUE,
+          defaultPageSize = 8,
+          wrap = FALSE,
+          height = 400
+        )
       } else {
         shiny::p("No tables available.", style = "color: red; text-align: left")
       }
@@ -99,6 +105,5 @@ tablesServer = function(id, cluster_choice, data_dir) {
         file.copy(table_file(), file)
       }
     )
-
   })
 }
