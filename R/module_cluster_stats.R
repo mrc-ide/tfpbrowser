@@ -19,24 +19,24 @@ clusterStatsUI = function(id) {
     )
   )
 
-  help_text <- tags$p(
+  # Help icon for the cluster-statistics panel
+  # - Clicking this icon does not lead to the underlying accordion_panel being expanded
+  help_text = tags$p(
     "The 'Cluster statistics' panel can be used to view or download data about a cluster.",
     "First, select a cluster by clicking on a node in one of the tree-views or scatter plots."
   )
+  help_popover = bsicons::bs_icon("question-circle") %>%
+    bslib::popover(help_text) %>%
+    htmltools::tagAppendAttributes(`data-bs-toggle` = "collapse", `data-bs-target` = NA)
 
-  # use details and summary to create expandable section
-  fluidRow(
-    column(
-      width = 11,
-      htmltools::tags$details(
-        # preview of expandable section
-        htmltools::tags$summary("Cluster statistics (click to expand)"),
-        box_content
-      )
-    ),
-    column(
-      width = 1,
-      bslib::popover(bsicons::bs_icon("question-circle"), help_text)
+  # Expandable panel containing the cluster-statistics details
+  bslib::accordion(
+    id = "cluster_stats_accordion",
+    open = FALSE,
+    bslib::accordion_panel(
+      title = "Cluster statistics (click to expand)",
+      box_content,
+      icon = help_popover
     )
   )
 }
