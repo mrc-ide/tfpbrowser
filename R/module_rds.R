@@ -5,10 +5,12 @@
 rdsUI = function(id) {
   ns = shiny::NS(id)
   # RDS files tab panel
-  downloader_tab_panel(title = "RDS Files",
-                       chooser_id = ns("rds_type"),
-                       download_button_id = ns("download_rds"),
-                       panel = display_panel(shiny::uiOutput(ns("display_rds"))))
+  downloader_tab_panel(
+    title = "RDS Files",
+    chooser_id = ns("rds_type"),
+    download_button_id = ns("download_rds"),
+    panel = display_panel(shiny::uiOutput(ns("display_rds")))
+  )
 }
 
 #' rds tab Server
@@ -33,17 +35,20 @@ rdsServer = function(id, cluster_choice, data_dir) {
 
     # drop down for rds
     shiny::observeEvent(all_files(), {
-      all_rds = filter_by_filetype(filenames = all_files(),
-                                   filetypes = c("rds", "RDS"))
+      all_rds = filter_by_filetype(
+        filenames = all_files(),
+        filetypes = c("rds", "RDS")
+      )
       if (length(all_rds) != 0) {
         shinyjs::enable("rds_type")
       } else {
         shinyjs::disable("rds_type")
       }
       shiny::updateSelectInput(session,
-                               "rds_type",
-                               label = "Select RDS file:",
-                               choices = all_rds)
+        "rds_type",
+        label = "Select RDS file:",
+        choices = all_rds
+      )
     })
 
     # get rds file
@@ -95,7 +100,5 @@ rdsServer = function(id, cluster_choice, data_dir) {
         file.copy(rds_file(), file)
       }
     )
-
   })
-
 }

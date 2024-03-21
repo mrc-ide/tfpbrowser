@@ -36,77 +36,54 @@ app_server = function(input, output, session) {
   # create ggiraph output from saved ggplot2 outputs
   output$treeview = ggiraph::renderGirafe({
     shiny::req(input$widgetChoice)
-    # define tooltip
-    tooltip_css = paste0(
-      "background-color:black;",
-      "color:grey;",
-      "padding:14px;",
-      "border-radius:8px;",
-      "font-family:\"Courier New\",monospace;"
-    )
-    # set options
-    if (input$widgetChoice == "tree-mutations.rds") {
-      girafe_options = list(
-        ggiraph::opts_selection(css = "fill:red;"),
-        ggiraph::opts_selection_inv(css = "fill:grey;"),
-        ggiraph::opts_sizing(rescale = FALSE),
-        ggiraph::opts_zoom(max = 5),
-        ggiraph::opts_tooltip(
-          css = tooltip_css,
-          use_fill = FALSE
-        )
-      )
+
+    # set the relative height/width of the ggiraph-based graphs
+    is_dendrogram = grepl("^tree-", x = input$widgetChoice)
+    width = shinybrowser::get_width() / 72
+    height = if (is_dendrogram) {
+      (1800 - 40) / 72
     } else {
-      girafe_options = list(
-        ggiraph::opts_selection(type = "single"),
-        ggiraph::opts_sizing(rescale = FALSE),
-        ggiraph::opts_zoom(max = 5),
-        ggiraph::opts_tooltip(
-          css = tooltip_css,
-          use_fill = FALSE
-        )
-      )
+      (600 - 40) / 72
     }
-    # set size
-    w = shinybrowser::get_width() / 72
-    h = (1800 - 40) / 72
-    # make tree
-    suppressWarnings(
-      ggiraph::girafe(
-        ggobj = imported_ggtree(),
-        width_svg = w,
-        height_svg = h,
-        options = girafe_options
-      )
+
+    create_girafe(
+      ggobj = imported_ggtree(),
+      widget_choice = input$widgetChoice,
+      width_svg = width,
+      height_svg = height,
+      suppress_warnings = TRUE
     )
   }) %>%
     shiny::bindCache(input$widgetChoice)
 
-
-# Mutation colouring ------------------------------------------------------
+  # Mutation colouring ------------------------------------------------------
 
   # disable dropdown unless mutation treeview
   shiny::observe({
     choice = ifelse(input$widgetChoice != "", input$widgetChoice, "")
     # toggle mutation dropdown
-    shinyjs::toggleElement(id = "mutationChoice",
-                         condition = choice == "tree-mutations.rds")
+    shinyjs::toggleElement(
+      id = "mutationChoice",
+      condition = choice == "tree-mutations.rds"
+    )
     # toggle sequence dropdown
-    shinyjs::toggleElement(id = "sequenceChoice",
-                         condition = choice == "tree-sequences.rds")
+    shinyjs::toggleElement(
+      id = "sequenceChoice",
+      condition = choice == "tree-sequences.rds"
+    )
     # select input for sequences
     if (choice == "tree-sequences.rds") {
       avail_seqs = data.table::as.data.table(available_sequences(data_dir))
       names(avail_seqs) = "Sequences"
-      shiny::updateSelectInput(inputId = "sequenceChoice",
-                                  choices = avail_seqs
-                                  )
+      shiny::updateSelectInput(
+        inputId = "sequenceChoice",
+        choices = avail_seqs
+      )
     }
   })
 
   # get selected nodes from mutation choice
   shiny::observeEvent(input$mutationChoice, {
-
     nodeChoice = selected_mut_nodes(input$mutationChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
@@ -124,11 +101,10 @@ app_server = function(input, output, session) {
     )
   })
 
-# Sequence colouring ------------------------------------------------------
+  # Sequence colouring ------------------------------------------------------
 
   # get selected nodes from sequence choice
   shiny::observeEvent(input$sequenceChoice, {
-
     nodeChoice = selected_seq_nodes(input$sequenceChoice, data_dir)
 
     # the 'node' column contains integers that define the IDs for graph-nodes in the htmlwidget
@@ -146,15 +122,17 @@ app_server = function(input, output, session) {
     )
   })
 
-# Get click ---------------------------------------------------------------
+  # Get click ---------------------------------------------------------------
 
   # get selected cluster id based on widget choice
   selected_cluster_id = shiny::reactive({
     shiny::req(input$widgetChoice)
     shiny::req(input$treeview_selected)
-    get_selected_cluster_id(widgetChoice = input$widgetChoice,
-                            treeviewSelected = utils::tail(input$treeview_selected, 1),
-                            data_dir = data_dir)
+    get_selected_cluster_id(
+      widgetChoice = input$widgetChoice,
+      treeviewSelected = utils::tail(input$treeview_selected, 1),
+      data_dir = data_dir
+    )
   }) %>%
     shiny::bindCache(input$widgetChoice, input$treeview_selected)
 
@@ -169,9 +147,10 @@ app_server = function(input, output, session) {
     shiny::req(input$widgetChoice)
     fname = stringr::str_replace(input$widgetChoice, ".rds", ".md")
     shiny::includeMarkdown(system.file("app", "www", "content", "treeview",
-                                       fname,
-                                       package = "tfpbrowser",
-                                       mustWork = TRUE))
+      fname,
+      package = "tfpbrowser",
+      mustWork = TRUE
+    ))
   })
 
   # Tables Tab --------------------------------------------------------------
@@ -194,5 +173,4 @@ app_server = function(input, output, session) {
     cluster_choice = selected_cluster_id,
     data_dir = data_dir
   )
-
 } # end server function

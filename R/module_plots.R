@@ -6,11 +6,12 @@
 plotsUI = function(id) {
   ns = shiny::NS(id)
   # Plots tab panel
-  downloader_tab_panel(title = "Plots",
-                       chooser_id = ns("plot_type"),
-                       download_button_id = ns("download_plot"),
-                       panel = display_panel(shiny::uiOutput(ns("display_plot"))))
-
+  downloader_tab_panel(
+    title = "Plots",
+    chooser_id = ns("plot_type"),
+    download_button_id = ns("download_plot"),
+    panel = display_panel(shiny::uiOutput(ns("display_plot")))
+  )
 }
 
 #' Plots tab Server
@@ -35,17 +36,20 @@ plotsServer = function(id, cluster_choice, data_dir) {
 
     # drop down for plots
     shiny::observeEvent(all_files(), {
-      all_images = filter_by_filetype(filenames = all_files(),
-                                      filetypes = c("png", "PNG"))
+      all_images = filter_by_filetype(
+        filenames = all_files(),
+        filetypes = c("png", "PNG")
+      )
       if (length(all_images) != 0) {
         shinyjs::enable("plot_type")
       } else {
         shinyjs::disable("plot_type")
       }
       shiny::updateSelectInput(session,
-                               "plot_type",
-                               label = "Select plot type:",
-                               choices = all_images)
+        "plot_type",
+        label = "Select plot type:",
+        choices = all_images
+      )
     })
 
     # the path to the plot, from the server's perspective
@@ -60,7 +64,7 @@ plotsServer = function(id, cluster_choice, data_dir) {
     plot_url = shiny::reactive({
       shiny::req(plot_file())
 
-      plot_subpath <- fs::path_rel(plot_file(), data_dir)
+      plot_subpath = fs::path_rel(plot_file(), data_dir)
       glue::glue("data/{plot_subpath}")
     })
 
@@ -101,7 +105,5 @@ plotsServer = function(id, cluster_choice, data_dir) {
         file.copy(plot_file(), file)
       }
     )
-
   })
-
 }
