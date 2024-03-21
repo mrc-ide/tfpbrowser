@@ -1,7 +1,7 @@
 clusterStatsUI = function(id) {
-  ns = NS(id)
+  ns = shiny::NS(id)
 
-  box_content = tagList(
+  box_content = shiny::tagList(
     shiny::br(),
 
     # text to print choice
@@ -21,7 +21,7 @@ clusterStatsUI = function(id) {
 
   # Help icon for the cluster-statistics panel
   # - Clicking this icon does not lead to the underlying accordion_panel being expanded
-  help_text = tags$p(
+  help_text = shiny::tags$p(
     "The 'Cluster statistics' panel can be used to view or download data about a cluster.",
     "First, select a cluster by clicking on a node in one of the tree-views or scatter plots."
   )
