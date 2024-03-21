@@ -1,9 +1,8 @@
-summary {
-  background: #d6d6d6;
+.accordion-item {
   padding: 1em;
 }
 
-details {
+.accordion {
   margin-bottom: 2rem;
 }
 
