@@ -9,6 +9,7 @@ License: MIT + file LICENSE
 Depends: 
     R (>= 4.0.0)
 Imports:
+    bsicons,
     bslib,
     data.table,
     dplyr,
