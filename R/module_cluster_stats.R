@@ -25,7 +25,7 @@ clusterStatsUI = function(id) {
     "The 'Cluster statistics' panel can be used to view or download data about a cluster.",
     "First, select a cluster by clicking on a node in one of the tree-views or scatter plots."
   )
-  help_popover = bsicons::bs_icon("question-circle") %>%
+  help_popover = bsicons::bs_icon("question-circle", size = "1.5em") %>%
     bslib::popover(help_text) %>%
     htmltools::tagAppendAttributes(`data-bs-toggle` = "collapse", `data-bs-target` = NA)
 
